@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fbf3e7;
+  --foreground: #3a2317;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-script: var(--font-script);
+
+  /* Brand terracotta / orange */
+  --color-brand-50: #fdf3e9;
+  --color-brand-100: #fbe4c8;
+  --color-brand-200: #f6cd9a;
+  --color-brand-300: #efaf68;
+  --color-brand-400: #e6923f;
+  --color-brand-500: #d9822b;
+  --color-brand-600: #c26e20;
+  --color-brand-700: #9a561c;
+  --color-brand-800: #7a441c;
+  --color-brand-900: #5c2f16;
+
+  /* Deep maroon / espresso for headings + top bar */
+  --color-espresso: #3a2317;
+  --color-espresso-dark: #2a190f;
+  --color-maroon: #4e2417;
+  --color-maroon-dark: #3a1a10;
+
+  /* Cream backgrounds */
+  --color-cream: #fbf3e7;
+  --color-cream-50: #fffaf3;
+  --color-cream-100: #fdf6ec;
+  --color-cream-200: #f6e4ce;
+
+  /* Teal for stats bar */
+  --color-teal-600: #2e6459;
+  --color-teal-700: #244f46;
+
+  /* Pastel accents for category cards / icon roundels */
+  --color-pastel-yellow: #f6d786;
+  --color-pastel-yellow-soft: #fbe9b8;
+  --color-pastel-purple: #cfa9dd;
+  --color-pastel-purple-soft: #e6d6ef;
+  --color-pastel-teal: #a6dad1;
+  --color-pastel-teal-soft: #d6efe9;
+  --color-pastel-peach: #f3b98d;
+  --color-pastel-peach-soft: #fbdfc5;
+  --color-pastel-pink: #f4c9c9;
+  --color-pastel-pink-soft: #fbe3e3;
+  --color-pastel-green: #bfe3c9;
+  --color-pastel-green-soft: #ddf1e2;
+
+  --shadow-soft: 0 10px 30px -8px rgba(74, 36, 23, 0.18);
+  --shadow-card: 0 8px 24px -6px rgba(74, 36, 23, 0.12);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+@layer utilities {
+  .text-shadow-sm {
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  }
+}
