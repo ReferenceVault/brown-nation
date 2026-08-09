@@ -12,7 +12,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const defaultVariant = product.variants[0];
 
   return (
-    <div className="group flex flex-shrink-0 w-[250px] sm:w-[270px] items-center gap-3 rounded-xl bg-white p-2.5 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-soft">
+    <div className="group flex flex-shrink-0 w-[calc(100vw-2rem)] snap-center sm:w-[270px] items-center gap-3 rounded-xl bg-white p-2.5 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-soft">
       <Link href={`/product/${product.slug}`} className="relative h-20 w-20 sm:h-24 sm:w-24 shrink-0 overflow-hidden rounded-lg">
         <Image
           src={product.images[0]}

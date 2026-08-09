@@ -15,7 +15,7 @@ export default function CategoryCard({
   return (
     <Link
       href={`/shop/${category.slug}`}
-      className={`group flex items-center gap-4 rounded-2xl p-3 sm:p-4 ${meta.bg} shadow-card transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft`}
+      className={`group flex items-center justify-center sm:justify-start gap-4 rounded-2xl p-3 sm:p-4 ${meta.bg} shadow-card transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft`}
     >
       <div className="relative shrink-0">
         <div className="relative h-24 w-24 sm:h-28 sm:w-28 overflow-hidden rounded-xl">
@@ -34,7 +34,7 @@ export default function CategoryCard({
         </span>
       </div>
 
-      <div className="flex min-w-0 flex-1 flex-col gap-1">
+      <div className="flex min-w-0 flex-col gap-1">
         <h3 className="font-serif text-base sm:text-lg font-semibold text-espresso leading-tight">
           {category.name}
         </h3>

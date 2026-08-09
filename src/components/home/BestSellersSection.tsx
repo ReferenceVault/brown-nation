@@ -9,12 +9,17 @@ import CarouselArrow from "@/components/ui/CarouselArrow";
 const bestsellers = getBestsellers();
 
 const SCROLL_AMOUNT = 290;
+const CARD_GAP = 16;
 
 export default function BestSellersSection() {
   const scrollerRef = useRef<HTMLDivElement>(null);
 
   const scroll = (dir: -1 | 1) => {
-    scrollerRef.current?.scrollBy({ left: dir * SCROLL_AMOUNT, behavior: "smooth" });
+    const el = scrollerRef.current;
+    if (!el) return;
+    const card = el.querySelector<HTMLElement>(":scope > *");
+    const amount = card ? card.offsetWidth + CARD_GAP : SCROLL_AMOUNT;
+    el.scrollBy({ left: dir * amount, behavior: "smooth" });
   };
 
   return (
@@ -30,7 +35,7 @@ export default function BestSellersSection() {
 
         <div
           ref={scrollerRef}
-          className="flex flex-1 gap-4 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex flex-1 gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {bestsellers.map((product) => (
             <ProductCard key={product.id} product={product} />
