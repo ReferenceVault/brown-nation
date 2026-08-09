@@ -1,15 +1,281 @@
-export type Product = {
-  id: string;
-  name: string;
-  price: number;
-  thumbFrom: string;
-  thumbTo: string;
-};
+import type { Product } from "@/lib/types/catalog";
+
+const U = "https://images.unsplash.com/photo-";
 
 export const products: Product[] = [
-  { id: "kunafa", name: "Kunafa Chocolate Bar", price: 299, thumbFrom: "#8a5a2f", thumbTo: "#3f2413" },
-  { id: "paan-orange", name: "Paan Orange Bar", price: 249, thumbFrom: "#c8dfb0", thumbTo: "#5a7a3a" },
-  { id: "butterscotch", name: "Butterscotch Bar", price: 249, thumbFrom: "#e8c88a", thumbTo: "#a97a3a" },
-  { id: "oreo-crunch", name: "Oreo Crunch Bar", price: 249, thumbFrom: "#5a4a42", thumbTo: "#241c18" },
-  { id: "printed", name: "Printed Chocolate", price: 299, thumbFrom: "#3f2413", thumbTo: "#1a0f08" },
+  // ---- Flavored ----
+  {
+    id: "kunafa-chocolate-bar",
+    slug: "kunafa-chocolate-bar",
+    name: "Kunafa Chocolate Bar",
+    shortDescription: "Crisp kunafa pastry folded into silky milk chocolate.",
+    description:
+      "Our take on the viral Dubai chocolate bar — toasted kunafa pastry and a whisper of pistachio paste, hand-folded into silky milk chocolate and set in small batches. Crunchy, nutty, and impossible to put down after the first piece.",
+    images: [`${U}1610450949065-1f2841536c88`, `${U}1627647227768-705244233b56`],
+    categoryId: "flavored",
+    tags: ["handcrafted", "premium ingredients", "bestseller"],
+    ingredients: ["Milk chocolate (cocoa solids 35%)", "Kunafa pastry", "Pistachio paste", "Ghee", "Sugar"],
+    rating: 4.8,
+    reviewCount: 214,
+    isBestseller: true,
+    isFeatured: true,
+    variants: [
+      { id: "100g", label: "100g Bar", price: 299, stock: 42 },
+      { id: "250g", label: "250g Box", price: 649, compareAtPrice: 699, stock: 18 },
+    ],
+  },
+  {
+    id: "paan-orange-bar",
+    slug: "paan-orange-bar",
+    name: "Paan Orange Bar",
+    shortDescription: "Betel-leaf and candied orange in dark chocolate.",
+    description:
+      "A distinctly Indian flavor pairing — fresh betel leaf (paan) and candied orange peel folded into 55% dark chocolate, finished with a touch of gulkand. Sweet, citrusy, and a little bit nostalgic.",
+    images: [`${U}1626697556651-67ebdcb8cbd6`, `${U}1565071559227-20ab25b7685e`],
+    categoryId: "flavored",
+    tags: ["handcrafted", "premium ingredients"],
+    ingredients: ["Dark chocolate (cocoa solids 55%)", "Betel leaf extract", "Candied orange peel", "Gulkand", "Sugar"],
+    rating: 4.6,
+    reviewCount: 96,
+    isBestseller: true,
+    variants: [
+      { id: "100g", label: "100g Bar", price: 249, stock: 35 },
+      { id: "250g", label: "250g Box", price: 549, stock: 12 },
+    ],
+  },
+  {
+    id: "butterscotch-bar",
+    slug: "butterscotch-bar",
+    name: "Butterscotch Bar",
+    shortDescription: "Crunchy butterscotch praline in milk chocolate.",
+    description:
+      "Buttery, caramelized sugar praline folded through creamy milk chocolate for a crunch in every bite. One of our longest-running flavors, and still a top seller for good reason.",
+    images: [`${U}1614088685112-0a760b71a3c8`, `${U}1619848566843-9027f3c7aac2`],
+    categoryId: "flavored",
+    tags: ["handcrafted", "premium ingredients", "bestseller"],
+    ingredients: ["Milk chocolate (cocoa solids 35%)", "Butterscotch praline", "Butter", "Sugar"],
+    rating: 4.7,
+    reviewCount: 178,
+    isBestseller: true,
+    variants: [
+      { id: "100g", label: "100g Bar", price: 249, stock: 50 },
+      { id: "250g", label: "250g Box", price: 549, stock: 20 },
+    ],
+  },
+  {
+    id: "rose-pistachio-bar",
+    slug: "rose-pistachio-bar",
+    name: "Rose Pistachio Bar",
+    shortDescription: "Persian rose and roasted pistachio in dark chocolate.",
+    description:
+      "Delicate dried rose petals and roasted Iranian pistachios set into 60% dark chocolate. Floral, nutty, and a favorite for gifting during festive season.",
+    images: [`${U}1623000850264-08be785877bd`, `${U}1720029106261-0d0396bb270d`],
+    categoryId: "flavored",
+    tags: ["handcrafted", "premium ingredients"],
+    ingredients: ["Dark chocolate (cocoa solids 60%)", "Roasted pistachio", "Dried rose petals", "Rose water", "Sugar"],
+    rating: 4.5,
+    reviewCount: 61,
+    variants: [
+      { id: "100g", label: "100g Bar", price: 329, stock: 24 },
+      { id: "250g", label: "250g Box", price: 729, stock: 9 },
+    ],
+  },
+
+  // ---- Kids ----
+  {
+    id: "oreo-crunch-bar",
+    slug: "oreo-crunch-bar",
+    name: "Oreo Crunch Bar",
+    shortDescription: "Crushed cookies folded into creamy milk chocolate.",
+    description:
+      "A kid-favorite: crushed chocolate sandwich cookies stirred through smooth milk chocolate for crunch in every square. No preservatives, just cocoa, milk, and cookie crumble.",
+    images: [`${U}1542843137-8791a6904d14`, `${U}1523035274455-b2e5c6d5c2e0`],
+    categoryId: "kids",
+    tags: ["handcrafted", "kids favorite"],
+    ingredients: ["Milk chocolate (cocoa solids 30%)", "Chocolate sandwich cookies", "Sugar", "Milk solids"],
+    rating: 4.6,
+    reviewCount: 132,
+    isBestseller: true,
+    variants: [
+      { id: "100g", label: "100g Bar", price: 249, stock: 60 },
+      { id: "250g", label: "250g Box", price: 549, stock: 22 },
+    ],
+  },
+  {
+    id: "rainbow-gems-bar",
+    slug: "rainbow-gems-bar",
+    name: "Rainbow Gems Bar",
+    shortDescription: "Candy-coated chocolate gems on a milk chocolate base.",
+    description:
+      "Colorful candy-coated chocolate gems pressed onto a thick milk chocolate base — the one that disappears fastest at birthday parties. Made with the same cocoa as every other bar we sell, just dressed up for the kids' table.",
+    images: [`${U}1622873904690-76c655368668`, `${U}1612262501903-1add4a20dc04`],
+    categoryId: "kids",
+    tags: ["kids favorite", "party pack"],
+    ingredients: ["Milk chocolate (cocoa solids 30%)", "Candy-coated chocolate gems", "Sugar", "Milk solids"],
+    rating: 4.7,
+    reviewCount: 89,
+    variants: [
+      { id: "100g", label: "100g Bar", price: 229, stock: 55 },
+      { id: "party-pack", label: "Party Pack (6 bars)", price: 1199, compareAtPrice: 1374, stock: 14 },
+    ],
+  },
+  {
+    id: "gummy-choco-buttons",
+    slug: "gummy-choco-buttons",
+    name: "Gummy Choco Buttons",
+    shortDescription: "Bite-sized milk chocolate buttons in a fun jar.",
+    description:
+      "Small, round, and endlessly snackable — milk chocolate buttons packed in a reusable jar. A lunchbox favorite that's easy to share (or not).",
+    images: [`${U}1600359738432-965e50c4d89e`, `${U}1534705867302-2a41394d2a3b`],
+    categoryId: "kids",
+    tags: ["kids favorite"],
+    ingredients: ["Milk chocolate (cocoa solids 30%)", "Sugar", "Milk solids"],
+    rating: 4.4,
+    reviewCount: 47,
+    variants: [{ id: "150g-jar", label: "150g Jar", price: 279, stock: 38 }],
+  },
+
+  // ---- Customized ----
+  {
+    id: "printed-chocolate",
+    slug: "printed-chocolate",
+    name: "Printed Chocolate",
+    shortDescription: "Your photo or message, edible-printed on a chocolate slab.",
+    description:
+      "Upload a photo, a name, or a birthday message and we edible-print it directly onto a smooth milk chocolate slab. A simple way to make a bar feel like it was made for exactly one person.",
+    images: [`${U}1687795097254-f019f9d7fd17`, `${U}1548741487-18d363dc4469`],
+    categoryId: "customized",
+    tags: ["handcrafted", "personalized", "gifting"],
+    ingredients: ["Milk chocolate (cocoa solids 35%)", "Edible ink", "Sugar"],
+    rating: 4.9,
+    reviewCount: 156,
+    isFeatured: true,
+    variants: [
+      { id: "150g", label: "150g Slab", price: 399, stock: 30 },
+      { id: "300g", label: "300g Slab", price: 699, stock: 15 },
+    ],
+  },
+  {
+    id: "personalized-message-box",
+    slug: "personalized-message-box",
+    name: "Personalized Message Box",
+    shortDescription: "A curated truffle box with a hand-written note.",
+    description:
+      "Nine handcrafted truffles in a keepsake box, with a hand-written note card in your words. Popular for anniversaries, thank-yous, and the occasional apology.",
+    images: [`${U}1526081715791-7c538f86060e`, `${U}1573013792262-761a3e17fb39`],
+    categoryId: "customized",
+    tags: ["handcrafted", "personalized", "gifting"],
+    ingredients: ["Dark & milk chocolate truffles", "Fresh cream", "Butter", "Assorted fillings"],
+    rating: 4.8,
+    reviewCount: 74,
+    variants: [{ id: "9pc-box", label: "Box of 9", price: 799, stock: 20 }],
+  },
+  {
+    id: "photo-chocolate-bar",
+    slug: "photo-chocolate-bar",
+    name: "Photo Chocolate Bar",
+    shortDescription: "A full-bar photo print, packaged as a keepsake.",
+    description:
+      "A larger canvas for your photo — full-bar edible print packaged in a gift-ready sleeve. A favorite for couples, pets, and anyone who wants their face on a chocolate bar.",
+    images: [`${U}1609074458316-3e282975bb1e`, `${U}1614631016624-cb89bceec02c`],
+    categoryId: "customized",
+    tags: ["handcrafted", "personalized", "gifting"],
+    ingredients: ["Milk chocolate (cocoa solids 35%)", "Edible ink", "Sugar"],
+    rating: 4.7,
+    reviewCount: 41,
+    variants: [{ id: "200g", label: "200g Bar", price: 499, stock: 25 }],
+  },
+  {
+    id: "celebration-truffle-box",
+    slug: "celebration-truffle-box",
+    name: "Celebration Truffle Box",
+    shortDescription: "An assorted truffle box for weddings & corporate gifting.",
+    description:
+      "Our largest curated assortment — twelve handcrafted truffles across dark, milk, and specialty flavors, boxed for weddings, corporate gifting, and festive hampers. Custom ribbon and card on request.",
+    images: [`${U}1656821991459-ae723d90d648`, `${U}1599599810769-bcde5a160d32`],
+    categoryId: "customized",
+    tags: ["handcrafted", "premium ingredients", "gifting"],
+    ingredients: ["Dark & milk chocolate truffles", "Fresh cream", "Butter", "Assorted fillings"],
+    rating: 4.9,
+    reviewCount: 103,
+    isFeatured: true,
+    variants: [
+      { id: "12pc-box", label: "Box of 12", price: 999, stock: 16 },
+      { id: "24pc-box", label: "Box of 24", price: 1849, compareAtPrice: 1998, stock: 8 },
+    ],
+  },
+
+  // ---- Dark ----
+  {
+    id: "classic-70-dark-bar",
+    slug: "classic-70-dark-bar",
+    name: "Classic 70% Dark Bar",
+    shortDescription: "Single-origin 70% dark chocolate, nothing else.",
+    description:
+      "Single-origin cocoa, slow-conched and tempered by hand, with nothing added to get in the way. For purists who want to taste the bean.",
+    images: [`${U}1623660053975-cf75a8be0908`, `${U}1610450949065-1f2841536c88`],
+    categoryId: "dark",
+    tags: ["handcrafted", "premium ingredients", "single-origin"],
+    ingredients: ["Cocoa mass (70%)", "Cocoa butter", "Cane sugar"],
+    rating: 4.8,
+    reviewCount: 121,
+    isBestseller: true,
+    isFeatured: true,
+    variants: [
+      { id: "100g", label: "100g Bar", price: 299, stock: 40 },
+      { id: "250g", label: "250g Bar", price: 649, stock: 17 },
+    ],
+  },
+  {
+    id: "sea-salt-dark-bar",
+    slug: "sea-salt-dark-bar",
+    name: "Sea Salt Dark Bar",
+    shortDescription: "Flaked sea salt over intense 65% dark chocolate.",
+    description:
+      "A pinch of flaked sea salt on top of 65% dark chocolate — the salt cuts the bitterness just enough to bring out the fruitiness of the cocoa underneath.",
+    images: [`${U}1646303339019-a57056b180ae`, `${U}1551578657-a7e74acb0135`],
+    categoryId: "dark",
+    tags: ["handcrafted", "premium ingredients"],
+    ingredients: ["Cocoa mass (65%)", "Cocoa butter", "Cane sugar", "Sea salt flakes"],
+    rating: 4.6,
+    reviewCount: 88,
+    variants: [
+      { id: "100g", label: "100g Bar", price: 279, stock: 33 },
+      { id: "250g", label: "250g Bar", price: 599, stock: 11 },
+    ],
+  },
+  {
+    id: "hazelnut-dark-bar",
+    slug: "hazelnut-dark-bar",
+    name: "Hazelnut Dark Bar",
+    shortDescription: "Whole roasted hazelnuts set in 60% dark chocolate.",
+    description:
+      "Whole roasted hazelnuts set into 60% dark chocolate for a bar that snaps, crunches, and finishes nutty. A staple gifting bar for us since day one.",
+    images: [`${U}1627647227768-705244233b56`, `${U}1542843137-8791a6904d14`],
+    categoryId: "dark",
+    tags: ["handcrafted", "premium ingredients", "bestseller"],
+    ingredients: ["Cocoa mass (60%)", "Cocoa butter", "Roasted hazelnuts", "Cane sugar"],
+    rating: 4.7,
+    reviewCount: 143,
+    isBestseller: true,
+    variants: [
+      { id: "100g", label: "100g Bar", price: 299, stock: 45 },
+      { id: "250g", label: "250g Bar", price: 649, stock: 19 },
+    ],
+  },
+  {
+    id: "cocoa-nib-truffles",
+    slug: "cocoa-nib-truffles",
+    name: "Cocoa Nib Truffles",
+    shortDescription: "Dark ganache truffles rolled in crushed cocoa nibs.",
+    description:
+      "Rich dark chocolate ganache, hand-rolled and dusted in crushed roasted cocoa nibs for a bit of bitter crunch against the smooth center.",
+    images: [`${U}1549007994-cb92caebd54b`, `${U}1582493255270-b3844e2a63c8`],
+    categoryId: "dark",
+    tags: ["handcrafted", "premium ingredients"],
+    ingredients: ["Dark chocolate ganache (cocoa solids 65%)", "Fresh cream", "Crushed cocoa nibs"],
+    rating: 4.5,
+    reviewCount: 52,
+    variants: [{ id: "8pc-box", label: "Box of 8", price: 449, stock: 22 }],
+  },
 ];

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Poppins, Dancing_Script } from "next/font/google";
 import "./globals.css";
+import TopBar from "@/components/layout/TopBar";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
 const playfair = Playfair_Display({
   variable: "--font-serif",
@@ -33,7 +36,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${playfair.variable} ${poppins.variable} ${dancingScript.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-cream text-espresso">
-        {children}
+        <TopBar />
+        <Header />
+        <main className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );

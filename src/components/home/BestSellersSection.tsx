@@ -1,10 +1,12 @@
 "use client";
 
 import { useRef } from "react";
-import { products } from "@/data/products";
+import { getBestsellers } from "@/lib/repositories/products";
 import ProductCard from "@/components/ui/ProductCard";
 import SectionHeading from "@/components/ui/SectionHeading";
 import CarouselArrow from "@/components/ui/CarouselArrow";
+
+const bestsellers = getBestsellers();
 
 const SCROLL_AMOUNT = 290;
 
@@ -26,7 +28,7 @@ export default function BestSellersSection() {
           ref={scrollerRef}
           className="flex flex-1 gap-4 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {products.map((product) => (
+          {bestsellers.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>

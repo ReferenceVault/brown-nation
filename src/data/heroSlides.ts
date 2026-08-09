@@ -6,11 +6,14 @@ export type HeroSlide = {
   description: string;
   primaryCta: string;
   secondaryCta: string;
+  image: string;
   palette: {
     from: string;
     to: string;
   };
 };
+
+const U = "https://images.unsplash.com/photo-";
 
 export const heroSlides: HeroSlide[] = [
   {
@@ -22,6 +25,7 @@ export const heroSlides: HeroSlide[] = [
       "Indulge in handcrafted chocolates made with premium ingredients and endless passion.",
     primaryCta: "Shop Now",
     secondaryCta: "Explore Flavors",
+    image: `${U}1526081715791-7c538f86060e`,
     palette: { from: "#f8ece5", to: "#eddcd0" },
   },
   {
@@ -33,6 +37,7 @@ export const heroSlides: HeroSlide[] = [
       "Every bar is tempered, poured, and wrapped by artisans who treat chocolate as a craft.",
     primaryCta: "Shop Now",
     secondaryCta: "Explore Flavors",
+    image: `${U}1666724427690-874b5f9ba2b2`,
     palette: { from: "#f5e6dd", to: "#e9d3c4" },
   },
   {
@@ -44,6 +49,7 @@ export const heroSlides: HeroSlide[] = [
       "Custom boxes, printed bars, and corporate hampers designed around your celebration.",
     primaryCta: "Shop Now",
     secondaryCta: "Explore Flavors",
+    image: `${U}1687471603664-c76ac6556b6f`,
     palette: { from: "#f7e8df", to: "#ecd6c8" },
   },
 ];

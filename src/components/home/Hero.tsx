@@ -1,12 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { Gift } from "lucide-react";
 import { heroSlides } from "@/data/heroSlides";
 import Button from "@/components/ui/Button";
 import CarouselArrow from "@/components/ui/CarouselArrow";
-import ImagePlaceholder from "@/components/ui/ImagePlaceholder";
 
 const AUTOPLAY_MS = 6000;
 
@@ -59,10 +58,12 @@ export default function Hero() {
               </p>
 
               <div className="mt-8 flex flex-wrap items-center gap-4">
-                <Button variant="filled" icon={<span aria-hidden>→</span>}>
+                <Button href="/shop" variant="filled" icon={<span aria-hidden>→</span>}>
                   {slide.primaryCta}
                 </Button>
-                <Button variant="outline">{slide.secondaryCta}</Button>
+                <Button href="/shop" variant="outline">
+                  {slide.secondaryCta}
+                </Button>
               </div>
             </motion.div>
           </AnimatePresence>
@@ -93,13 +94,16 @@ export default function Hero() {
               transition={{ duration: 0.5, ease: "easeOut" }}
               className="relative mx-auto max-w-md lg:max-w-none"
             >
-              <ImagePlaceholder
-                from="#7a5a3f"
-                to="#2a190f"
-                icon={Gift}
-                label="Brown Nation Chocolates"
-                className="aspect-[4/3] w-full rounded-3xl shadow-soft"
-              />
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-soft">
+                <Image
+                  src={slide.image}
+                  alt="Brown Nation Chocolates"
+                  fill
+                  priority={index === 0}
+                  sizes="(max-width: 1024px) 90vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
               <div className="absolute -bottom-5 -left-5 hidden sm:flex h-20 w-20 items-center justify-center rounded-2xl bg-white shadow-card">
                 <span className="font-serif text-2xl text-brand-500">100%</span>
               </div>

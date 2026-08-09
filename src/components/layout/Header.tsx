@@ -2,12 +2,26 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Search, User, ShoppingBag, ChevronDown, Menu, X } from "lucide-react";
 import { navLinks } from "@/data/navigation";
+import { categories } from "@/data/categories";
+import { useCartStore } from "@/lib/stores/cartStore";
+import { useAuthStore } from "@/lib/stores/authStore";
+import { useMounted } from "@/lib/hooks/useMounted";
+import CartDrawer from "@/components/cart/CartDrawer";
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [active, setActive] = useState("Home");
+  const [categoriesOpen, setCategoriesOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
+  const pathname = usePathname();
+  const mounted = useMounted();
+
+  const cartCount = useCartStore((state) => state.items.reduce((sum, item) => sum + item.quantity, 0));
+  const currentUser = useAuthStore((state) => state.currentUser);
+
+  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   return (
     <header className="sticky top-0 z-40 bg-cream-50/95 backdrop-blur border-b border-brand-100/60">
@@ -24,24 +38,54 @@ export default function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden lg:flex items-center gap-7">
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              onClick={() => setActive(link.label)}
-              className={`relative flex items-center gap-1 py-1 text-sm font-medium transition-colors duration-200 ${
-                active === link.label
-                  ? "text-brand-500"
-                  : "text-espresso/80 hover:text-brand-500"
-              }`}
-            >
-              {link.label}
-              {link.hasDropdown && <ChevronDown className="h-3.5 w-3.5" strokeWidth={2} />}
-              {active === link.label && (
-                <span className="absolute -bottom-1 left-0 h-0.5 w-full rounded-full bg-brand-500" />
-              )}
-            </Link>
-          ))}
+          {navLinks.map((link) =>
+            link.hasDropdown ? (
+              <div
+                key={link.label}
+                className="relative"
+                onMouseEnter={() => setCategoriesOpen(true)}
+                onMouseLeave={() => setCategoriesOpen(false)}
+              >
+                <button
+                  onClick={() => setCategoriesOpen((v) => !v)}
+                  className={`relative flex items-center gap-1 py-1 text-sm font-medium transition-colors duration-200 cursor-pointer ${
+                    isActive(link.href) ? "text-brand-500" : "text-espresso/80 hover:text-brand-500"
+                  }`}
+                >
+                  {link.label}
+                  <ChevronDown className="h-3.5 w-3.5" strokeWidth={2} />
+                </button>
+
+                {categoriesOpen && (
+                  <div className="absolute left-0 top-full w-56 rounded-xl border border-brand-100 bg-white py-2 shadow-soft">
+                    {categories.map((category) => (
+                      <Link
+                        key={category.id}
+                        href={`/shop/${category.slug}`}
+                        onClick={() => setCategoriesOpen(false)}
+                        className="block px-4 py-2 text-sm text-espresso/80 transition-colors duration-200 hover:bg-brand-50 hover:text-brand-600"
+                      >
+                        {category.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                key={link.label}
+                href={link.href}
+                className={`relative flex items-center gap-1 py-1 text-sm font-medium transition-colors duration-200 ${
+                  isActive(link.href) ? "text-brand-500" : "text-espresso/80 hover:text-brand-500"
+                }`}
+              >
+                {link.label}
+                {isActive(link.href) && (
+                  <span className="absolute -bottom-1 left-0 h-0.5 w-full rounded-full bg-brand-500" />
+                )}
+              </Link>
+            )
+          )}
         </nav>
 
         {/* Icons */}
@@ -52,20 +96,24 @@ export default function Header() {
           >
             <Search className="h-5 w-5" strokeWidth={1.75} />
           </button>
-          <button
+          <Link
+            href={mounted && currentUser ? "/account" : "/login"}
             aria-label="Account"
-            className="hidden sm:inline-flex text-espresso/80 transition-colors duration-200 hover:text-brand-500 cursor-pointer"
+            className="hidden sm:inline-flex text-espresso/80 transition-colors duration-200 hover:text-brand-500"
           >
             <User className="h-5 w-5" strokeWidth={1.75} />
-          </button>
+          </Link>
           <button
             aria-label="Cart"
+            onClick={() => setCartOpen(true)}
             className="relative text-espresso/80 transition-colors duration-200 hover:text-brand-500 cursor-pointer"
           >
             <ShoppingBag className="h-5 w-5" strokeWidth={1.75} />
-            <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-brand-500 text-[10px] font-semibold text-white">
-              0
-            </span>
+            {mounted && cartCount > 0 && (
+              <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-brand-500 text-[10px] font-semibold text-white">
+                {cartCount}
+              </span>
+            )}
           </button>
           <button
             aria-label="Toggle menu"
@@ -88,22 +136,27 @@ export default function Header() {
             <Link
               key={link.label}
               href={link.href}
-              onClick={() => {
-                setActive(link.label);
-                setMobileOpen(false);
-              }}
+              onClick={() => setMobileOpen(false)}
               className={`flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium ${
-                active === link.label
-                  ? "bg-brand-50 text-brand-600"
-                  : "text-espresso/80 hover:bg-brand-50"
+                isActive(link.href) ? "bg-brand-50 text-brand-600" : "text-espresso/80 hover:bg-brand-50"
               }`}
             >
               {link.label}
               {link.hasDropdown && <ChevronDown className="h-4 w-4" strokeWidth={2} />}
             </Link>
           ))}
+          <Link
+            href={mounted && currentUser ? "/account" : "/login"}
+            onClick={() => setMobileOpen(false)}
+            className="mt-1 flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium text-espresso/80 hover:bg-brand-50 sm:hidden"
+          >
+            <User className="h-4 w-4" strokeWidth={1.75} />
+            {mounted && currentUser ? "My Account" : "Login / Sign Up"}
+          </Link>
         </nav>
       )}
+
+      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
     </header>
   );
 }
