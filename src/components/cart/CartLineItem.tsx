@@ -42,6 +42,7 @@ export default function CartLineItem({ line }: { line: CartDetailLine }) {
         <QuantityStepper
           size="sm"
           quantity={line.quantity}
+          min={0}
           max={line.variant.stock}
           onChange={(q) => updateQuantity(line.productId, line.variantId, q)}
         />

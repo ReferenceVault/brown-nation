@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import Image from "next/image";
 import Link from "next/link";
 import { X, ShoppingBag } from "lucide-react";
 import { useCartDetails } from "@/lib/hooks/useCartDetails";
 import { formatINR } from "@/lib/utils/currency";
 import EmptyState from "@/components/ui/EmptyState";
 import { useMounted } from "@/lib/hooks/useMounted";
+import CartLineItem from "@/components/cart/CartLineItem";
 
 export default function CartDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { lines, subtotal, itemCount } = useCartDetails();
@@ -87,18 +87,7 @@ export default function CartDrawer({ open, onClose }: { open: boolean; onClose: 
             </div>
           ) : (
             lines.map((line) => (
-              <div key={`${line.productId}-${line.variantId}`} className="flex items-center gap-3 border-b border-brand-100 py-3.5 last:border-b-0">
-                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg">
-                  <Image src={line.product.images[0]} alt={line.product.name} fill sizes="56px" className="object-cover" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium text-espresso line-clamp-1">{line.product.name}</p>
-                  <p className="text-xs text-espresso/50">
-                    {line.variant.label} · Qty {line.quantity}
-                  </p>
-                </div>
-                <p className="text-sm font-semibold text-brand-600">{formatINR(line.lineTotal)}</p>
-              </div>
+              <CartLineItem key={`${line.productId}-${line.variantId}`} line={line} />
             ))
           )}
         </div>

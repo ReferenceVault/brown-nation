@@ -5,12 +5,23 @@ import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 import type { Product } from "@/lib/types/catalog";
 import { useCartStore } from "@/lib/stores/cartStore";
+import { useMounted } from "@/lib/hooks/useMounted";
 import PriceTag from "@/components/ui/PriceTag";
 import RatingStars from "@/components/ui/RatingStars";
+import QuantityStepper from "@/components/ui/QuantityStepper";
 
 export default function ProductGridCard({ product }: { product: Product }) {
   const addItem = useCartStore((state) => state.addItem);
+  const updateQuantity = useCartStore((state) => state.updateQuantity);
   const defaultVariant = product.variants[0];
+  const outOfStock = defaultVariant.stock <= 0;
+  const mounted = useMounted();
+  const quantity = useCartStore(
+    (state) =>
+      state.items.find(
+        (item) => item.productId === product.id && item.variantId === defaultVariant.id
+      )?.quantity ?? 0
+  );
 
   return (
     <div className="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-soft">
@@ -27,6 +38,11 @@ export default function ProductGridCard({ product }: { product: Product }) {
             Bestseller
           </span>
         )}
+        {outOfStock && (
+          <span className="absolute right-2.5 top-2.5 rounded-md bg-espresso px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-white shadow-md">
+            Out of Stock
+          </span>
+        )}
       </Link>
 
       <div className="flex flex-1 flex-col gap-1.5 p-3.5">
@@ -40,13 +56,27 @@ export default function ProductGridCard({ product }: { product: Product }) {
 
         <div className="mt-1 flex items-center justify-between gap-2">
           <PriceTag price={defaultVariant.price} compareAtPrice={defaultVariant.compareAtPrice} size="sm" />
-          <button
-            onClick={() => addItem(product.id, defaultVariant.id)}
-            aria-label={`Add ${product.name} to cart`}
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-brand-300 bg-brand-50 text-brand-700 transition-colors duration-300 hover:bg-brand-500 hover:text-white cursor-pointer"
-          >
-            <ShoppingCart className="h-3.5 w-3.5" strokeWidth={2} />
-          </button>
+          {mounted && quantity > 0 ? (
+            <QuantityStepper
+              size="sm"
+              quantity={quantity}
+              min={0}
+              max={defaultVariant.stock}
+              onChange={(q) => updateQuantity(product.id, defaultVariant.id, q)}
+            />
+          ) : outOfStock ? (
+            <span className="shrink-0 text-[10px] font-semibold uppercase tracking-wide text-espresso/40">
+              Out of Stock
+            </span>
+          ) : (
+            <button
+              onClick={() => addItem(product.id, defaultVariant.id)}
+              aria-label={`Add ${product.name} to cart`}
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-brand-300 bg-brand-50 text-brand-700 transition-colors duration-300 hover:bg-brand-500 hover:text-white cursor-pointer"
+            >
+              <ShoppingCart className="h-3.5 w-3.5" strokeWidth={2} />
+            </button>
+          )}
         </div>
       </div>
     </div>

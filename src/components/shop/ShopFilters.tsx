@@ -97,7 +97,7 @@ export default function ShopFilters({
         </button>
 
         {sortOpen && (
-          <div className="absolute right-0 top-full z-10 mt-2 w-52 rounded-xl border border-brand-100 bg-white py-2 shadow-soft">
+          <div className="absolute left-0 sm:left-auto sm:right-0 top-full z-10 mt-2 w-52 max-w-[calc(100vw-2rem)] rounded-xl border border-brand-100 bg-white py-2 shadow-soft">
             {Object.entries(sortLabels).map(([value, label]) => (
               <button
                 key={value}

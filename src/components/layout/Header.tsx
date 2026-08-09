@@ -14,6 +14,7 @@ import CartDrawer from "@/components/cart/CartDrawer";
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
+  const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -137,7 +138,10 @@ export default function Header() {
           </button>
           <button
             aria-label="Toggle menu"
-            onClick={() => setMobileOpen((v) => !v)}
+            onClick={() => {
+              setMobileOpen((v) => !v);
+              setMobileCategoriesOpen(false);
+            }}
             className="lg:hidden text-espresso/80 hover:text-brand-500 cursor-pointer"
           >
             {mobileOpen ? (
@@ -183,19 +187,53 @@ export default function Header() {
       {/* Mobile nav */}
       {mobileOpen && (
         <nav className="lg:hidden border-t border-brand-100/60 bg-cream-50 px-4 py-3 flex flex-col gap-1">
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              onClick={() => setMobileOpen(false)}
-              className={`flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium ${
-                isActive(link.href) ? "bg-brand-50 text-brand-600" : "text-espresso/80 hover:bg-brand-50"
-              }`}
-            >
-              {link.label}
-              {link.hasDropdown && <ChevronDown className="h-4 w-4" strokeWidth={2} />}
-            </Link>
-          ))}
+          {navLinks.map((link) =>
+            link.hasDropdown ? (
+              <div key={link.label}>
+                <button
+                  type="button"
+                  onClick={() => setMobileCategoriesOpen((v) => !v)}
+                  className={`flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium cursor-pointer ${
+                    isActive(link.href) ? "bg-brand-50 text-brand-600" : "text-espresso/80 hover:bg-brand-50"
+                  }`}
+                >
+                  {link.label}
+                  <ChevronDown
+                    className={`h-4 w-4 transition-transform duration-200 ${mobileCategoriesOpen ? "rotate-180" : ""}`}
+                    strokeWidth={2}
+                  />
+                </button>
+                {mobileCategoriesOpen && (
+                  <div className="ml-3 mt-1 flex flex-col gap-1 border-l border-brand-100 pl-3">
+                    {categories.map((category) => (
+                      <Link
+                        key={category.id}
+                        href={`/shop/${category.slug}`}
+                        onClick={() => {
+                          setMobileOpen(false);
+                          setMobileCategoriesOpen(false);
+                        }}
+                        className="rounded-lg px-3 py-2 text-sm text-espresso/70 transition-colors duration-200 hover:bg-brand-50 hover:text-brand-600"
+                      >
+                        {category.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                key={link.label}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className={`flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium ${
+                  isActive(link.href) ? "bg-brand-50 text-brand-600" : "text-espresso/80 hover:bg-brand-50"
+                }`}
+              >
+                {link.label}
+              </Link>
+            )
+          )}
           <Link
             href={mounted && currentUser ? "/account" : "/login"}
             onClick={() => setMobileOpen(false)}
