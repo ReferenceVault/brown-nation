@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,25 +13,52 @@ import { useMounted } from "@/lib/hooks/useMounted";
 export default function CartDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { lines, subtotal, itemCount } = useCartDetails();
   const mounted = useMounted();
+  const [shouldRender, setShouldRender] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      setShouldRender(true);
+      const raf = requestAnimationFrame(() => requestAnimationFrame(() => setIsVisible(true)));
+      return () => cancelAnimationFrame(raf);
+    }
+
+    setIsVisible(false);
+    const timeout = setTimeout(() => setShouldRender(false), 300);
+    return () => clearTimeout(timeout);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", onKeyDown);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = "";
-    };
+    return () => document.removeEventListener("keydown", onKeyDown);
   }, [open, onClose]);
 
-  if (!open || !mounted) return null;
+  useEffect(() => {
+    if (!shouldRender) return;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [shouldRender]);
+
+  if (!shouldRender || !mounted) return null;
 
   return createPortal(
     <div className="fixed inset-0 z-50">
-      <div className="absolute inset-0 bg-espresso/40" onClick={onClose} />
+      <div
+        className={`absolute inset-0 bg-espresso/40 transition-opacity duration-300 ease-out ${
+          isVisible ? "opacity-100" : "opacity-0"
+        }`}
+        onClick={onClose}
+      />
 
-      <div className="absolute right-0 top-0 flex h-full w-full max-w-sm flex-col bg-cream-50 shadow-2xl">
+      <div
+        className={`absolute right-0 top-0 flex h-full w-full max-w-sm flex-col bg-cream-50 shadow-2xl transition-transform duration-300 ease-out ${
+          isVisible ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
         <div className="flex items-center justify-between border-b border-brand-100 px-5 py-4">
           <h2 className="font-serif text-lg font-semibold text-espresso">
             Your Cart {itemCount > 0 && `(${itemCount})`}
@@ -55,6 +82,7 @@ export default function CartDrawer({ open, onClose }: { open: boolean; onClose: 
                 description="Add a few handcrafted bars to get started."
                 actionLabel="Shop Now"
                 actionHref="/shop"
+                onAction={onClose}
               />
             </div>
           ) : (

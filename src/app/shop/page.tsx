@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { getAllProducts } from "@/lib/repositories/products";
+import { getAllProducts, searchProducts } from "@/lib/repositories/products";
 import { getAllCategories } from "@/lib/repositories/categories";
 import ProductGrid from "@/components/shop/ProductGrid";
 import ShopFilters, { type SortOption } from "@/components/shop/ShopFilters";
@@ -15,10 +15,11 @@ export const metadata: Metadata = {
 export default async function ShopPage({
   searchParams,
 }: {
-  searchParams: Promise<{ sort?: string }>;
+  searchParams: Promise<{ sort?: string; q?: string }>;
 }) {
-  const { sort } = await searchParams;
-  const products = sortProducts(getAllProducts(), (sort as SortOption) || "featured");
+  const { sort, q } = await searchParams;
+  const base = q ? searchProducts(q) : getAllProducts();
+  const products = sortProducts(base, (sort as SortOption) || "featured");
   const categories = getAllCategories();
 
   return (
@@ -26,9 +27,13 @@ export default async function ShopPage({
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Shop" }]} />
 
       <div className="mt-4 mb-8">
-        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-espresso">Shop All Chocolates</h1>
+        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-espresso">
+          {q ? `Results for "${q}"` : "Shop All Chocolates"}
+        </h1>
         <p className="mt-2 max-w-xl text-sm sm:text-base text-espresso/60">
-          Handcrafted in small batches with premium ingredients — no preservatives, ever.
+          {q
+            ? `${products.length} product${products.length === 1 ? "" : "s"} found.`
+            : "Handcrafted in small batches with premium ingredients — no preservatives, ever."}
         </p>
       </div>
 

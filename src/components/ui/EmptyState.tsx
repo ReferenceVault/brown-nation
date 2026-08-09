@@ -7,6 +7,7 @@ type EmptyStateProps = {
   description: string;
   actionLabel?: string;
   actionHref?: string;
+  onAction?: () => void;
 };
 
 export default function EmptyState({
@@ -15,6 +16,7 @@ export default function EmptyState({
   description,
   actionLabel,
   actionHref,
+  onAction,
 }: EmptyStateProps) {
   return (
     <div className="flex flex-col items-center gap-4 rounded-2xl bg-white px-6 py-16 text-center shadow-card">
@@ -28,6 +30,7 @@ export default function EmptyState({
       {actionLabel && actionHref && (
         <Link
           href={actionHref}
+          onClick={onAction}
           className="mt-2 rounded-lg bg-brand-500 px-6 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition-colors duration-300 hover:bg-brand-600"
         >
           {actionLabel}

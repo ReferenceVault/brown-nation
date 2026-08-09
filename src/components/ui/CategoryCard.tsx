@@ -34,7 +34,7 @@ export default function CategoryCard({
         </span>
       </div>
 
-      <div className="flex min-w-0 flex-col gap-1">
+      <div className="flex min-w-0 flex-1 flex-col gap-1">
         <h3 className="font-serif text-base sm:text-lg font-semibold text-espresso leading-tight">
           {category.name}
         </h3>

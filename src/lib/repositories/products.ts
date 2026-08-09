@@ -30,3 +30,14 @@ export function getRelatedProducts(product: Product, limit = 4): Product[] {
     .filter((p) => p.id !== product.id && p.categoryId === product.categoryId)
     .slice(0, limit);
 }
+
+export function searchProducts(query: string): Product[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return products;
+  return products.filter(
+    (product) =>
+      product.name.toLowerCase().includes(q) ||
+      product.description.toLowerCase().includes(q) ||
+      product.tags.some((tag) => tag.toLowerCase().includes(q))
+  );
+}

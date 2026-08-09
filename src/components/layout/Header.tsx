@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Search, User, ShoppingBag, ChevronDown, Menu, X } from "lucide-react";
 import { navLinks } from "@/data/navigation";
 import { categories } from "@/data/categories";
@@ -15,8 +15,25 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const pathname = usePathname();
+  const router = useRouter();
   const mounted = useMounted();
+
+  useEffect(() => {
+    if (searchOpen) searchInputRef.current?.focus();
+  }, [searchOpen]);
+
+  const onSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = searchQuery.trim();
+    if (!q) return;
+    router.push(`/shop?q=${encodeURIComponent(q)}`);
+    setSearchOpen(false);
+    setSearchQuery("");
+  };
 
   const cartCount = useCartStore((state) => state.items.reduce((sum, item) => sum + item.quantity, 0));
   const currentUser = useAuthStore((state) => state.currentUser);
@@ -92,7 +109,10 @@ export default function Header() {
         <div className="flex items-center gap-3 sm:gap-5">
           <button
             aria-label="Search"
-            className="text-espresso/80 transition-colors duration-200 hover:text-brand-500 cursor-pointer"
+            onClick={() => setSearchOpen((v) => !v)}
+            className={`transition-colors duration-200 hover:text-brand-500 cursor-pointer ${
+              searchOpen ? "text-brand-500" : "text-espresso/80"
+            }`}
           >
             <Search className="h-5 w-5" strokeWidth={1.75} />
           </button>
@@ -128,6 +148,37 @@ export default function Header() {
           </button>
         </div>
       </div>
+
+      {/* Search panel */}
+      {searchOpen && (
+        <div className="border-t border-brand-100/60 bg-cream-50 px-4 py-3 lg:px-8">
+          <form onSubmit={onSearchSubmit} className="mx-auto flex max-w-7xl items-center gap-2">
+            <input
+              ref={searchInputRef}
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => e.key === "Escape" && setSearchOpen(false)}
+              placeholder="Search for chocolates, truffles, gifts…"
+              className="flex-1 rounded-lg border border-brand-200 bg-white px-3.5 py-2 text-sm text-espresso outline-none focus:border-brand-400"
+            />
+            <button
+              type="submit"
+              className="rounded-lg bg-brand-500 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition-colors duration-300 hover:bg-brand-600 cursor-pointer"
+            >
+              Search
+            </button>
+            <button
+              type="button"
+              aria-label="Close search"
+              onClick={() => setSearchOpen(false)}
+              className="text-espresso/50 transition-colors duration-200 hover:text-espresso cursor-pointer"
+            >
+              <X className="h-5 w-5" strokeWidth={2} />
+            </button>
+          </form>
+        </div>
+      )}
 
       {/* Mobile nav */}
       {mobileOpen && (

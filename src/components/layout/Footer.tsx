@@ -18,9 +18,9 @@ export default function Footer() {
   return (
     <footer className="bg-espresso-dark text-cream-100">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:py-16 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1.3fr] lg:gap-8">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-8 lg:grid-cols-[1.3fr_1fr_1fr_1.3fr] lg:gap-8">
           {/* Brand */}
-          <div>
+          <div className="col-span-2 sm:col-span-1">
             <Link href="/" className="flex flex-col leading-none">
               <span className="font-serif text-2xl font-bold text-white">Brown Nation</span>
               <span className="mt-0.5 text-[11px] tracking-[0.35em] text-brand-300 font-medium">
@@ -80,7 +80,7 @@ export default function Footer() {
           </div>
 
           {/* Newsletter + contact */}
-          <div>
+          <div className="col-span-2 sm:col-span-1">
             <h4 className="font-serif text-base font-semibold text-white">
               Stay Sweet, Stay Updated
             </h4>
