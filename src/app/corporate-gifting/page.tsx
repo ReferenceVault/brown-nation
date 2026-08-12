@@ -33,7 +33,7 @@ export default function CorporateGiftingPage() {
 
       <h1 className="mt-4 font-serif text-3xl sm:text-4xl font-bold text-espresso">Corporate Gifting</h1>
       <p className="mt-4 max-w-xl text-sm sm:text-base text-espresso/70 leading-relaxed">
-        Handcrafted chocolate hampers for clients, teams, and festive occasions — with custom branding,
+        Handcrafted chocolate hampers for clients, teams, and festive occasions  with custom branding,
         ribbon, and card options for bulk orders.
       </p>
 
@@ -107,7 +107,7 @@ export default function CorporateGiftingPage() {
       <div className="mt-14 sm:mt-16 rounded-2xl bg-espresso-dark px-6 py-10 text-center sm:py-12">
         <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white">Planning a Bulk Order?</h2>
         <p className="mx-auto mt-2 max-w-md text-sm text-cream-100/70">
-          Tell us your quantity, timeline, and branding needs — we&apos;ll put together a quote for you.
+          Tell us your quantity, timeline, and branding needs  we&apos;ll put together a quote for you.
         </p>
         <Button href="/contact" variant="filled" className="mt-5">
           Enquire Now

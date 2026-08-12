@@ -10,11 +10,11 @@ export const metadata: Metadata = {
 const sections = [
   {
     title: "Information We Collect",
-    body: "When you create an account or place an order, we collect your name, email address, phone number, and shipping address. We do not collect or store payment card details directly — that's handled by our payment provider.",
+    body: "When you create an account or place an order, we collect your name, email address, phone number, and shipping address. We do not collect or store payment card details directly  that's handled by our payment provider.",
   },
   {
     title: "How We Use Your Information",
-    body: "Your information is used to process orders, communicate order updates, respond to enquiries, and — if you opt in — send occasional offers and new-flavor announcements. We don't sell your data to third parties.",
+    body: "Your information is used to process orders, communicate order updates, respond to enquiries, and  if you opt in  send occasional offers and new-flavor announcements. We don't sell your data to third parties.",
   },
   {
     title: "Cookies & Local Storage",

@@ -17,7 +17,7 @@ export const categories: Category[] = [
     name: "Flavored Chocolates",
     subtitle: "Mini bites, medium & full bars",
     description:
-      "Playful, indulgent flavor combinations — from Arabian kunafa to saffron cream — folded into handcrafted milk and dark chocolate.",
+      "Playful, indulgent flavor combinations  from Arabian kunafa to saffron cream  folded into handcrafted milk and dark chocolate.",
     heroImage: "/products/arabian-kunafa-royale.jpg",
   },
   {
@@ -26,7 +26,7 @@ export const categories: Category[] = [
     name: "Kids Chocolates",
     subtitle: "Fun, tasty & loved by kids",
     description:
-      "Bright, fun, bar-only treats made with the same premium cocoa as everything else we make — just sized and shaped for smaller hands.",
+      "Bright, fun, bar-only treats made with the same premium cocoa as everything else we make  just sized and shaped for smaller hands.",
     heroImage: "/products/galaxy-swirl-bar.jpg",
   },
   {
@@ -53,7 +53,7 @@ export const categories: Category[] = [
     name: "Designer & Theme Chocolate Bars",
     subtitle: "Made for every occasion",
     description:
-      "Edible-printed and hand-finished theme bars — birthdays, anniversaries, love letters, and signature artisan editions.",
+      "Edible-printed and hand-finished theme bars  birthdays, anniversaries, love letters, and signature artisan editions.",
     heroImage: "/products/artisan-signature-bar.jpg",
   },
 ];

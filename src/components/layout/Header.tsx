@@ -53,7 +53,7 @@ export default function Header() {
               Brown Nation
             </span>
             <span className="mt-0.5 text-[10px] sm:text-[11px] tracking-[0.35em] text-brand-500 font-medium">
-              — CHOCOLATES —
+              - CHOCOLATES —
             </span>
           </span>
         </Link>
@@ -79,13 +79,13 @@ export default function Header() {
                 </button>
 
                 {categoriesOpen && (
-                  <div className="absolute left-0 top-full w-56 rounded-xl border border-brand-100 bg-white py-2 shadow-soft">
+                  <div className="absolute left-0 top-full w-56 divide-y divide-brand-100 rounded-xl border border-brand-100 bg-white py-1 shadow-soft">
                     {categories.map((category) => (
                       <Link
                         key={category.id}
                         href={`/shop/${category.slug}`}
                         onClick={() => setCategoriesOpen(false)}
-                        className="block px-4 py-2 text-sm text-espresso/80 transition-colors duration-200 hover:bg-brand-50 hover:text-brand-600"
+                        className="block px-4 py-2.5 text-sm text-espresso/80 transition-colors duration-200 hover:bg-brand-50 hover:text-brand-600"
                       >
                         {category.name}
                       </Link>
@@ -208,7 +208,7 @@ export default function Header() {
                   />
                 </button>
                 {mobileCategoriesOpen && (
-                  <div className="ml-3 mt-1 flex flex-col gap-1 border-l border-brand-100 pl-3">
+                  <div className="ml-3 mt-1 flex flex-col divide-y divide-brand-100 border-l border-brand-100 pl-3">
                     {categories.map((category) => (
                       <Link
                         key={category.id}
@@ -217,7 +217,7 @@ export default function Header() {
                           setMobileOpen(false);
                           setMobileCategoriesOpen(false);
                         }}
-                        className="rounded-lg px-3 py-2 text-sm text-espresso/70 transition-colors duration-200 hover:bg-brand-50 hover:text-brand-600"
+                        className="px-3 py-2.5 text-sm text-espresso/70 transition-colors duration-200 hover:bg-brand-50 hover:text-brand-600"
                       >
                         {category.name}
                       </Link>

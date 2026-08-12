@@ -22,7 +22,7 @@ export default function CartPage() {
         <EmptyState
           icon={ShoppingBag}
           title="Your cart is empty"
-          description="Looks like you haven't added any chocolates yet — go find your new favorite."
+          description="Looks like you haven't added any chocolates yet  go find your new favorite."
           actionLabel="Shop Now"
           actionHref="/shop"
         />

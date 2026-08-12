@@ -12,7 +12,7 @@ const faqs = [
   {
     question: "What ingredients do you use?",
     answer:
-      "Premium cocoa, real butter and cream, and natural flavorings — no artificial preservatives. Full ingredient lists are on every product page.",
+      "Premium cocoa, real butter and cream, and natural flavorings  no artificial preservatives. Full ingredient lists are on every product page.",
   },
   {
     question: "How should I store my chocolates?",
@@ -22,12 +22,12 @@ const faqs = [
   {
     question: "How long do they stay fresh?",
     answer:
-      "Best enjoyed within 4–6 weeks of purchase. Truffles and cream-based fillings have a shorter window than bars — check the product page for specifics.",
+      "Best enjoyed within 4–6 weeks of purchase. Truffles and cream-based fillings have a shorter window than bars  check the product page for specifics.",
   },
   {
     question: "Can I customize a bar or box?",
     answer:
-      "Yes — printed photo bars, personalized message boxes, and bespoke gift hampers are all available. See our Custom Orders page to get started.",
+      "Yes  printed photo bars, personalized message boxes, and bespoke gift hampers are all available. See our Custom Orders page to get started.",
   },
   {
     question: "Do you ship across India?",

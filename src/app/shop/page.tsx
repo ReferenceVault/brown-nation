@@ -9,7 +9,7 @@ import { sortProducts } from "@/lib/utils/sort";
 
 export const metadata: Metadata = {
   title: "Shop All Chocolates | Brown Nation Chocolates",
-  description: "Browse handcrafted chocolates made with premium ingredients — bars, truffles, and gifting boxes.",
+  description: "Browse handcrafted chocolates made with premium ingredients  bars, truffles, and gifting boxes.",
 };
 
 export default async function ShopPage({
@@ -33,7 +33,7 @@ export default async function ShopPage({
         <p className="mt-2 max-w-xl text-sm sm:text-base text-espresso/60">
           {q
             ? `${products.length} product${products.length === 1 ? "" : "s"} found.`
-            : "Handcrafted in small batches with premium ingredients — no preservatives, ever."}
+            : "Handcrafted in small batches with premium ingredients  no preservatives, ever."}
         </p>
       </div>
 

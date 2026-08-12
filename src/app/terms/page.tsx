@@ -14,7 +14,7 @@ const sections = [
   },
   {
     title: "Product Information",
-    body: "We describe ingredients and allergens as accurately as possible, but our kitchen also handles nuts, dairy, and gluten — please check product pages carefully if you have allergies.",
+    body: "We describe ingredients and allergens as accurately as possible, but our kitchen also handles nuts, dairy, and gluten  please check product pages carefully if you have allergies.",
   },
   {
     title: "Account Responsibility",
@@ -22,7 +22,7 @@ const sections = [
   },
   {
     title: "Intellectual Property",
-    body: "All site content — including photography, copy, and the Brown Nation Chocolates name and logo — belongs to us and may not be reused without permission.",
+    body: "All site content  including photography, copy, and the Brown Nation Chocolates name and logo  belongs to us and may not be reused without permission.",
   },
   {
     title: "Limitation of Liability",

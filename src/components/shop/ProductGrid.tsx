@@ -9,7 +9,7 @@ export default function ProductGrid({ products }: { products: Product[] }) {
       <EmptyState
         icon={PackageSearch}
         title="No products found"
-        description="Try a different category or check back soon — we're always adding new flavors."
+        description="Try a different category or check back soon  we're always adding new flavors."
         actionLabel="View All Products"
         actionHref="/shop"
       />

@@ -36,7 +36,7 @@ export default function OrderConfirmationPage() {
         <CheckCircle2 className="h-14 w-14 text-teal-600" strokeWidth={1.5} />
         <h1 className="mt-4 font-serif text-2xl sm:text-3xl font-bold text-espresso">Order Confirmed!</h1>
         <p className="mt-2 text-sm text-espresso/60">
-          Thank you — your order <span className="font-semibold text-espresso">#{order.id}</span> has been placed.
+          Thank you  your order <span className="font-semibold text-espresso">#{order.id}</span> has been placed.
         </p>
       </div>
 

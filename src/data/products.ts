@@ -26,7 +26,7 @@ export const products: Product[] = [
     name: "Royal Nut Fusion",
     shortDescription: "Roasted almonds, cashews & pistachios in creamy milk chocolate.",
     description:
-      "A rich fusion of roasted almonds, cashews, and pistachios set into thick, creamy milk chocolate — a nutty, indulgent classic.",
+      "A rich fusion of roasted almonds, cashews, and pistachios set into thick, creamy milk chocolate  a nutty, indulgent classic.",
     images: ["/products/royal-nut-fusion.jpg"],
     categoryId: "flavored",
     tags: ["handcrafted", "premium ingredients"],
@@ -62,7 +62,7 @@ export const products: Product[] = [
     name: "Royal Meetha Leaf",
     shortDescription: "Sweet paan leaf, gulkand & fennel in dark chocolate.",
     description:
-      "A distinctly Indian pairing — sweet meetha paan leaf, gulkand, and a touch of fennel folded into 55% dark chocolate. Sweet, aromatic, and a little nostalgic.",
+      "A distinctly Indian pairing  sweet meetha paan leaf, gulkand, and a touch of fennel folded into 55% dark chocolate. Sweet, aromatic, and a little nostalgic.",
     images: ["/products/royal-meetha-leaf.jpg"],
     categoryId: "flavored",
     tags: ["handcrafted", "premium ingredients"],
@@ -98,7 +98,7 @@ export const products: Product[] = [
     name: "Orchard Treasure",
     shortDescription: "Dried apricot, fig & cranberry in dark chocolate.",
     description:
-      "A medley of dried orchard fruits — apricot, fig, and cranberry — set into rich dark chocolate for a naturally sweet, fruity finish.",
+      "A medley of dried orchard fruits  apricot, fig, and cranberry  set into rich dark chocolate for a naturally sweet, fruity finish.",
     images: ["/products/orchard-treasure.jpg"],
     categoryId: "flavored",
     tags: ["handcrafted", "premium ingredients"],
@@ -116,7 +116,7 @@ export const products: Product[] = [
     name: "Saffron Cream Delight",
     shortDescription: "Kesar-infused creamy chocolate, a nod to classic Indian mithai.",
     description:
-      "Real saffron (kesar) infused into a silky milk chocolate cream — a nod to classic Indian mithai, made in small batches.",
+      "Real saffron (kesar) infused into a silky milk chocolate cream  a nod to classic Indian mithai, made in small batches.",
     images: ["/products/saffron-cream-delight.jpg"],
     categoryId: "flavored",
     tags: ["handcrafted", "premium ingredients"],
@@ -154,7 +154,7 @@ export const products: Product[] = [
     name: "Arabian Kunafa Royale",
     shortDescription: "Crisp kunafa pastry folded into silky milk chocolate. Bar only.",
     description:
-      "Our take on the viral Dubai chocolate bar — toasted kunafa pastry and a whisper of pistachio paste, hand-folded into silky milk chocolate and set in small batches. Crunchy, nutty, and impossible to put down after the first piece. Available as a bar only.",
+      "Our take on the viral Dubai chocolate bar  toasted kunafa pastry and a whisper of pistachio paste, hand-folded into silky milk chocolate and set in small batches. Crunchy, nutty, and impossible to put down after the first piece. Available as a bar only.",
     images: ["/products/arabian-kunafa-royale.jpg"],
     categoryId: "flavored",
     tags: ["handcrafted", "premium ingredients", "bestseller"],
@@ -189,7 +189,7 @@ export const products: Product[] = [
     name: "Silken Milk Classic",
     shortDescription: "Our smoothest, silkiest classic milk chocolate.",
     description:
-      "No fillings, no fuss — just pure cocoa and fresh milk, slow-conched until impossibly smooth and silky.",
+      "No fillings, no fuss  just pure cocoa and fresh milk, slow-conched until impossibly smooth and silky.",
     images: ["/products/silken-milk-classic.jpg"],
     categoryId: "flavored",
     tags: ["handcrafted"],
@@ -207,7 +207,7 @@ export const products: Product[] = [
     name: "Fennel Fresh Fusion",
     shortDescription: "Fennel (saunf) & mint in dark chocolate for a fresh finish.",
     description:
-      "A paan-shop-inspired flavor — fennel (saunf) and mint folded into dark chocolate for a cooling, fresh finish after every bite.",
+      "A paan-shop-inspired flavor  fennel (saunf) and mint folded into dark chocolate for a cooling, fresh finish after every bite.",
     images: ["/products/fennel-fresh-fusion.jpg"],
     categoryId: "flavored",
     tags: ["handcrafted"],
@@ -227,7 +227,7 @@ export const products: Product[] = [
     name: "Rainbow Berry Pop",
     shortDescription: "Mixed berry milk chocolate studded with colorful candy pops.",
     description:
-      "Mixed berry flavored milk chocolate studded with colorful candy pops — bright, fruity, and always the first to disappear at the party.",
+      "Mixed berry flavored milk chocolate studded with colorful candy pops  bright, fruity, and always the first to disappear at the party.",
     images: ["/products/rainbow-berry-pop.jpg"],
     categoryId: "kids",
     tags: ["kids favorite"],
@@ -242,7 +242,7 @@ export const products: Product[] = [
     name: "Jelly Joy Bar",
     shortDescription: "Fruit jelly bits folded into creamy milk chocolate.",
     description:
-      "Chewy fruit jelly bits folded through creamy milk chocolate — a fun, fruity texture kids love.",
+      "Chewy fruit jelly bits folded through creamy milk chocolate  a fun, fruity texture kids love.",
     images: ["/products/jelly-joy-bar.jpg"],
     categoryId: "kids",
     tags: ["kids favorite"],
@@ -273,7 +273,7 @@ export const products: Product[] = [
     name: "Confetti Fruit Crunch",
     shortDescription: "Crunchy fruit-flavored confetti crisps in milk chocolate.",
     description:
-      "Crunchy, colorful fruit-flavored confetti crisps folded into milk chocolate — a festive, snackable treat.",
+      "Crunchy, colorful fruit-flavored confetti crisps folded into milk chocolate  a festive, snackable treat.",
     images: ["/products/confetti-fruit-crunch.jpg"],
     categoryId: "kids",
     tags: ["kids favorite", "party pack"],
@@ -288,7 +288,7 @@ export const products: Product[] = [
     name: "Galaxy Swirl Bar",
     shortDescription: "Milk & white chocolate swirls with cosmic candy sprinkles.",
     description:
-      "Swirls of milk and white chocolate topped with cosmic-colored candy sprinkles — a bar that looks as fun as it tastes.",
+      "Swirls of milk and white chocolate topped with cosmic-colored candy sprinkles  a bar that looks as fun as it tastes.",
     images: ["/products/galaxy-swirl-bar.jpg"],
     categoryId: "kids",
     tags: ["kids favorite"],
@@ -325,7 +325,7 @@ export const products: Product[] = [
     name: "Celebration Collection",
     shortDescription: "An assorted celebration box for weddings & corporate gifting.",
     description:
-      "Our curated celebration assortment — handcrafted truffles and bars across dark, milk, and specialty flavors, boxed for weddings, corporate gifting, and festive hampers. Personalized for your special moments, just the way you want.",
+      "Our curated celebration assortment  handcrafted truffles and bars across dark, milk, and specialty flavors, boxed for weddings, corporate gifting, and festive hampers. Personalized for your special moments, just the way you want.",
     images: ["/products/celebration-collection.jpg"],
     categoryId: "customized",
     tags: ["handcrafted", "premium ingredients", "gifting"],
@@ -346,7 +346,7 @@ export const products: Product[] = [
     name: "Forest Harvest",
     shortDescription: "Wild forest berries & toasted almonds in 60% dark chocolate.",
     description:
-      "Wild forest berries and toasted almonds set into 60% dark chocolate — earthy, fruity, and full of texture.",
+      "Wild forest berries and toasted almonds set into 60% dark chocolate  earthy, fruity, and full of texture.",
     images: ["/products/forest-harvest.jpg"],
     categoryId: "dark",
     tags: ["handcrafted", "premium ingredients"],
@@ -384,7 +384,7 @@ export const products: Product[] = [
     name: "Cocoa Citrus Royale",
     shortDescription: "Candied orange & cocoa nibs in rich dark chocolate.",
     description:
-      "Candied orange peel and crushed roasted cocoa nibs set into rich 65% dark chocolate — bittersweet, citrusy, and a little crunchy.",
+      "Candied orange peel and crushed roasted cocoa nibs set into rich 65% dark chocolate  bittersweet, citrusy, and a little crunchy.",
     images: ["/products/cocoa-citrus-royale.jpg"],
     categoryId: "dark",
     tags: ["handcrafted", "premium ingredients"],
@@ -420,7 +420,7 @@ export const products: Product[] = [
     name: "Berry Eclipse",
     shortDescription: "Tart cranberries & blueberries in deep dark chocolate.",
     description:
-      "Tart dried cranberries and blueberries set into deep 65% dark chocolate — a staple gifting bar for us since day one.",
+      "Tart dried cranberries and blueberries set into deep 65% dark chocolate  a staple gifting bar for us since day one.",
     images: ["/products/berry-eclipse.jpg"],
     categoryId: "dark",
     tags: ["handcrafted", "premium ingredients", "bestseller"],
@@ -441,7 +441,7 @@ export const products: Product[] = [
     name: "Birthday Bliss Bar",
     shortDescription: "A festive milk chocolate bar edible-printed with birthday wishes.",
     description:
-      "A festive milk chocolate bar, edible-printed with birthday wishes and hand-finished for gifting — ready to make someone's day.",
+      "A festive milk chocolate bar, edible-printed with birthday wishes and hand-finished for gifting  ready to make someone's day.",
     images: ["/products/birthday-bliss-bar.jpg"],
     categoryId: "designer",
     tags: ["handcrafted", "personalized", "gifting"],
@@ -477,7 +477,7 @@ export const products: Product[] = [
     name: "Love Letter Bar",
     shortDescription: "A heartfelt milk chocolate bar edible-printed with your message.",
     description:
-      "A heartfelt milk chocolate bar, edible-printed with your own love letter or message — a simple way to say what words alone can't.",
+      "A heartfelt milk chocolate bar, edible-printed with your own love letter or message  a simple way to say what words alone can't.",
     images: ["/products/love-letter-bar.jpg"],
     categoryId: "designer",
     tags: ["handcrafted", "personalized", "gifting"],
@@ -495,7 +495,7 @@ export const products: Product[] = [
     name: "Artisan Signature Bar",
     shortDescription: "Single-origin dark chocolate, hand-finished with gold leaf.",
     description:
-      "Our finest single-origin dark chocolate, hand-finished with a delicate gold leaf signature touch — for the occasions that call for something special.",
+      "Our finest single-origin dark chocolate, hand-finished with a delicate gold leaf signature touch  for the occasions that call for something special.",
     images: ["/products/artisan-signature-bar.jpg"],
     categoryId: "designer",
     tags: ["handcrafted", "premium ingredients", "gifting"],

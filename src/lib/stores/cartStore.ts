@@ -2,12 +2,18 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { getProductById } from "@/lib/repositories/products";
 
 export type CartLine = {
   productId: string;
   variantId: string;
   quantity: number;
 };
+
+function isValidLine(item: CartLine): boolean {
+  const product = getProductById(item.productId);
+  return Boolean(product?.variants.some((variant) => variant.id === item.variantId));
+}
 
 type CartState = {
   items: CartLine[];
@@ -61,3 +67,24 @@ export const useCartStore = create<CartState>()(
     { name: "brown-nation-cart" }
   )
 );
+
+// Drop cart lines left over from a previous catalog (e.g. a product that was renamed
+// or removed) so the header badge and cart drawer never disagree about what's in the cart.
+// Guarded to the browser since persist has no storage (and no `.persist` API) during SSR.
+if (typeof window !== "undefined") {
+  const pruneInvalidItems = (state: CartState) => {
+    const validItems = state.items.filter(isValidLine);
+    if (validItems.length !== state.items.length) {
+      useCartStore.setState({ items: validItems });
+    }
+  };
+
+  // localStorage reads are synchronous, so hydration may already be done by the
+  // time this module finishes evaluating  in which case onFinishHydration would
+  // never fire since the event already happened.
+  if (useCartStore.persist.hasHydrated()) {
+    pruneInvalidItems(useCartStore.getState());
+  } else {
+    useCartStore.persist.onFinishHydration(pruneInvalidItems);
+  }
+}

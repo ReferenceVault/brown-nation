@@ -5,7 +5,7 @@ import { persist } from "zustand/middleware";
 import type { User } from "@/lib/types/user";
 
 /**
- * Mock auth for the demo/prototype phase — plaintext passwords in localStorage,
+ * Mock auth for the demo/prototype phase  plaintext passwords in localStorage,
  * no server verification. Placeholder for Auth.js + a real database once the
  * admin/backend exists; not intended to hold real user credentials.
  */

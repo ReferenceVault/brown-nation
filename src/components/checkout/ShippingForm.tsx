@@ -59,7 +59,7 @@ export default function ShippingForm({
         {submitting ? "Processing Payment…" : "Place Order"}
       </Button>
       <p className="mt-3 text-center text-[11px] text-espresso/45">
-        Payment is simulated for this preview — no real charge will be made.
+        Payment is simulated for this preview  no real charge will be made.
       </p>
     </form>
   );

@@ -9,14 +9,14 @@ import { trustFeatures } from "@/data/trustFeatures";
 export const metadata: Metadata = {
   title: "About Us | Brown Nation Chocolates",
   description:
-    "The story behind Brown Nation Chocolates — handcrafted, small-batch, and made with premium ingredients.",
+    "The story behind Brown Nation Chocolates  handcrafted, small-batch, and made with premium ingredients.",
 };
 
 const process = [
   {
     icon: Sprout,
     title: "Source",
-    description: "We choose premium cocoa and ingredients first — flavor and quality come before cost.",
+    description: "We choose premium cocoa and ingredients first  flavor and quality come before cost.",
   },
   {
     icon: Hand,
@@ -41,13 +41,13 @@ export default function AboutPage() {
             <h1 className="font-serif text-3xl sm:text-4xl font-bold text-espresso">Our Story</h1>
             <div className="mt-5 flex flex-col gap-4 text-sm sm:text-base text-espresso/70 leading-relaxed">
               <p>
-                Brown Nation Chocolates started as a small kitchen experiment — tempering, folding, and
+                Brown Nation Chocolates started as a small kitchen experiment  tempering, folding, and
                 tasting until every bar felt right. We&apos;re still doing the same thing today, just at a
                 slightly larger table.
               </p>
               <p>
                 Every bar, truffle, and gift box is handcrafted in small batches with premium ingredients and
-                no preservatives. No shortcuts, no mass production — just cocoa, care, and a lot of patience.
+                no preservatives. No shortcuts, no mass production  just cocoa, care, and a lot of patience.
               </p>
               <p>
                 Whether it&apos;s a flavor experiment like our Arabian Kunafa Royale or an intense
@@ -114,7 +114,7 @@ export default function AboutPage() {
             Ready to Taste the Difference?
           </h2>
           <p className="max-w-md text-sm text-cream-100/70">
-            Browse our handcrafted bars, truffles, and gift boxes — made fresh, shipped with care.
+            Browse our handcrafted bars, truffles, and gift boxes  made fresh, shipped with care.
           </p>
           <Button href="/shop" variant="filled">
             Shop All Chocolates

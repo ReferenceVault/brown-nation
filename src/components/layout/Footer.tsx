@@ -27,13 +27,13 @@ export default function Footer() {
               <span className="flex flex-col leading-none">
                 <span className="font-serif text-2xl font-bold text-white">Brown Nation</span>
                 <span className="mt-0.5 text-[11px] tracking-[0.35em] text-brand-300 font-medium">
-                  — CHOCOLATES —
+                  - CHOCOLATES —
                 </span>
               </span>
             </Link>
             <p className="mt-4 max-w-xs text-sm text-cream-100/70 leading-relaxed">
               Handcrafted chocolates made with premium ingredients, endless passion, and a whole
-              lot of love — straight from our kitchen in India to your doorstep.
+              lot of love  straight from our kitchen in India to your doorstep.
             </p>
             <div className="mt-5 flex items-center gap-3">
               {socials.map(({ label, href, icon: Icon }) => (
