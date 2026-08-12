@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Mail, MapPin, Phone, X as XIcon } from "lucide-react";
 import { navLinks } from "@/data/navigation";
@@ -21,10 +22,13 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-8 lg:grid-cols-[1.3fr_1fr_1fr_1.3fr] lg:gap-8">
           {/* Brand */}
           <div className="col-span-2 sm:col-span-1">
-            <Link href="/" className="flex flex-col leading-none">
-              <span className="font-serif text-2xl font-bold text-white">Brown Nation</span>
-              <span className="mt-0.5 text-[11px] tracking-[0.35em] text-brand-300 font-medium">
-                — CHOCOLATES —
+            <Link href="/" className="flex items-center gap-2.5">
+              <Image src="/logo.svg" alt="" width={44} height={44} className="h-10 w-10" />
+              <span className="flex flex-col leading-none">
+                <span className="font-serif text-2xl font-bold text-white">Brown Nation</span>
+                <span className="mt-0.5 text-[11px] tracking-[0.35em] text-brand-300 font-medium">
+                  — CHOCOLATES —
+                </span>
               </span>
             </Link>
             <p className="mt-4 max-w-xs text-sm text-cream-100/70 leading-relaxed">

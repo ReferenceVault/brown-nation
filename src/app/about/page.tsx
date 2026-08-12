@@ -50,8 +50,9 @@ export default function AboutPage() {
                 no preservatives. No shortcuts, no mass production — just cocoa, care, and a lot of patience.
               </p>
               <p>
-                Whether it&apos;s a flavor experiment like our Kunafa bar or a classic 70% single-origin dark
-                chocolate, our goal is the same: every bite should feel like it was made just for you.
+                Whether it&apos;s a flavor experiment like our Arabian Kunafa Royale or an intense
+                single-origin Midnight Noir, our goal is the same: every bite should feel like it was made
+                just for you.
               </p>
             </div>
           </div>

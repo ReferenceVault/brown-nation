@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Search, User, ShoppingBag, ChevronDown, Menu, X } from "lucide-react";
@@ -45,12 +46,15 @@ export default function Header() {
     <header className="sticky top-0 z-40 bg-cream-50/95 backdrop-blur border-b border-brand-100/60">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="flex flex-col leading-none shrink-0">
-          <span className="font-serif text-xl sm:text-2xl font-bold text-espresso">
-            Brown Nation
-          </span>
-          <span className="mt-0.5 text-[10px] sm:text-[11px] tracking-[0.35em] text-brand-500 font-medium">
-            — CHOCOLATES —
+        <Link href="/" className="flex items-center gap-2.5 shrink-0">
+          <Image src="/logo.svg" alt="" width={44} height={44} className="h-9 w-9 sm:h-11 sm:w-11" priority />
+          <span className="flex flex-col leading-none">
+            <span className="font-serif text-xl sm:text-2xl font-bold text-espresso">
+              Brown Nation
+            </span>
+            <span className="mt-0.5 text-[10px] sm:text-[11px] tracking-[0.35em] text-brand-500 font-medium">
+              — CHOCOLATES —
+            </span>
           </span>
         </Link>
 

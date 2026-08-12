@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Sparkles, Baby, Gift, Gem } from "lucide-react";
+import { Sparkles, Baby, Gift, Gem, PartyPopper } from "lucide-react";
 import type { Category } from "@/lib/types/catalog";
 
 export type CategoryMeta = {
@@ -7,6 +7,7 @@ export type CategoryMeta = {
   icon: LucideIcon;
   bg: string;
   badgeBg: string;
+  iconColor: string;
 };
 
 export const categories: Category[] = [
@@ -14,45 +15,55 @@ export const categories: Category[] = [
     id: "flavored",
     slug: "flavored",
     name: "Flavored Chocolates",
-    subtitle: "Mini pieces & Full bars",
+    subtitle: "Mini bites, medium & full bars",
     description:
-      "Playful, indulgent flavor combinations — from kunafa to rose pistachio — folded into handcrafted milk and dark chocolate.",
-    heroImage: "https://images.unsplash.com/photo-1614088685112-0a760b71a3c8",
+      "Playful, indulgent flavor combinations — from Arabian kunafa to saffron cream — folded into handcrafted milk and dark chocolate.",
+    heroImage: "/products/arabian-kunafa-royale.jpg",
   },
   {
     id: "kids",
     slug: "kids",
     name: "Kids Chocolates",
-    subtitle: "Delicious bars kids love",
+    subtitle: "Fun, tasty & loved by kids",
     description:
-      "Bright, fun, and made with the same premium cocoa as everything else we make — just sized and shaped for smaller hands.",
-    heroImage: "https://images.unsplash.com/photo-1622873904690-76c655368668",
+      "Bright, fun, bar-only treats made with the same premium cocoa as everything else we make — just sized and shaped for smaller hands.",
+    heroImage: "/products/galaxy-swirl-bar.jpg",
   },
   {
     id: "customized",
     slug: "customized",
     name: "Customized Chocolates",
-    subtitle: "Personalized just for you",
+    subtitle: "Made just for you",
     description:
-      "Printed bars, message boxes, and photo chocolates — handcrafted for birthdays, weddings, and every occasion worth celebrating.",
-    heroImage: "https://images.unsplash.com/photo-1687795097254-f019f9d7fd17",
+      "Signature gift bars and celebration collections, personalized for your special moments, just the way you want.",
+    heroImage: "/products/signature-gift-bar.jpg",
   },
   {
     id: "dark",
     slug: "dark",
     name: "Dark Chocolate",
-    subtitle: "Rich, intense & timeless",
+    subtitle: "Rich, bold & indulgent",
     description:
       "Single-origin cocoa, slow-conched and tempered by hand for a rich, intense snap in every bar.",
-    heroImage: "https://images.unsplash.com/photo-1623660053975-cf75a8be0908",
+    heroImage: "/products/midnight-noir.jpg",
+  },
+  {
+    id: "designer",
+    slug: "designer",
+    name: "Designer & Theme Chocolate Bars",
+    subtitle: "Made for every occasion",
+    description:
+      "Edible-printed and hand-finished theme bars — birthdays, anniversaries, love letters, and signature artisan editions.",
+    heroImage: "/products/artisan-signature-bar.jpg",
   },
 ];
 
 export const categoryMeta: CategoryMeta[] = [
-  { id: "flavored", icon: Sparkles, bg: "bg-pastel-yellow", badgeBg: "bg-rose-500" },
-  { id: "kids", icon: Baby, bg: "bg-pastel-purple", badgeBg: "bg-white" },
-  { id: "customized", icon: Gift, bg: "bg-pastel-teal", badgeBg: "bg-white" },
-  { id: "dark", icon: Gem, bg: "bg-pastel-peach", badgeBg: "bg-rose-500" },
+  { id: "flavored", icon: Sparkles, bg: "bg-pastel-yellow", badgeBg: "bg-white", iconColor: "text-amber-500" },
+  { id: "kids", icon: Baby, bg: "bg-pastel-purple", badgeBg: "bg-white", iconColor: "text-purple-500" },
+  { id: "customized", icon: Gift, bg: "bg-pastel-teal", badgeBg: "bg-white", iconColor: "text-teal-600" },
+  { id: "dark", icon: Gem, bg: "bg-pastel-peach", badgeBg: "bg-white", iconColor: "text-orange-600" },
+  { id: "designer", icon: PartyPopper, bg: "bg-pastel-pink", badgeBg: "bg-white", iconColor: "text-pink-500" },
 ];
 
 export function getCategoryMeta(categoryId: string): CategoryMeta {

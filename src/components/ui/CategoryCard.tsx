@@ -15,32 +15,32 @@ export default function CategoryCard({
   return (
     <Link
       href={`/shop/${category.slug}`}
-      className={`group flex items-center justify-center sm:justify-start gap-4 rounded-2xl p-3 sm:p-4 ${meta.bg} shadow-card transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft`}
+      className={`group flex h-full gap-3 rounded-2xl p-3 ${meta.bg} shadow-card transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft`}
     >
-      <div className="relative shrink-0">
-        <div className="relative h-24 w-24 sm:h-28 sm:w-28 overflow-hidden rounded-xl">
+      <div className="relative w-20 sm:w-24 shrink-0">
+        <div className="relative h-full w-full overflow-hidden rounded-xl">
           <Image
             src={category.heroImage}
             alt={category.name}
             fill
-            sizes="112px"
+            sizes="96px"
             className="object-cover transition-transform duration-300 group-hover:scale-[1.06]"
           />
         </div>
         <span
-          className={`absolute -top-3 -right-3 flex h-9 w-9 items-center justify-center rounded-full ${meta.badgeBg} shadow-md`}
+          className={`absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full ${meta.badgeBg} shadow-md`}
         >
-          <Icon className="h-4 w-4 text-espresso" strokeWidth={1.75} />
+          <Icon className={`h-3 w-3 ${meta.iconColor}`} strokeWidth={1.75} />
         </span>
       </div>
 
-      <div className="flex min-w-0 flex-col gap-1">
-        <h3 className="font-serif text-base sm:text-lg font-semibold text-espresso leading-tight">
+      <div className="flex min-w-0 flex-1 flex-col justify-center gap-0.5">
+        <h3 className="font-serif text-sm sm:text-base font-semibold leading-tight text-espresso line-clamp-2">
           {category.name}
         </h3>
-        <p className="text-xs sm:text-sm text-espresso/70 leading-snug">{category.subtitle}</p>
+        <p className="text-[11px] sm:text-xs text-espresso/70 leading-snug line-clamp-1">{category.subtitle}</p>
 
-        <span className="mt-2 self-start rounded-md bg-espresso px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-white transition-colors duration-300 group-hover:bg-brand-600">
+        <span className="mt-1.5 self-start whitespace-nowrap rounded-md bg-espresso px-2 py-1 text-[9px] font-semibold uppercase text-white transition-colors duration-300 group-hover:bg-brand-600">
           Shop Now
         </span>
       </div>

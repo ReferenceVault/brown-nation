@@ -25,7 +25,7 @@ const perks = [
 ];
 
 export default function CorporateGiftingPage() {
-  const featured = getProductBySlug("celebration-truffle-box");
+  const featured = getProductBySlug("celebration-collection");
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14 lg:px-8">
@@ -74,7 +74,7 @@ export default function CorporateGiftingPage() {
                 <PriceTag price={featured.variants[0].price} size="lg" />
               </div>
               <Button href={`/product/${featured.slug}`} variant="filled" className="mt-5">
-                View Celebration Truffle Box
+                View {featured.name}
               </Button>
             </>
           )}
