@@ -150,7 +150,7 @@ export default function Header() {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       onKeyDown={(e) => e.key === "Escape" && setSearchOpen(false)}
-                      placeholder="Chocolates, truffles, gifts…"
+                      placeholder="Chocolates"
                       className="w-full rounded-full border border-brand-200 bg-cream-50 py-2.5 pl-10 pr-3 text-sm text-espresso outline-none transition-colors duration-200 focus:border-brand-400 focus:bg-white focus:ring-2 focus:ring-brand-100"
                     />
                   </div>
