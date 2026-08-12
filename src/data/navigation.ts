@@ -7,7 +7,7 @@ export type NavLink = {
 export const navLinks: NavLink[] = [
   { label: "Home", href: "/" },
   { label: "Shop", href: "/shop" },
-  { label: "Categories", href: "/categories", hasDropdown: true },
+  { label: "Categories", href: "/shop", hasDropdown: true },
   { label: "Custom Orders", href: "/custom-orders" },
   { label: "Corporate Gifting", href: "/corporate-gifting" },
   { label: "About Us", href: "/about" },
