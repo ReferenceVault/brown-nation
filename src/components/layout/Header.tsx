@@ -53,7 +53,7 @@ export default function Header() {
               Brown Nation
             </span>
             <span className="mt-0.5 text-[10px] sm:text-[11px] tracking-[0.35em] text-brand-500 font-medium">
-              - CHOCOLATES —
+              — CHOCOLATES —
             </span>
           </span>
         </Link>

@@ -27,7 +27,7 @@ export default function Footer() {
               <span className="flex flex-col leading-none">
                 <span className="font-serif text-2xl font-bold text-white">Brown Nation</span>
                 <span className="mt-0.5 text-[11px] tracking-[0.35em] text-brand-300 font-medium">
-                  - CHOCOLATES —
+                  — CHOCOLATES —
                 </span>
               </span>
             </Link>
