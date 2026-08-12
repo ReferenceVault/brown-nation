@@ -13,8 +13,6 @@ export type HeroSlide = {
   };
 };
 
-const U = "https://images.unsplash.com/photo-";
-
 export const heroSlides: HeroSlide[] = [
   {
     id: "moment-of-joy",
@@ -25,7 +23,7 @@ export const heroSlides: HeroSlide[] = [
       "Indulge in handcrafted chocolates made with premium ingredients and endless passion.",
     primaryCta: "Shop Now",
     secondaryCta: "Explore Flavors",
-    image: `${U}1526081715791-7c538f86060e`,
+    image: "/products/berry-eclipse.jpg",
     palette: { from: "#f8ece5", to: "#eddcd0" },
   },
   {
@@ -37,7 +35,7 @@ export const heroSlides: HeroSlide[] = [
       "Every bar is tempered, poured, and wrapped by artisans who treat chocolate as a craft.",
     primaryCta: "Shop Now",
     secondaryCta: "Explore Flavors",
-    image: `${U}1666724427690-874b5f9ba2b2`,
+    image: "/products/love-letter-bar.jpg",
     palette: { from: "#f5e6dd", to: "#e9d3c4" },
   },
   {
@@ -49,7 +47,7 @@ export const heroSlides: HeroSlide[] = [
       "Custom boxes, printed bars, and corporate hampers designed around your celebration.",
     primaryCta: "Shop Now",
     secondaryCta: "Explore Flavors",
-    image: `${U}1687471603664-c76ac6556b6f`,
+    image: "/products/celebration-collection.jpg",
     palette: { from: "#f7e8df", to: "#ecd6c8" },
   },
 ];
