@@ -125,6 +125,7 @@ export default function Header({ categories }: { categories: Category[] }) {
           <div ref={searchRef} className="relative">
             <button
               aria-label="Search"
+              title="Search"
               onClick={() => setSearchOpen((v) => !v)}
               className={`transition-colors duration-200 hover:text-brand-500 cursor-pointer ${
                 searchOpen ? "text-brand-500" : "text-espresso/80"
@@ -196,12 +197,17 @@ export default function Header({ categories }: { categories: Category[] }) {
           <Link
             href={mounted && currentUser ? "/account" : "/login"}
             aria-label="Account"
-            className="hidden sm:inline-flex text-espresso/80 transition-colors duration-200 hover:text-brand-500"
+            title={mounted && currentUser ? "My Account" : "Login"}
+            className="hidden sm:inline-flex items-center gap-1.5 text-espresso/80 transition-colors duration-200 hover:text-brand-500"
           >
             <User className="h-5 w-5" strokeWidth={1.75} />
+            <span className="hidden lg:inline text-sm font-medium">
+              {mounted && currentUser ? "My Account" : "Login"}
+            </span>
           </Link>
           <button
             aria-label="Cart"
+            title="Cart"
             onClick={() => setCartOpen(true)}
             className="relative text-espresso/80 transition-colors duration-200 hover:text-brand-500 cursor-pointer"
           >
