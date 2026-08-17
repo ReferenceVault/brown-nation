@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Mail, Clock, HelpCircle, X as XIcon } from "lucide-react";
+import { Mail, Phone, Clock, HelpCircle, X as XIcon } from "lucide-react";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import ContactForm from "@/components/marketing/ContactForm";
-import { contactDetails } from "@/data/footer";
+import { contactDetails, socialLinks } from "@/data/footer";
 import { FacebookIcon, InstagramIcon, YoutubeIcon } from "@/components/ui/SocialIcon";
 
 export const metadata: Metadata = {
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const socials = [
   { label: "Facebook", href: "#", icon: FacebookIcon },
-  { label: "Instagram", href: "#", icon: InstagramIcon },
+  { label: "Instagram", href: socialLinks.instagram, icon: InstagramIcon },
   { label: "X", href: "#", icon: XIcon },
   { label: "YouTube", href: "#", icon: YoutubeIcon },
 ];
@@ -33,6 +33,21 @@ export default function ContactPage() {
         <ContactForm />
 
         <div className="flex flex-col gap-4">
+          {contactDetails.phone && (
+            <a
+              href={`tel:${contactDetails.phone.replace(/\s+/g, "")}`}
+              className="flex items-center gap-3 rounded-2xl bg-white p-5 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-soft"
+            >
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-pastel-pink-soft">
+                <Phone className="h-5 w-5 text-rose-600" strokeWidth={1.75} />
+              </span>
+              <div>
+                <p className="text-sm font-semibold text-espresso">Phone</p>
+                <p className="text-sm text-espresso/60">{contactDetails.phone}</p>
+              </div>
+            </a>
+          )}
+
           {contactDetails.email && (
             <div className="flex items-center gap-3 rounded-2xl bg-white p-5 shadow-card">
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-50">

@@ -13,7 +13,11 @@ export const customerCareLinks: FooterLink[] = [
 ];
 
 export const contactDetails = {
-  phone: "",
+  phone: "+91 93580 23390",
   email: "brownnation.choco@gmail.com",
   address: "",
+};
+
+export const socialLinks = {
+  instagram: "https://www.instagram.com/brownnation_mohini/",
 };

@@ -2,13 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Mail, MapPin, Phone, X as XIcon } from "lucide-react";
 import { navLinks } from "@/data/navigation";
-import { customerCareLinks, contactDetails } from "@/data/footer";
+import { customerCareLinks, contactDetails, socialLinks } from "@/data/footer";
 import { FacebookIcon, InstagramIcon, YoutubeIcon } from "@/components/ui/SocialIcon";
 import NewsletterForm from "@/components/ui/NewsletterForm";
 
 const socials = [
   { label: "Facebook", href: "#", icon: FacebookIcon },
-  { label: "Instagram", href: "#", icon: InstagramIcon },
+  { label: "Instagram", href: socialLinks.instagram, icon: InstagramIcon },
   { label: "X", href: "#", icon: XIcon },
   { label: "YouTube", href: "#", icon: YoutubeIcon },
 ];
@@ -40,6 +40,8 @@ export default function Footer() {
                 <a
                   key={label}
                   href={href}
+                  target={href.startsWith("http") ? "_blank" : undefined}
+                  rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
                   aria-label={label}
                   className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-cream-100 transition-all duration-300 hover:bg-brand-500 hover:text-white hover:-translate-y-0.5"
                 >
