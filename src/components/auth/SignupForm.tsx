@@ -12,26 +12,34 @@ export default function SignupForm() {
   const searchParams = useSearchParams();
   const signup = useAuthStore((state) => state.signup);
 
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const redirect = searchParams.get("redirect");
   const loginHref = redirect ? `/login?redirect=${encodeURIComponent(redirect)}` : "/login";
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
+    setError(null);
+
+    if (password.length < 8 || !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
+      setError("Password must be at least 8 characters and include an uppercase letter, a lowercase letter, and a number.");
       return;
     }
-    const result = signup(name, email, password);
+
+    setSubmitting(true);
+    const result = await signup({ email, password, firstName, lastName });
+    setSubmitting(false);
+
     if (!result.ok) {
       setError(result.error);
       return;
     }
-    router.push(searchParams.get("redirect") || "/account");
+    router.push(redirect || "/account");
   };
 
   return (
@@ -40,13 +48,22 @@ export default function SignupForm() {
       <p className="mt-2 text-sm text-espresso/60">Save your details for faster checkout and order tracking.</p>
 
       <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
-        <TextField
-          label="Full Name"
-          required
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Jane Doe"
-        />
+        <div className="grid grid-cols-2 gap-3">
+          <TextField
+            label="First Name"
+            required
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            placeholder="Jane"
+          />
+          <TextField
+            label="Last Name"
+            required
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            placeholder="Doe"
+          />
+        </div>
         <TextField
           label="Email"
           type="email"
@@ -61,12 +78,12 @@ export default function SignupForm() {
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="At least 6 characters"
+          placeholder="At least 8 characters"
         />
         {error && <p className="text-sm font-medium text-red-500">{error}</p>}
 
-        <Button type="submit" variant="filled" className="mt-2 w-full">
-          Create Account
+        <Button type="submit" variant="filled" className="mt-2 w-full" disabled={submitting}>
+          {submitting ? "Creating Account…" : "Create Account"}
         </Button>
       </form>
 

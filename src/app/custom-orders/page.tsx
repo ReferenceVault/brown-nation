@@ -4,7 +4,8 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Button from "@/components/ui/Button";
 import ProductGrid from "@/components/shop/ProductGrid";
-import { getProductsByCategory } from "@/lib/repositories/products";
+import { listProducts } from "@/lib/api/public/products";
+import { fetchCategoryBySlug } from "@/lib/api/public/categories";
 
 export const metadata: Metadata = {
   title: "Custom Orders | Brown Nation Chocolates",
@@ -29,8 +30,9 @@ const steps = [
   },
 ];
 
-export default function CustomOrdersPage() {
-  const customizedProducts = getProductsByCategory("customized");
+export default async function CustomOrdersPage() {
+  const category = await fetchCategoryBySlug("customized-chocolates");
+  const customizedProducts = category ? (await listProducts({ categoryId: category.id, limit: 100 })).items : [];
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14 lg:px-8">
@@ -44,7 +46,7 @@ export default function CustomOrdersPage() {
       </p>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <Button href="/shop/customized" variant="filled">
+        <Button href="/shop/customized-chocolates" variant="filled">
           Shop Customized Chocolates
         </Button>
         <Button href="/contact" variant="outline">

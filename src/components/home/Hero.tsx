@@ -107,11 +107,6 @@ export default function Hero() {
               <div className="absolute -bottom-5 -left-5 hidden sm:flex h-20 w-20 items-center justify-center rounded-2xl bg-white shadow-card">
                 <span className="font-serif text-2xl text-brand-500">100%</span>
               </div>
-              <div className="absolute -top-5 -right-5 hidden sm:flex h-16 w-16 items-center justify-center rounded-full bg-brand-500 text-white text-xs font-semibold text-center leading-tight shadow-card">
-                Pure
-                <br />
-                Cacao
-              </div>
             </motion.div>
           </AnimatePresence>
 

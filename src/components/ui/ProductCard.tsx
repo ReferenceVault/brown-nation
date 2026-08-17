@@ -12,14 +12,13 @@ import PriceTag from "./PriceTag";
 export default function ProductCard({ product }: { product: Product }) {
   const addItem = useCartStore((state) => state.addItem);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
-  const defaultVariant = product.variants[0];
-  const outOfStock = defaultVariant.stock <= 0;
+  const price = Number(product.price);
+  const compareAtPrice = product.compareAtPrice ? Number(product.compareAtPrice) : undefined;
+  const outOfStock = product.stockQuantity <= 0;
+  const priceOnRequest = price <= 0;
   const mounted = useMounted();
   const quantity = useCartStore(
-    (state) =>
-      state.items.find(
-        (item) => item.productId === product.id && item.variantId === defaultVariant.id
-      )?.quantity ?? 0
+    (state) => state.items.find((item) => item.productId === product.id)?.quantity ?? 0
   );
 
   return (
@@ -40,16 +39,20 @@ export default function ProductCard({ product }: { product: Product }) {
             {product.name}
           </h3>
         </Link>
-        <PriceTag price={defaultVariant.price} compareAtPrice={defaultVariant.compareAtPrice} size="sm" />
+        {priceOnRequest ? (
+          <span className="text-sm font-bold text-brand-600">Price on request</span>
+        ) : (
+          <PriceTag price={price} compareAtPrice={compareAtPrice} size="sm" />
+        )}
 
-        {mounted && quantity > 0 ? (
+        {priceOnRequest ? null : mounted && quantity > 0 ? (
           <div className="mt-1">
             <QuantityStepper
               size="sm"
               quantity={quantity}
               min={0}
-              max={defaultVariant.stock}
-              onChange={(q) => updateQuantity(product.id, defaultVariant.id, q)}
+              max={product.stockQuantity}
+              onChange={(q) => updateQuantity(product.id, q)}
             />
           </div>
         ) : outOfStock ? (
@@ -58,7 +61,7 @@ export default function ProductCard({ product }: { product: Product }) {
           </span>
         ) : (
           <button
-            onClick={() => addItem(product.id, defaultVariant.id)}
+            onClick={() => addItem(product.id)}
             className="mt-1 inline-flex w-fit items-center justify-center gap-1.5 rounded-md border border-brand-300 bg-brand-50 px-3 py-1.5 text-xs font-semibold text-brand-700 transition-colors duration-300 hover:bg-brand-500 hover:text-white cursor-pointer"
           >
             Add to Cart

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { getAllProducts, searchProducts } from "@/lib/repositories/products";
-import { getAllCategories } from "@/lib/repositories/categories";
+import { listProducts } from "@/lib/api/public/products";
+import { fetchAllCategories } from "@/lib/api/public/categories";
 import ProductGrid from "@/components/shop/ProductGrid";
 import ShopFilters, { type SortOption } from "@/components/shop/ShopFilters";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import { sortProducts } from "@/lib/utils/sort";
+import { toApiSort } from "@/lib/utils/sort";
 
 export const metadata: Metadata = {
   title: "Shop All Chocolates | Brown Nation Chocolates",
@@ -18,9 +18,12 @@ export default async function ShopPage({
   searchParams: Promise<{ sort?: string; q?: string }>;
 }) {
   const { sort, q } = await searchParams;
-  const base = q ? searchProducts(q) : getAllProducts();
-  const products = sortProducts(base, (sort as SortOption) || "featured");
-  const categories = getAllCategories();
+  const sortOption = (sort as SortOption) || "featured";
+
+  const [{ items: products }, categories] = await Promise.all([
+    listProducts({ limit: 100, search: q || undefined, ...toApiSort(sortOption) }),
+    fetchAllCategories(),
+  ]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:py-12 lg:px-8">

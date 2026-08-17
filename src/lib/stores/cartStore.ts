@@ -3,23 +3,22 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { getProductById } from "@/lib/repositories/products";
+import { useCatalogStore } from "@/lib/stores/catalogStore";
 
 export type CartLine = {
   productId: string;
-  variantId: string;
   quantity: number;
 };
 
 function isValidLine(item: CartLine): boolean {
-  const product = getProductById(item.productId);
-  return Boolean(product?.variants.some((variant) => variant.id === item.variantId));
+  return Boolean(getProductById(item.productId));
 }
 
 type CartState = {
   items: CartLine[];
-  addItem: (productId: string, variantId: string, quantity?: number) => void;
-  updateQuantity: (productId: string, variantId: string, quantity: number) => void;
-  removeItem: (productId: string, variantId: string) => void;
+  addItem: (productId: string, quantity?: number) => void;
+  updateQuantity: (productId: string, quantity: number) => void;
+  removeItem: (productId: string) => void;
   clear: () => void;
 };
 
@@ -27,40 +26,28 @@ export const useCartStore = create<CartState>()(
   persist(
     (set) => ({
       items: [],
-      addItem: (productId, variantId, quantity = 1) =>
+      addItem: (productId, quantity = 1) =>
         set((state) => {
-          const existing = state.items.find(
-            (item) => item.productId === productId && item.variantId === variantId
-          );
+          const existing = state.items.find((item) => item.productId === productId);
           if (existing) {
             return {
               items: state.items.map((item) =>
-                item.productId === productId && item.variantId === variantId
-                  ? { ...item, quantity: item.quantity + quantity }
-                  : item
+                item.productId === productId ? { ...item, quantity: item.quantity + quantity } : item
               ),
             };
           }
-          return { items: [...state.items, { productId, variantId, quantity }] };
+          return { items: [...state.items, { productId, quantity }] };
         }),
-      updateQuantity: (productId, variantId, quantity) =>
+      updateQuantity: (productId, quantity) =>
         set((state) => ({
           items:
             quantity <= 0
-              ? state.items.filter(
-                  (item) => !(item.productId === productId && item.variantId === variantId)
-                )
-              : state.items.map((item) =>
-                  item.productId === productId && item.variantId === variantId
-                    ? { ...item, quantity }
-                    : item
-                ),
+              ? state.items.filter((item) => item.productId !== productId)
+              : state.items.map((item) => (item.productId === productId ? { ...item, quantity } : item)),
         })),
-      removeItem: (productId, variantId) =>
+      removeItem: (productId) =>
         set((state) => ({
-          items: state.items.filter(
-            (item) => !(item.productId === productId && item.variantId === variantId)
-          ),
+          items: state.items.filter((item) => item.productId !== productId),
         })),
       clear: () => set({ items: [] }),
     }),
@@ -70,21 +57,20 @@ export const useCartStore = create<CartState>()(
 
 // Drop cart lines left over from a previous catalog (e.g. a product that was renamed
 // or removed) so the header badge and cart drawer never disagree about what's in the cart.
-// Guarded to the browser since persist has no storage (and no `.persist` API) during SSR.
+// Product data now comes from the API via catalogStore, so pruning has to wait until
+// that fetch resolves — otherwise every line looks "invalid" before data arrives.
 if (typeof window !== "undefined") {
-  const pruneInvalidItems = (state: CartState) => {
+  const tryPrune = () => {
+    if (useCatalogStore.getState().status !== "loaded") return;
+    if (!useCartStore.persist.hasHydrated()) return;
+    const state = useCartStore.getState();
     const validItems = state.items.filter(isValidLine);
     if (validItems.length !== state.items.length) {
       useCartStore.setState({ items: validItems });
     }
   };
 
-  // localStorage reads are synchronous, so hydration may already be done by the
-  // time this module finishes evaluating  in which case onFinishHydration would
-  // never fire since the event already happened.
-  if (useCartStore.persist.hasHydrated()) {
-    pruneInvalidItems(useCartStore.getState());
-  } else {
-    useCartStore.persist.onFinishHydration(pruneInvalidItems);
-  }
+  useCartStore.persist.onFinishHydration(tryPrune);
+  useCatalogStore.subscribe(tryPrune);
+  tryPrune();
 }

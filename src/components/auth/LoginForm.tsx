@@ -15,18 +15,30 @@ export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const redirect = searchParams.get("redirect");
   const signupHref = redirect ? `/signup?redirect=${encodeURIComponent(redirect)}` : "/signup";
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const result = login(email, password);
+    setError(null);
+    setSubmitting(true);
+    const result = await login(email, password);
+    setSubmitting(false);
+
     if (!result.ok) {
       setError(result.error);
       return;
     }
-    router.push(searchParams.get("redirect") || "/account");
+
+    if (redirect) {
+      router.push(redirect);
+      return;
+    }
+
+    const role = useAuthStore.getState().currentUser?.role;
+    router.push(role === "ADMIN" ? "/admin" : "/account");
   };
 
   return (
@@ -53,8 +65,8 @@ export default function LoginForm() {
         />
         {error && <p className="text-sm font-medium text-red-500">{error}</p>}
 
-        <Button type="submit" variant="filled" className="mt-2 w-full">
-          Log In
+        <Button type="submit" variant="filled" className="mt-2 w-full" disabled={submitting}>
+          {submitting ? "Logging In…" : "Log In"}
         </Button>
       </form>
 

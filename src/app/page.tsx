@@ -3,14 +3,23 @@ import FeatureStrip from "@/components/home/FeatureStrip";
 import CategorySection from "@/components/home/CategorySection";
 import BestSellersSection from "@/components/home/BestSellersSection";
 import StatsBar from "@/components/home/StatsBar";
+import { fetchAllCategories } from "@/lib/api/public/categories";
+import { listProducts } from "@/lib/api/public/products";
 
-export default function Home() {
+const BESTSELLERS_LIMIT = 10;
+
+export default async function Home() {
+  const [categories, { items: products }] = await Promise.all([
+    fetchAllCategories(),
+    listProducts({ limit: BESTSELLERS_LIMIT }),
+  ]);
+
   return (
     <>
       <Hero />
       <FeatureStrip />
-      <CategorySection />
-      <BestSellersSection />
+      <CategorySection categories={categories} />
+      <BestSellersSection products={products} />
       <StatsBar />
     </>
   );

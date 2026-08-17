@@ -2,10 +2,11 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import type { Order } from "@/lib/types/order";
 import { formatINR } from "@/lib/utils/currency";
+import StatusBadge from "@/components/ui/StatusBadge";
 
 export default function OrderCard({ order }: { order: Order }) {
-  const itemCount = order.items.reduce((sum, item) => sum + item.quantity, 0);
-  const placedDate = new Date(order.placedAt).toLocaleDateString("en-IN", {
+  const itemCount = (order.items ?? []).reduce((sum, item) => sum + item.quantity, 0);
+  const placedDate = new Date(order.createdAt).toLocaleDateString("en-IN", {
     day: "numeric",
     month: "short",
     year: "numeric",
@@ -18,10 +19,8 @@ export default function OrderCard({ order }: { order: Order }) {
     >
       <div>
         <div className="flex items-center gap-2">
-          <p className="text-sm font-semibold text-espresso">#{order.id}</p>
-          <span className="rounded-full bg-teal-600/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-teal-700">
-            Placed
-          </span>
+          <p className="text-sm font-semibold text-espresso">#{order.orderNumber}</p>
+          <StatusBadge status={order.status} />
         </div>
         <p className="mt-1 text-xs text-espresso/50">
           {placedDate} · {itemCount} item{itemCount > 1 ? "s" : ""}
@@ -29,7 +28,7 @@ export default function OrderCard({ order }: { order: Order }) {
       </div>
 
       <div className="flex items-center gap-3">
-        <p className="text-sm font-bold text-espresso">{formatINR(order.total)}</p>
+        <p className="text-sm font-bold text-espresso">{formatINR(Number(order.totalAmount))}</p>
         <ChevronRight className="h-4 w-4 text-espresso/30" strokeWidth={2} />
       </div>
     </Link>

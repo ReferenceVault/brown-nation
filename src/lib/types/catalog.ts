@@ -1,33 +1,34 @@
-export type ProductVariant = {
-  id: string;
-  label: string;
-  price: number;
-  compareAtPrice?: number;
-  stock: number;
-};
+/**
+ * Mirrors the real backend API response shapes (backend/src/products, backend/src/categories).
+ * Money fields are decimal strings, since Prisma's Decimal type serializes to JSON as a string.
+ */
+
+export type ProductStatus = "DRAFT" | "ACTIVE" | "ARCHIVED";
+export type CategoryStatus = "ACTIVE" | "INACTIVE";
 
 export type Product = {
   id: string;
-  slug: string;
   name: string;
-  shortDescription: string;
+  slug: string;
   description: string;
+  price: string;
+  compareAtPrice: string | null;
+  sku: string;
   images: string[];
   categoryId: string;
-  tags: string[];
-  ingredients: string[];
-  rating: number;
-  reviewCount: number;
-  isBestseller?: boolean;
-  isFeatured?: boolean;
-  variants: ProductVariant[];
+  status: ProductStatus;
+  stockQuantity: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type Category = {
   id: string;
-  slug: string;
   name: string;
-  subtitle: string;
-  description: string;
-  heroImage: string;
+  slug: string;
+  description: string | null;
+  image: string | null;
+  status: CategoryStatus;
+  createdAt: string;
+  updatedAt: string;
 };

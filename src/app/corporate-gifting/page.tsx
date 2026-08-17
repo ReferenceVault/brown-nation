@@ -5,7 +5,7 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Button from "@/components/ui/Button";
 import PriceTag from "@/components/ui/PriceTag";
-import { getProductBySlug } from "@/lib/repositories/products";
+import { fetchProductBySlug } from "@/lib/api/public/products";
 
 export const metadata: Metadata = {
   title: "Corporate Gifting | Brown Nation Chocolates",
@@ -24,8 +24,8 @@ const perks = [
   { icon: Truck, text: "Pan-India delivery" },
 ];
 
-export default function CorporateGiftingPage() {
-  const featured = getProductBySlug("celebration-collection");
+export default async function CorporateGiftingPage() {
+  const featured = await fetchProductBySlug("signature-designer-bar");
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14 lg:px-8">
@@ -41,7 +41,7 @@ export default function CorporateGiftingPage() {
         <Button href="/contact" variant="filled">
           Enquire for Bulk Orders
         </Button>
-        <Button href="/shop/customized" variant="outline">
+        <Button href="/shop/customized-chocolates" variant="outline">
           Browse Gifting Options
         </Button>
       </div>
@@ -69,9 +69,13 @@ export default function CorporateGiftingPage() {
           {featured && (
             <>
               <h2 className="mt-2 font-serif text-2xl font-bold text-espresso">{featured.name}</h2>
-              <p className="mt-2 text-sm text-espresso/70 leading-relaxed">{featured.shortDescription}</p>
+              <p className="mt-2 text-sm text-espresso/70 leading-relaxed line-clamp-3">{featured.description}</p>
               <div className="mt-3">
-                <PriceTag price={featured.variants[0].price} size="lg" />
+                {Number(featured.price) > 0 ? (
+                  <PriceTag price={Number(featured.price)} size="lg" />
+                ) : (
+                  <span className="text-lg font-bold text-brand-600">Price on request</span>
+                )}
               </div>
               <Button href={`/product/${featured.slug}`} variant="filled" className="mt-5">
                 View {featured.name}

@@ -11,55 +11,47 @@ import Button from "@/components/ui/Button";
 
 export default function ProductPurchasePanel({ product }: { product: Product }) {
   const router = useRouter();
-  const [variantId, setVariantId] = useState(product.variants[0].id);
   const [quantity, setQuantity] = useState(1);
   const [justAdded, setJustAdded] = useState(false);
   const addItem = useCartStore((state) => state.addItem);
 
-  const variant = product.variants.find((v) => v.id === variantId) ?? product.variants[0];
-  const outOfStock = variant.stock <= 0;
+  const price = Number(product.price);
+  const compareAtPrice = product.compareAtPrice ? Number(product.compareAtPrice) : undefined;
+  const outOfStock = product.stockQuantity <= 0;
+  const priceOnRequest = price <= 0;
 
   const handleAddToCart = () => {
-    addItem(product.id, variant.id, quantity);
+    addItem(product.id, quantity);
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 1800);
   };
 
   const handleBuyNow = () => {
-    addItem(product.id, variant.id, quantity);
+    addItem(product.id, quantity);
     router.push("/cart");
   };
 
+  if (priceOnRequest) {
+    return (
+      <div className="flex flex-col gap-5">
+        <span className="text-2xl font-bold text-brand-600">Price on request</span>
+        <p className="text-sm text-espresso/70">
+          This is a custom piece  reach out and we&apos;ll put together a quote for you.
+        </p>
+        <Button href="/contact" variant="filled" className="w-fit">
+          Enquire Now
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-5">
-      <PriceTag price={variant.price} compareAtPrice={variant.compareAtPrice} size="lg" />
-
-      {product.variants.length > 1 && (
-        <div>
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-espresso/60">Size</p>
-          <div className="flex flex-wrap gap-2">
-            {product.variants.map((v) => (
-              <button
-                key={v.id}
-                type="button"
-                onClick={() => setVariantId(v.id)}
-                disabled={v.stock <= 0}
-                className={`rounded-lg border px-4 py-2 text-sm font-medium transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-40 cursor-pointer ${
-                  variantId === v.id
-                    ? "border-brand-500 bg-brand-50 text-brand-700"
-                    : "border-brand-200 text-espresso/70 hover:border-brand-400"
-                }`}
-              >
-                {v.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+      <PriceTag price={price} compareAtPrice={compareAtPrice} size="lg" />
 
       <div>
         <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-espresso/60">Quantity</p>
-        <QuantityStepper quantity={quantity} onChange={setQuantity} max={variant.stock} />
+        <QuantityStepper quantity={quantity} onChange={setQuantity} max={product.stockQuantity} />
       </div>
 
       {outOfStock ? (

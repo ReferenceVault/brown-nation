@@ -18,7 +18,7 @@ type ButtonAsLink = CommonProps & { href: string };
 type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-lg px-7 py-3 text-sm font-semibold tracking-wide uppercase transition-all duration-300 cursor-pointer";
+  "inline-flex items-center justify-center gap-2 rounded-lg px-7 py-3 text-sm font-semibold tracking-wide uppercase transition-all duration-300 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0";
 
 const variants: Record<ButtonVariant, string> = {
   filled:

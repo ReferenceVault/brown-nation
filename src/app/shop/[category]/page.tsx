@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { getAllCategories, getCategoryBySlug } from "@/lib/repositories/categories";
-import { getProductsByCategory } from "@/lib/repositories/products";
+import { fetchAllCategories, fetchCategoryBySlug } from "@/lib/api/public/categories";
+import { listProducts } from "@/lib/api/public/products";
 import ProductGrid from "@/components/shop/ProductGrid";
 import ShopFilters, { type SortOption } from "@/components/shop/ShopFilters";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import { sortProducts } from "@/lib/utils/sort";
-
-export function generateStaticParams() {
-  return getAllCategories().map((category) => ({ category: category.slug }));
-}
+import { toApiSort } from "@/lib/utils/sort";
 
 export async function generateMetadata({
   params,
@@ -18,11 +14,11 @@ export async function generateMetadata({
   params: Promise<{ category: string }>;
 }): Promise<Metadata> {
   const { category: slug } = await params;
-  const category = getCategoryBySlug(slug);
+  const category = await fetchCategoryBySlug(slug);
   if (!category) return {};
   return {
     title: `${category.name} | Brown Nation Chocolates`,
-    description: category.description,
+    description: category.description ?? undefined,
   };
 }
 
@@ -35,11 +31,14 @@ export default async function CategoryPage({
 }) {
   const { category: slug } = await params;
   const { sort } = await searchParams;
-  const category = getCategoryBySlug(slug);
+  const category = await fetchCategoryBySlug(slug);
   if (!category) notFound();
 
-  const products = sortProducts(getProductsByCategory(category.id), (sort as SortOption) || "featured");
-  const categories = getAllCategories();
+  const sortOption = (sort as SortOption) || "featured";
+  const [{ items: products }, categories] = await Promise.all([
+    listProducts({ categoryId: category.id, limit: 100, ...toApiSort(sortOption) }),
+    fetchAllCategories(),
+  ]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:py-12 lg:px-8">
@@ -49,7 +48,9 @@ export default async function CategoryPage({
 
       <div className="mt-4 mb-8">
         <h1 className="font-serif text-3xl sm:text-4xl font-bold text-espresso">{category.name}</h1>
-        <p className="mt-2 max-w-xl text-sm sm:text-base text-espresso/60">{category.description}</p>
+        {category.description && (
+          <p className="mt-2 max-w-xl text-sm sm:text-base text-espresso/60">{category.description}</p>
+        )}
       </div>
 
       <Suspense fallback={null}>

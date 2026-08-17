@@ -13,7 +13,7 @@ export default function OrderSummary({ lines, subtotal }: { lines: CartDetailLin
 
       <div className="mt-4 flex flex-col gap-3 max-h-64 overflow-y-auto pr-1">
         {lines.map((line) => (
-          <div key={`${line.productId}-${line.variantId}`} className="flex items-center gap-3">
+          <div key={line.productId} className="flex items-center gap-3">
             <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
               <Image src={line.product.images[0]} alt={line.product.name} fill sizes="48px" className="object-cover" />
               <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-espresso text-[10px] font-semibold text-white">
@@ -22,7 +22,6 @@ export default function OrderSummary({ lines, subtotal }: { lines: CartDetailLin
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-sm font-medium text-espresso line-clamp-1">{line.product.name}</p>
-              <p className="text-xs text-espresso/50">{line.variant.label}</p>
             </div>
             <p className="text-sm font-semibold text-espresso">{formatINR(line.lineTotal)}</p>
           </div>

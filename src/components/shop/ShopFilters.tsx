@@ -6,13 +6,12 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import type { Category } from "@/lib/types/catalog";
 
-export type SortOption = "featured" | "price-asc" | "price-desc" | "rating";
+export type SortOption = "featured" | "price-asc" | "price-desc";
 
 const sortLabels: Record<SortOption, string> = {
-  featured: "Featured",
+  featured: "Newest",
   "price-asc": "Price: Low to High",
   "price-desc": "Price: High to Low",
-  rating: "Highest Rated",
 };
 
 export default function ShopFilters({

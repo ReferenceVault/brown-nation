@@ -68,4 +68,33 @@ body {
   .text-shadow-sm {
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
   }
+
+  .animate-shimmer {
+    background-size: 200% 100%;
+    animation: brownnation-shimmer 1.6s ease-in-out infinite;
+  }
+
+  .animate-toast-in {
+    animation: brownnation-toast-in 0.25s ease-out;
+  }
+}
+
+@keyframes brownnation-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes brownnation-toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }

@@ -4,15 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Search, User, ShoppingBag, ChevronDown, Menu, X } from "lucide-react";
+import { Search, User, ShoppingBag, ShieldCheck, ChevronDown, Menu, X } from "lucide-react";
 import { navLinks } from "@/data/navigation";
-import { categories } from "@/data/categories";
 import { useCartStore } from "@/lib/stores/cartStore";
 import { useAuthStore } from "@/lib/stores/authStore";
 import { useMounted } from "@/lib/hooks/useMounted";
 import CartDrawer from "@/components/cart/CartDrawer";
+import type { Category } from "@/lib/types/catalog";
 
-export default function Header() {
+export default function Header({ categories }: { categories: Category[] }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
   const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
@@ -183,6 +183,16 @@ export default function Header() {
               </div>
             )}
           </div>
+          {mounted && currentUser?.role === "ADMIN" && (
+            <Link
+              href="/admin"
+              aria-label="Admin dashboard"
+              title="Admin dashboard"
+              className="hidden sm:inline-flex text-espresso/80 transition-colors duration-200 hover:text-brand-500"
+            >
+              <ShieldCheck className="h-5 w-5" strokeWidth={1.75} />
+            </Link>
+          )}
           <Link
             href={mounted && currentUser ? "/account" : "/login"}
             aria-label="Account"

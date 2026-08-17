@@ -7,20 +7,18 @@ import type { Product } from "@/lib/types/catalog";
 import { useCartStore } from "@/lib/stores/cartStore";
 import { useMounted } from "@/lib/hooks/useMounted";
 import PriceTag from "@/components/ui/PriceTag";
-import RatingStars from "@/components/ui/RatingStars";
 import QuantityStepper from "@/components/ui/QuantityStepper";
 
 export default function ProductGridCard({ product }: { product: Product }) {
   const addItem = useCartStore((state) => state.addItem);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
-  const defaultVariant = product.variants[0];
-  const outOfStock = defaultVariant.stock <= 0;
+  const price = Number(product.price);
+  const compareAtPrice = product.compareAtPrice ? Number(product.compareAtPrice) : undefined;
+  const outOfStock = product.stockQuantity <= 0;
+  const priceOnRequest = price <= 0;
   const mounted = useMounted();
   const quantity = useCartStore(
-    (state) =>
-      state.items.find(
-        (item) => item.productId === product.id && item.variantId === defaultVariant.id
-      )?.quantity ?? 0
+    (state) => state.items.find((item) => item.productId === product.id)?.quantity ?? 0
   );
 
   return (
@@ -33,11 +31,6 @@ export default function ProductGridCard({ product }: { product: Product }) {
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           className="object-cover transition-transform duration-300 group-hover:scale-[1.06]"
         />
-        {product.isBestseller && (
-          <span className="absolute left-2.5 top-2.5 rounded-md bg-brand-500 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-white shadow-md">
-            Bestseller
-          </span>
-        )}
         {outOfStock && (
           <span className="absolute right-2.5 top-2.5 rounded-md bg-espresso px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-white shadow-md">
             Out of Stock
@@ -51,18 +44,21 @@ export default function ProductGridCard({ product }: { product: Product }) {
             {product.name}
           </h3>
         </Link>
-        <p className="text-xs text-espresso/55 line-clamp-1">{product.shortDescription}</p>
-        <RatingStars rating={product.rating} reviewCount={product.reviewCount} size={12} />
+        <p className="text-xs text-espresso/55 line-clamp-1">{product.description}</p>
 
         <div className="mt-1 flex items-center justify-between gap-2">
-          <PriceTag price={defaultVariant.price} compareAtPrice={defaultVariant.compareAtPrice} size="sm" />
-          {mounted && quantity > 0 ? (
+          {priceOnRequest ? (
+            <span className="text-sm font-bold text-brand-600">Price on request</span>
+          ) : (
+            <PriceTag price={price} compareAtPrice={compareAtPrice} size="sm" />
+          )}
+          {priceOnRequest ? null : mounted && quantity > 0 ? (
             <QuantityStepper
               size="sm"
               quantity={quantity}
               min={0}
-              max={defaultVariant.stock}
-              onChange={(q) => updateQuantity(product.id, defaultVariant.id, q)}
+              max={product.stockQuantity}
+              onChange={(q) => updateQuantity(product.id, q)}
             />
           ) : outOfStock ? (
             <span className="shrink-0 text-[10px] font-semibold uppercase tracking-wide text-espresso/40">
@@ -70,7 +66,7 @@ export default function ProductGridCard({ product }: { product: Product }) {
             </span>
           ) : (
             <button
-              onClick={() => addItem(product.id, defaultVariant.id)}
+              onClick={() => addItem(product.id)}
               aria-label={`Add ${product.name} to cart`}
               className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-brand-300 bg-brand-50 text-brand-700 transition-colors duration-300 hover:bg-brand-500 hover:text-white cursor-pointer"
             >

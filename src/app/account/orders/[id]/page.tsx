@@ -3,19 +3,29 @@
 import { useParams } from "next/navigation";
 import { PackageX } from "lucide-react";
 import { useRequireAuth } from "@/lib/hooks/useRequireAuth";
-import { useOrdersStore } from "@/lib/stores/ordersStore";
+import { getOrder } from "@/lib/api/orders";
+import { useAsync } from "@/lib/hooks/useAsync";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import EmptyState from "@/components/ui/EmptyState";
+import Spinner from "@/components/ui/Spinner";
 import OrderDetailCard from "@/components/account/OrderDetailCard";
 
 export default function OrderDetailPage() {
   const { id } = useParams<{ id: string }>();
   const { currentUser, ready } = useRequireAuth();
-  const order = useOrdersStore((state) => state.getOrderById(id));
+  const { data: order, loading } = useAsync(() => getOrder(id), [id]);
 
   if (!ready || !currentUser) return null;
 
-  if (!order || order.userId !== currentUser.id) {
+  if (loading && !order) {
+    return (
+      <div className="flex justify-center py-16">
+        <Spinner size={24} />
+      </div>
+    );
+  }
+
+  if (!order) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-16 lg:px-8">
         <EmptyState
@@ -36,10 +46,12 @@ export default function OrderDetailPage() {
           { label: "Home", href: "/" },
           { label: "My Account", href: "/account" },
           { label: "Orders", href: "/account/orders" },
-          { label: `#${order.id}` },
+          { label: `#${order.orderNumber}` },
         ]}
       />
-      <h1 className="mt-4 mb-8 font-serif text-2xl sm:text-3xl font-bold text-espresso">Order #{order.id}</h1>
+      <h1 className="mt-4 mb-8 font-serif text-2xl sm:text-3xl font-bold text-espresso">
+        Order #{order.orderNumber}
+      </h1>
       <OrderDetailCard order={order} />
     </div>
   );

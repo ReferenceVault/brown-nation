@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Poppins, Dancing_Script } from "next/font/google";
 import "./globals.css";
-import TopBar from "@/components/layout/TopBar";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import SiteChrome from "@/components/layout/SiteChrome";
+import { fetchAllCategories } from "@/lib/api/public/categories";
 
 const playfair = Playfair_Display({
   variable: "--font-serif",
@@ -29,17 +28,16 @@ export const metadata: Metadata = {
     "Indulge in handcrafted chocolates made with premium ingredients and endless passion.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const categories = await fetchAllCategories().catch(() => []);
+
   return (
     <html
       lang="en"
       className={`${playfair.variable} ${poppins.variable} ${dancingScript.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-cream text-espresso">
-        <TopBar />
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <SiteChrome categories={categories}>{children}</SiteChrome>
       </body>
     </html>
   );

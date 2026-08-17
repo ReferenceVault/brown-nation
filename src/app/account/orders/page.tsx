@@ -1,19 +1,19 @@
 "use client";
 
-import { useMemo } from "react";
 import { PackageOpen } from "lucide-react";
 import { useRequireAuth } from "@/lib/hooks/useRequireAuth";
-import { useOrdersStore } from "@/lib/stores/ordersStore";
+import { listMyOrders } from "@/lib/api/orders";
+import { useAsync } from "@/lib/hooks/useAsync";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import OrderCard from "@/components/account/OrderCard";
 import EmptyState from "@/components/ui/EmptyState";
+import Spinner from "@/components/ui/Spinner";
 
 export default function OrdersPage() {
   const { currentUser, ready } = useRequireAuth();
-  const allOrders = useOrdersStore((state) => state.orders);
-  const orders = useMemo(
-    () => (currentUser ? allOrders.filter((order) => order.userId === currentUser.id) : []),
-    [allOrders, currentUser]
+  const { data, loading } = useAsync(
+    () => listMyOrders({ limit: 50 }),
+    [currentUser?.id]
   );
 
   if (!ready || !currentUser) return null;
@@ -25,7 +25,11 @@ export default function OrdersPage() {
       />
       <h1 className="mt-4 mb-8 font-serif text-3xl sm:text-4xl font-bold text-espresso">My Orders</h1>
 
-      {orders.length === 0 ? (
+      {loading && !data ? (
+        <div className="flex justify-center py-10">
+          <Spinner size={24} />
+        </div>
+      ) : !data || data.items.length === 0 ? (
         <EmptyState
           icon={PackageOpen}
           title="No orders yet"
@@ -35,7 +39,7 @@ export default function OrdersPage() {
         />
       ) : (
         <div className="flex flex-col gap-3">
-          {orders.map((order) => (
+          {data.items.map((order) => (
             <OrderCard key={order.id} order={order} />
           ))}
         </div>

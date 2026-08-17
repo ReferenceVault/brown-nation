@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Leaf, HeartHandshake, ShieldCheck } from "lucide-react";
-import { getAllProducts, getProductBySlug, getRelatedProducts } from "@/lib/repositories/products";
-import { categories } from "@/data/categories";
+import { fetchAllProducts, fetchProductBySlug } from "@/lib/api/public/products";
+import { fetchAllCategories } from "@/lib/api/public/categories";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import RatingStars from "@/components/ui/RatingStars";
 import ImageGallery from "@/components/product/ImageGallery";
 import ProductPurchasePanel from "@/components/product/ProductPurchasePanel";
 import ProductGrid from "@/components/shop/ProductGrid";
 import SectionHeading from "@/components/ui/SectionHeading";
-
-export function generateStaticParams() {
-  return getAllProducts().map((product) => ({ slug: product.slug }));
-}
 
 export async function generateMetadata({
   params,
@@ -20,11 +15,11 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await fetchProductBySlug(slug);
   if (!product) return {};
   return {
     title: `${product.name} | Brown Nation Chocolates`,
-    description: product.shortDescription,
+    description: product.description,
   };
 }
 
@@ -36,11 +31,14 @@ const usps = [
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await fetchProductBySlug(slug);
   if (!product) notFound();
 
+  const [categories, allProducts] = await Promise.all([fetchAllCategories(), fetchAllProducts()]);
   const category = categories.find((c) => c.id === product.categoryId);
-  const related = getRelatedProducts(product);
+  const related = allProducts
+    .filter((p) => p.id !== product.id && p.categoryId === product.categoryId)
+    .slice(0, 4);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:py-12 lg:px-8">
@@ -59,12 +57,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <div className="flex flex-col gap-5">
           <div>
             <h1 className="font-serif text-2xl sm:text-3xl font-bold text-espresso">{product.name}</h1>
-            <div className="mt-2">
-              <RatingStars rating={product.rating} reviewCount={product.reviewCount} />
-            </div>
           </div>
-
-          <p className="text-sm sm:text-base text-espresso/70 leading-relaxed">{product.shortDescription}</p>
 
           <ProductPurchasePanel product={product} />
 
@@ -79,22 +72,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </div>
       </div>
 
-      <div className="mt-14 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
-        <div>
-          <h2 className="font-serif text-lg font-semibold text-espresso">Description</h2>
-          <p className="mt-3 text-sm text-espresso/70 leading-relaxed">{product.description}</p>
-        </div>
-        <div>
-          <h2 className="font-serif text-lg font-semibold text-espresso">Ingredients</h2>
-          <ul className="mt-3 flex flex-col gap-2">
-            {product.ingredients.map((ingredient) => (
-              <li key={ingredient} className="flex items-center gap-2 text-sm text-espresso/70">
-                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-400" />
-                {ingredient}
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="mt-14 max-w-3xl">
+        <h2 className="font-serif text-lg font-semibold text-espresso">Description</h2>
+        <p className="mt-3 whitespace-pre-line text-sm text-espresso/70 leading-relaxed">{product.description}</p>
       </div>
 
       {related.length > 0 && (
