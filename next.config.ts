@@ -17,6 +17,11 @@ const nextConfig: NextConfig = {
         port: "3000",
         pathname: "/uploads/**",
       },
+      {
+        protocol: "http",
+        hostname: "3.110.22.89",
+        pathname: "/api/uploads/**",
+      },
     ],
     // The backend serves product images from localhost in local dev (until S3 is
     // wired up), which Next 16 blocks by default as an SSRF guard. Safe here since
