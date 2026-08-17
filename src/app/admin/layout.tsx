@@ -95,8 +95,12 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
               <p className="text-xs text-espresso/50">{currentUser.email}</p>
             </div>
             <button
-              onClick={() => {
-                void logout();
+              onClick={async () => {
+                await logout();
+                // Hard navigation, not router.push: clearing currentUser while this
+                // auth-guarded layout is still mounted otherwise races the auth-guard
+                // redirect effect, which wins and sends us to /login instead of "/".
+                // eslint-disable-next-line @next/next/no-location-assign-relative-destination
                 window.location.href = "/";
               }}
               aria-label="Log out"
