@@ -8,6 +8,7 @@
 export type UserRole = "CUSTOMER" | "ADMIN";
 export type UserStatus = "ACTIVE" | "INACTIVE" | "SUSPENDED";
 export type CategoryStatus = "ACTIVE" | "INACTIVE";
+export type HeroSlideStatus = "ACTIVE" | "INACTIVE";
 export type ProductStatus = "DRAFT" | "ACTIVE" | "ARCHIVED";
 export type AdminOrderStatus =
   | "PENDING"
@@ -38,6 +39,25 @@ export type AdminCategory = {
   description: string | null;
   image: string | null;
   status: CategoryStatus;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type AdminHeroSlide = {
+  id: string;
+  eyebrow: string;
+  headingLine1: string;
+  headingLine2: string;
+  description: string;
+  primaryCtaLabel: string;
+  primaryCtaHref: string;
+  secondaryCtaLabel: string;
+  secondaryCtaHref: string;
+  image: string;
+  paletteFrom: string;
+  paletteTo: string;
+  order: number;
+  status: HeroSlideStatus;
   createdAt: string;
   updatedAt: string;
 };

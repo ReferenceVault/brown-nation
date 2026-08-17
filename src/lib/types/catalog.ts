@@ -32,3 +32,24 @@ export type Category = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type HeroSlideStatus = "ACTIVE" | "INACTIVE";
+
+export type HeroSlide = {
+  id: string;
+  eyebrow: string;
+  headingLine1: string;
+  headingLine2: string;
+  description: string;
+  primaryCtaLabel: string;
+  primaryCtaHref: string;
+  secondaryCtaLabel: string;
+  secondaryCtaHref: string;
+  image: string;
+  paletteFrom: string;
+  paletteTo: string;
+  order: number;
+  status: HeroSlideStatus;
+  createdAt: string;
+  updatedAt: string;
+};

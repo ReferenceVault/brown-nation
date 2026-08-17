@@ -3,30 +3,36 @@
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { heroSlides } from "@/data/heroSlides";
+import type { HeroSlide } from "@/lib/types/catalog";
 import Button from "@/components/ui/Button";
 import CarouselArrow from "@/components/ui/CarouselArrow";
 
 const AUTOPLAY_MS = 6000;
 
-export default function Hero() {
+export default function Hero({ slides }: { slides: HeroSlide[] }) {
   const [index, setIndex] = useState(0);
-  const slide = heroSlides[index];
+  const slide = slides[index];
 
-  const goTo = useCallback((i: number) => {
-    setIndex((i + heroSlides.length) % heroSlides.length);
-  }, []);
+  const goTo = useCallback(
+    (i: number) => {
+      setIndex((i + slides.length) % slides.length);
+    },
+    [slides.length]
+  );
 
   useEffect(() => {
+    if (slides.length < 2) return;
     const id = setInterval(() => goTo(index + 1), AUTOPLAY_MS);
     return () => clearInterval(id);
-  }, [index, goTo]);
+  }, [index, goTo, slides.length]);
+
+  if (!slide) return null;
 
   return (
     <section
       className="relative overflow-hidden transition-colors duration-700"
       style={{
-        background: `linear-gradient(120deg, ${slide.palette.from}, ${slide.palette.to})`,
+        background: `linear-gradient(120deg, ${slide.paletteFrom}, ${slide.paletteTo})`,
       }}
     >
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 px-4 pt-10 pb-20 sm:pt-14 sm:pb-24 lg:grid-cols-2 lg:gap-12 lg:px-8 lg:pt-16 lg:pb-28">
@@ -58,29 +64,31 @@ export default function Hero() {
               </p>
 
               <div className="mt-8 flex flex-wrap items-center gap-4">
-                <Button href="/shop" variant="filled" icon={<span aria-hidden>→</span>}>
-                  {slide.primaryCta}
+                <Button href={slide.primaryCtaHref} variant="filled" icon={<span aria-hidden>→</span>}>
+                  {slide.primaryCtaLabel}
                 </Button>
-                <Button href="/shop" variant="outline">
-                  {slide.secondaryCta}
+                <Button href={slide.secondaryCtaHref} variant="outline">
+                  {slide.secondaryCtaLabel}
                 </Button>
               </div>
             </motion.div>
           </AnimatePresence>
 
           {/* Dots */}
-          <div className="mt-10 flex items-center gap-2">
-            {heroSlides.map((s, i) => (
-              <button
-                key={s.id}
-                aria-label={`Go to slide ${i + 1}`}
-                onClick={() => goTo(i)}
-                className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                  i === index ? "w-7 bg-brand-500" : "w-2.5 bg-brand-300/60 hover:bg-brand-400"
-                }`}
-              />
-            ))}
-          </div>
+          {slides.length > 1 && (
+            <div className="mt-10 flex items-center gap-2">
+              {slides.map((s, i) => (
+                <button
+                  key={s.id}
+                  aria-label={`Go to slide ${i + 1}`}
+                  onClick={() => goTo(i)}
+                  className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                    i === index ? "w-7 bg-brand-500" : "w-2.5 bg-brand-300/60 hover:bg-brand-400"
+                  }`}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Image */}
@@ -111,22 +119,26 @@ export default function Hero() {
           </AnimatePresence>
 
           {/* Arrows: scoped to the image on stacked (mobile/tablet) layouts */}
-          <div className="absolute inset-x-2 top-1/2 z-20 flex -translate-y-1/2 items-center justify-between lg:hidden">
-            <CarouselArrow direction="left" onClick={() => goTo(index - 1)} />
-            <CarouselArrow direction="right" onClick={() => goTo(index + 1)} />
-          </div>
+          {slides.length > 1 && (
+            <div className="absolute inset-x-2 top-1/2 z-20 flex -translate-y-1/2 items-center justify-between lg:hidden">
+              <CarouselArrow direction="left" onClick={() => goTo(index - 1)} />
+              <CarouselArrow direction="right" onClick={() => goTo(index + 1)} />
+            </div>
+          )}
         </div>
       </div>
 
       {/* Arrows: full-bleed, vertically centered on the two-column desktop layout */}
-      <div className="pointer-events-none absolute inset-x-0 top-1/2 z-20 hidden -translate-y-1/2 items-center justify-between px-6 lg:flex">
-        <div className="pointer-events-auto">
-          <CarouselArrow direction="left" onClick={() => goTo(index - 1)} />
+      {slides.length > 1 && (
+        <div className="pointer-events-none absolute inset-x-0 top-1/2 z-20 hidden -translate-y-1/2 items-center justify-between px-6 lg:flex">
+          <div className="pointer-events-auto">
+            <CarouselArrow direction="left" onClick={() => goTo(index - 1)} />
+          </div>
+          <div className="pointer-events-auto">
+            <CarouselArrow direction="right" onClick={() => goTo(index + 1)} />
+          </div>
         </div>
-        <div className="pointer-events-auto">
-          <CarouselArrow direction="right" onClick={() => goTo(index + 1)} />
-        </div>
-      </div>
+      )}
     </section>
   );
 }

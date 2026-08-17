@@ -10,12 +10,14 @@ import {
   ShoppingCart,
   Users,
   Store,
+  Sparkles,
 } from "lucide-react";
 
 const navItems = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "Products", href: "/admin/products", icon: Package },
   { label: "Categories", href: "/admin/categories", icon: FolderTree },
+  { label: "Homepage Hero", href: "/admin/hero-slides", icon: Sparkles },
   { label: "Orders", href: "/admin/orders", icon: ShoppingCart },
   { label: "Users", href: "/admin/users", icon: Users },
 ];

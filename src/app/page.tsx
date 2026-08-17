@@ -5,18 +5,20 @@ import BestSellersSection from "@/components/home/BestSellersSection";
 import StatsBar from "@/components/home/StatsBar";
 import { fetchAllCategories } from "@/lib/api/public/categories";
 import { listProducts } from "@/lib/api/public/products";
+import { fetchActiveHeroSlides } from "@/lib/api/public/heroSlides";
 
 const BESTSELLERS_LIMIT = 10;
 
 export default async function Home() {
-  const [categories, { items: products }] = await Promise.all([
+  const [categories, { items: products }, heroSlides] = await Promise.all([
     fetchAllCategories(),
     listProducts({ limit: BESTSELLERS_LIMIT }),
+    fetchActiveHeroSlides(),
   ]);
 
   return (
     <>
-      <Hero />
+      <Hero slides={heroSlides} />
       <FeatureStrip />
       <CategorySection categories={categories} />
       <BestSellersSection products={products} />
