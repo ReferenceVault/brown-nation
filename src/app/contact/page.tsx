@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: "Get in touch with Brown Nation Chocolates.",
 };
 
-const socials = [{ label: "Instagram", href: socialLinks.instagram, icon: InstagramIcon }];
+const instagramHandle = "@brownnation_mohini";
 
 export default function ContactPage() {
   return (
@@ -78,23 +78,20 @@ export default function ContactPage() {
             </div>
           </Link>
 
-          <div className="rounded-2xl bg-white p-5 shadow-card">
-            <p className="text-sm font-semibold text-espresso">Follow Us</p>
-            <div className="mt-3 flex items-center gap-3">
-              {socials.map(({ label, href, icon: Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-50 text-brand-600 transition-all duration-300 hover:bg-brand-500 hover:text-white hover:-translate-y-0.5"
-                >
-                  <Icon className="h-4 w-4" strokeWidth={1.75} />
-                </a>
-              ))}
+          <a
+            href={socialLinks.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 rounded-2xl bg-white p-5 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-soft"
+          >
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-pastel-peach-soft">
+              <InstagramIcon className="h-5 w-5 text-orange-600" strokeWidth={1.75} />
+            </span>
+            <div>
+              <p className="text-sm font-semibold text-espresso">Follow us on Instagram</p>
+              <p className="text-sm text-espresso/60">{instagramHandle}</p>
             </div>
-          </div>
+          </a>
         </div>
       </div>
     </div>
