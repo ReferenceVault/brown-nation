@@ -122,7 +122,7 @@ export default function Header({ categories }: { categories: Category[] }) {
 
         {/* Icons */}
         <div className="flex items-center gap-3 sm:gap-5">
-          <div ref={searchRef} className="relative">
+          <div ref={searchRef} className="relative flex items-center">
             <button
               aria-label="Search"
               title="Search"
