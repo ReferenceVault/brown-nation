@@ -1,9 +1,35 @@
-import type { ReactNode, ThHTMLAttributes, TdHTMLAttributes } from "react";
+"use client";
+
+import { useEffect, useRef, useState, type ReactNode, type ThHTMLAttributes, type TdHTMLAttributes } from "react";
 
 export function Table({ children }: { children: ReactNode }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const update = () => setCanScrollRight(el.scrollWidth - el.clientWidth - el.scrollLeft > 4);
+    update();
+
+    const resizeObserver = new ResizeObserver(update);
+    resizeObserver.observe(el);
+    el.addEventListener("scroll", update);
+    return () => {
+      resizeObserver.disconnect();
+      el.removeEventListener("scroll", update);
+    };
+  }, []);
+
   return (
-    <div className="overflow-x-auto rounded-2xl bg-white shadow-card">
-      <table className="w-full min-w-max border-collapse text-left text-sm">{children}</table>
+    <div className="relative rounded-2xl bg-white shadow-card">
+      <div ref={scrollRef} className="overflow-x-auto rounded-2xl">
+        <table className="w-full min-w-max border-collapse text-left text-sm">{children}</table>
+      </div>
+      {canScrollRight && (
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-8 rounded-r-2xl bg-gradient-to-l from-white to-transparent sm:hidden" />
+      )}
     </div>
   );
 }
