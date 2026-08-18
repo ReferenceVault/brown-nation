@@ -3,14 +3,31 @@
 import { useState, type FormEvent } from "react";
 import { CheckCircle2 } from "lucide-react";
 import TextField from "@/components/ui/TextField";
+import Textarea from "@/components/ui/Textarea";
 import Button from "@/components/ui/Button";
+import { submitEnquiry } from "@/lib/api/public/enquiries";
+import { ApiError } from "@/lib/api/errors";
 
 export default function ContactForm() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setSent(true);
+    setError(null);
+    setSubmitting(true);
+    try {
+      await submitEnquiry({ name, email, message });
+      setSent(true);
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (sent) {
@@ -25,22 +42,34 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-card">
-      <TextField label="Name" required placeholder="Your name" />
-      <TextField label="Email" type="email" required placeholder="you@example.com" />
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="message" className="text-sm font-medium text-espresso">
-          Message
-        </label>
-        <textarea
-          id="message"
-          required
-          rows={4}
-          placeholder="How can we help?"
-          className="rounded-lg border border-brand-200 px-3.5 py-2.5 text-sm text-espresso outline-none transition-colors duration-200 placeholder:text-espresso/35 focus:border-brand-400"
-        />
-      </div>
-      <Button type="submit" variant="filled" className="w-full">
-        Send Message
+      <TextField
+        label="Name"
+        required
+        placeholder="Your name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <TextField
+        label="Email"
+        type="email"
+        required
+        placeholder="you@example.com"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <Textarea
+        label="Message"
+        required
+        rows={4}
+        placeholder="How can we help?"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
+
+      {error && <p className="text-sm font-medium text-red-500">{error}</p>}
+
+      <Button type="submit" variant="filled" className="w-full" disabled={submitting}>
+        {submitting ? "Sending…" : "Send Message"}
       </Button>
     </form>
   );

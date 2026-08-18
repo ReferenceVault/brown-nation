@@ -11,6 +11,7 @@ import {
   Users,
   Store,
   Sparkles,
+  Mail,
 } from "lucide-react";
 
 const navItems = [
@@ -19,6 +20,7 @@ const navItems = [
   { label: "Categories", href: "/admin/categories", icon: FolderTree },
   { label: "Homepage Hero", href: "/admin/hero-slides", icon: Sparkles },
   { label: "Orders", href: "/admin/orders", icon: ShoppingCart },
+  { label: "Enquiries", href: "/admin/enquiries", icon: Mail },
   { label: "Users", href: "/admin/users", icon: Users },
 ];
 

@@ -24,6 +24,11 @@ const STATUS_STYLES: Record<string, string> = {
   SUCCESS: "bg-pastel-green-soft text-teal-700",
   FAILED: "bg-pastel-pink-soft text-rose-700",
   REFUNDED: "bg-espresso/10 text-espresso/60",
+
+  // Enquiry status
+  NEW: "bg-pastel-yellow-soft text-amber-800",
+  READ: "bg-pastel-teal-soft text-teal-700",
+  RESOLVED: "bg-pastel-green-soft text-teal-700",
 };
 
 export default function StatusBadge({ status }: { status: string }) {

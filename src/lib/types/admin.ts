@@ -9,6 +9,7 @@ export type UserRole = "CUSTOMER" | "ADMIN";
 export type UserStatus = "ACTIVE" | "INACTIVE" | "SUSPENDED";
 export type CategoryStatus = "ACTIVE" | "INACTIVE";
 export type HeroSlideStatus = "ACTIVE" | "INACTIVE";
+export type EnquiryStatus = "NEW" | "READ" | "RESOLVED";
 export type ProductStatus = "DRAFT" | "ACTIVE" | "ARCHIVED";
 export type AdminOrderStatus =
   | "PENDING"
@@ -39,6 +40,16 @@ export type AdminCategory = {
   description: string | null;
   image: string | null;
   status: CategoryStatus;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type AdminEnquiry = {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  status: EnquiryStatus;
   createdAt: string;
   updatedAt: string;
 };
