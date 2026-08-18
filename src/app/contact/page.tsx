@@ -1,22 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Mail, Phone, Clock, HelpCircle, X as XIcon } from "lucide-react";
+import { Mail, Phone, Clock, HelpCircle } from "lucide-react";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import ContactForm from "@/components/marketing/ContactForm";
 import { contactDetails, socialLinks } from "@/data/footer";
-import { FacebookIcon, InstagramIcon, YoutubeIcon } from "@/components/ui/SocialIcon";
+import { InstagramIcon } from "@/components/ui/SocialIcon";
 
 export const metadata: Metadata = {
   title: "Contact Us | Brown Nation Chocolates",
   description: "Get in touch with Brown Nation Chocolates.",
 };
 
-const socials = [
-  { label: "Facebook", href: "#", icon: FacebookIcon },
-  { label: "Instagram", href: socialLinks.instagram, icon: InstagramIcon },
-  { label: "X", href: "#", icon: XIcon },
-  { label: "YouTube", href: "#", icon: YoutubeIcon },
-];
+const socials = [{ label: "Instagram", href: socialLinks.instagram, icon: InstagramIcon }];
 
 export default function ContactPage() {
   return (
@@ -90,6 +85,8 @@ export default function ContactPage() {
                 <a
                   key={label}
                   href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-50 text-brand-600 transition-all duration-300 hover:bg-brand-500 hover:text-white hover:-translate-y-0.5"
                 >

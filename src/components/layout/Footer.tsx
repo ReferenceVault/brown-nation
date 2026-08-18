@@ -1,17 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Mail, MapPin, Phone, X as XIcon } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { navLinks } from "@/data/navigation";
 import { customerCareLinks, contactDetails, socialLinks } from "@/data/footer";
-import { FacebookIcon, InstagramIcon, YoutubeIcon } from "@/components/ui/SocialIcon";
+import { InstagramIcon } from "@/components/ui/SocialIcon";
 import NewsletterForm from "@/components/ui/NewsletterForm";
 
-const socials = [
-  { label: "Facebook", href: "#", icon: FacebookIcon },
-  { label: "Instagram", href: socialLinks.instagram, icon: InstagramIcon },
-  { label: "X", href: "#", icon: XIcon },
-  { label: "YouTube", href: "#", icon: YoutubeIcon },
-];
+const socials = [{ label: "Instagram", href: socialLinks.instagram, icon: InstagramIcon }];
 
 export default function Footer() {
   const year = new Date().getFullYear();
