@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import Link from "next/link";
 
-type ButtonVariant = "filled" | "outline";
+type ButtonVariant = "filled" | "outline" | "outline-light";
 
 type CommonProps = {
   variant?: ButtonVariant;
@@ -25,6 +25,8 @@ const variants: Record<ButtonVariant, string> = {
     "bg-brand-500 text-white shadow-soft hover:bg-brand-600 hover:shadow-lg hover:-translate-y-0.5",
   outline:
     "border-2 border-espresso/80 text-espresso bg-transparent hover:bg-espresso hover:text-white hover:-translate-y-0.5",
+  "outline-light":
+    "border-2 border-white/80 text-white bg-transparent hover:bg-white hover:text-espresso hover:-translate-y-0.5",
 };
 
 export default function Button({ variant = "filled", icon, children, className = "", ...rest }: ButtonProps) {
