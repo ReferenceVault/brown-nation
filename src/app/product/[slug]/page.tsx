@@ -5,6 +5,7 @@ import { fetchAllProducts, fetchProductBySlug } from "@/lib/api/public/products"
 import { fetchAllCategories } from "@/lib/api/public/categories";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import ImageGallery from "@/components/product/ImageGallery";
+import ProductDescription from "@/components/product/ProductDescription";
 import ProductPurchasePanel from "@/components/product/ProductPurchasePanel";
 import ProductGrid from "@/components/shop/ProductGrid";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -69,12 +70,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               </div>
             ))}
           </div>
-        </div>
-      </div>
 
-      <div className="mt-14 max-w-3xl">
-        <h2 className="font-serif text-lg font-semibold text-espresso">Description</h2>
-        <p className="mt-3 whitespace-pre-line text-sm text-espresso/70 leading-relaxed">{product.description}</p>
+          <ProductDescription description={product.description} />
+        </div>
       </div>
 
       {related.length > 0 && (
