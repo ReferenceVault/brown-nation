@@ -9,6 +9,7 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import EmptyState from "@/components/ui/EmptyState";
 import Spinner from "@/components/ui/Spinner";
 import OrderDetailCard from "@/components/account/OrderDetailCard";
+import StatusBadge from "@/components/ui/StatusBadge";
 
 export default function OrderDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -49,9 +50,12 @@ export default function OrderDetailPage() {
           { label: `#${order.orderNumber}` },
         ]}
       />
-      <h1 className="mt-4 mb-8 font-serif text-2xl sm:text-3xl font-bold text-espresso">
-        Order #{order.orderNumber}
-      </h1>
+      <div className="mt-4 mb-8 flex flex-wrap items-center gap-3">
+        <h1 className="font-serif text-2xl sm:text-3xl font-bold text-espresso">
+          Order #{order.orderNumber}
+        </h1>
+        <StatusBadge status={order.status} />
+      </div>
       <OrderDetailCard order={order} />
     </div>
   );
