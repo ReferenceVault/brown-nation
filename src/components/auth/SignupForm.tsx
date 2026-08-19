@@ -15,6 +15,7 @@ export default function SignupForm() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -32,14 +33,14 @@ export default function SignupForm() {
     }
 
     setSubmitting(true);
-    const result = await signup({ email, password, firstName, lastName });
+    const result = await signup({ email, password, firstName, lastName, phone: phone || undefined });
     setSubmitting(false);
 
     if (!result.ok) {
       setError(result.error);
       return;
     }
-    router.push(redirect || "/account");
+    router.push(redirect ? `/verify-email?pending=1&redirect=${encodeURIComponent(redirect)}` : "/verify-email?pending=1");
   };
 
   return (
@@ -71,6 +72,13 @@ export default function SignupForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
+        />
+        <TextField
+          label="Phone Number"
+          type="tel"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          placeholder="+91 98765 43210"
         />
         <TextField
           label="Password"

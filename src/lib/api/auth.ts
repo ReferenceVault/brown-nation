@@ -48,3 +48,19 @@ export function resetPassword(token: string, newPassword: string) {
     skipAuth: true,
   });
 }
+
+export function verifyEmail(token: string) {
+  return apiFetch<{ message: string }>("/auth/verify-email", {
+    method: "POST",
+    body: { token },
+    skipAuth: true,
+  });
+}
+
+export function resendVerificationEmail(email: string) {
+  return apiFetch<{ message: string }>("/auth/resend-verification", {
+    method: "POST",
+    body: { email },
+    skipAuth: true,
+  });
+}
