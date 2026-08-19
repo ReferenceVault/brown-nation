@@ -32,7 +32,6 @@ export default function ProductForm({
   const [name, setName] = useState(initialValues?.name ?? "");
   const [description, setDescription] = useState(initialValues?.description ?? "");
   const [price, setPrice] = useState(initialValues?.price ?? "");
-  const [compareAtPrice, setCompareAtPrice] = useState(initialValues?.compareAtPrice ?? "");
   const [sku, setSku] = useState(initialValues?.sku ?? "");
   const [categoryId, setCategoryId] = useState(initialValues?.categoryId ?? categories[0]?.id ?? "");
   const [status, setStatus] = useState<ProductStatus>(initialValues?.status ?? "DRAFT");
@@ -56,7 +55,6 @@ export default function ProductForm({
         name,
         description,
         price: Number(price),
-        compareAtPrice: compareAtPrice ? Number(compareAtPrice) : undefined,
         sku,
         categoryId,
         status,
@@ -82,7 +80,7 @@ export default function ProductForm({
         onChange={(e) => setDescription(e.target.value)}
       />
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <TextField
           label="Price (₹)"
           type="number"
@@ -91,14 +89,6 @@ export default function ProductForm({
           required
           value={price}
           onChange={(e) => setPrice(e.target.value)}
-        />
-        <TextField
-          label="Compare-at price (₹)"
-          type="number"
-          min="0"
-          step="0.01"
-          value={compareAtPrice}
-          onChange={(e) => setCompareAtPrice(e.target.value)}
         />
         <TextField
           label="Stock quantity"
