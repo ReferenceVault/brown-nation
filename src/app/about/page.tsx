@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Sprout, Hand, Truck } from "lucide-react";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Button from "@/components/ui/Button";
@@ -11,24 +10,6 @@ export const metadata: Metadata = {
   description:
     "The story behind Brown Nation Chocolates  handcrafted, small-batch, and made with premium ingredients.",
 };
-
-const process = [
-  {
-    icon: Sprout,
-    title: "Source",
-    description: "We choose premium cocoa and ingredients first  flavor and quality come before cost.",
-  },
-  {
-    icon: Hand,
-    title: "Handcraft",
-    description: "Every bar is tempered, filled, and finished by hand in small batches, never mass-produced.",
-  },
-  {
-    icon: Truck,
-    title: "Ship Fresh",
-    description: "Orders are packed and shipped close to the day they're made, so it reaches you at its best.",
-  },
-];
 
 export default function AboutPage() {
   return (
@@ -87,23 +68,6 @@ export default function AboutPage() {
               </div>
             ))}
           </div>
-        </div>
-      </div>
-
-      {/* Process */}
-      <div className="mx-auto max-w-6xl px-4 py-14 sm:py-16 lg:px-8">
-        <SectionHeading eyebrow="How It's Made" title="From Bean to Bar" />
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-          {process.map(({ icon: Icon, title, description }, i) => (
-            <div key={title} className="relative rounded-2xl bg-white p-6 shadow-card">
-              <span className="font-serif text-4xl font-bold text-brand-100">0{i + 1}</span>
-              <span className="mt-2 flex h-11 w-11 items-center justify-center rounded-full bg-brand-50">
-                <Icon className="h-5 w-5 text-brand-500" strokeWidth={1.75} />
-              </span>
-              <h3 className="mt-3 font-serif text-lg font-semibold text-espresso">{title}</h3>
-              <p className="mt-1.5 text-sm text-espresso/60 leading-relaxed">{description}</p>
-            </div>
-          ))}
         </div>
       </div>
 
