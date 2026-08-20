@@ -24,7 +24,7 @@ export default function BestSellersSection({ products }: { products: Product[] }
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 sm:py-24 lg:px-8">
-      <SectionHeading title="Shop Our Favorites" />
+      <SectionHeading title="Best Sellers" />
 
       <div className="flex items-center gap-3 sm:gap-4">
         <CarouselArrow direction="left" onClick={() => scroll(-1)} className="shrink-0" />

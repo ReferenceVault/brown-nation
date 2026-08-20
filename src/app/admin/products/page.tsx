@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Plus, Search, Pencil, Trash2 } from "lucide-react";
+import { Plus, Search, Pencil, Trash2, Star } from "lucide-react";
 import { useAsync } from "@/lib/hooks/useAsync";
 import { listProducts, deleteProduct } from "@/lib/api/admin/products";
 import { listCategories } from "@/lib/api/admin/categories";
@@ -178,6 +178,12 @@ export default function AdminProductsPage() {
                           )}
                         </div>
                         <span className="font-medium text-espresso">{product.name}</span>
+                        {product.isBestSeller && (
+                          <Star
+                            className="h-3.5 w-3.5 shrink-0 fill-amber-400 text-amber-400"
+                            aria-label="Best seller"
+                          />
+                        )}
                       </div>
                     </Td>
                     <Td className="font-mono text-xs">{product.sku}</Td>

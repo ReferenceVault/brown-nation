@@ -12,7 +12,7 @@ const BESTSELLERS_LIMIT = 10;
 export default async function Home() {
   const [categories, { items: products }, heroSlides] = await Promise.all([
     fetchAllCategories(),
-    listProducts({ limit: BESTSELLERS_LIMIT }),
+    listProducts({ limit: BESTSELLERS_LIMIT, isBestSeller: true }),
     fetchActiveHeroSlides(),
   ]);
 

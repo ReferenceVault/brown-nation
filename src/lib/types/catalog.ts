@@ -18,6 +18,7 @@ export type Product = {
   categoryId: string;
   status: ProductStatus;
   stockQuantity: number;
+  isBestSeller: boolean;
   createdAt: string;
   updatedAt: string;
 };

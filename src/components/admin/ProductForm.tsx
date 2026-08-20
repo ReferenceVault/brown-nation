@@ -37,6 +37,7 @@ export default function ProductForm({
   const [status, setStatus] = useState<ProductStatus>(initialValues?.status ?? "DRAFT");
   const [stockQuantity, setStockQuantity] = useState(String(initialValues?.stockQuantity ?? 0));
   const [images, setImages] = useState<string[]>(initialValues?.images ?? []);
+  const [isBestSeller, setIsBestSeller] = useState(initialValues?.isBestSeller ?? false);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -60,6 +61,7 @@ export default function ProductForm({
         status,
         stockQuantity: Number(stockQuantity),
         images: images.map((url) => url.trim()).filter(Boolean),
+        isBestSeller,
       });
       showToast(isEdit ? "Product updated successfully." : "Product created successfully.");
       router.push("/admin/products");
@@ -126,6 +128,16 @@ export default function ProductForm({
           ))}
         </Select>
       </div>
+
+      <label className="flex w-fit items-center gap-2.5 cursor-pointer">
+        <input
+          type="checkbox"
+          checked={isBestSeller}
+          onChange={(e) => setIsBestSeller(e.target.checked)}
+          className="h-4 w-4 cursor-pointer rounded border-brand-300 text-brand-500 focus:ring-brand-400"
+        />
+        <span className="text-sm font-medium text-espresso">Show in Best Sellers</span>
+      </label>
 
       <ImageUploadListInput label="Images" value={images} onChange={setImages} folder="products" />
 

@@ -24,6 +24,7 @@ export type ProductInput = {
   categoryId: string;
   status?: ProductStatus;
   stockQuantity?: number;
+  isBestSeller?: boolean;
 };
 
 export function listProducts(params: ProductListParams = {}) {

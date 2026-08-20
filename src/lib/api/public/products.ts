@@ -10,6 +10,7 @@ export type ProductListParams = {
   categoryId?: string;
   sortBy?: "name" | "price" | "createdAt" | "stockQuantity";
   sortOrder?: "asc" | "desc";
+  isBestSeller?: boolean;
 };
 
 export function listProducts(params: ProductListParams = {}) {
