@@ -16,6 +16,7 @@ export type CategoryInput = {
   description?: string;
   image?: string;
   status?: CategoryStatus;
+  order?: number;
 };
 
 export function listCategories(params: CategoryListParams = {}) {

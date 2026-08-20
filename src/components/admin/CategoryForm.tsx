@@ -28,6 +28,7 @@ export default function CategoryForm({
   const [name, setName] = useState(initialValues?.name ?? "");
   const [description, setDescription] = useState(initialValues?.description ?? "");
   const [image, setImage] = useState(initialValues?.image ?? "");
+  const [order, setOrder] = useState(String(initialValues?.order ?? 0));
   const [status, setStatus] = useState<CategoryStatus>(initialValues?.status ?? "ACTIVE");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -42,6 +43,7 @@ export default function CategoryForm({
         description: description || undefined,
         image: image || undefined,
         status,
+        order: Number(order) || 0,
       });
       showToast(isEdit ? "Category updated successfully." : "Category created successfully.");
       router.push("/admin/categories");
@@ -64,10 +66,18 @@ export default function CategoryForm({
         <label className="text-sm font-medium text-espresso">Image</label>
         <ImageUploadTile value={image} onChange={setImage} onRemove={() => setImage("")} folder="categories" />
       </div>
-      <Select label="Status" value={status} onChange={(e) => setStatus(e.target.value as CategoryStatus)}>
-        <option value="ACTIVE">Active</option>
-        <option value="INACTIVE">Inactive</option>
-      </Select>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <TextField
+          label="Display order"
+          type="number"
+          value={order}
+          onChange={(e) => setOrder(e.target.value)}
+        />
+        <Select label="Status" value={status} onChange={(e) => setStatus(e.target.value as CategoryStatus)}>
+          <option value="ACTIVE">Active</option>
+          <option value="INACTIVE">Inactive</option>
+        </Select>
+      </div>
 
       {error && <p className="text-sm font-medium text-red-500">{error}</p>}
 

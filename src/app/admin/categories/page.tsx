@@ -13,7 +13,7 @@ import Spinner from "@/components/ui/Spinner";
 import TableSkeleton from "@/components/ui/TableSkeleton";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 
-const COLUMN_COUNT = 4;
+const COLUMN_COUNT = 5;
 
 export default function AdminCategoriesPage() {
   const { data, error, loading, reload } = useAsync(() => listCategories({ limit: 100 }), []);
@@ -71,6 +71,7 @@ export default function AdminCategoriesPage() {
               <tr>
                 <Th>Category</Th>
                 <Th>Slug</Th>
+                <Th>Order</Th>
                 <Th>Status</Th>
                 <Th className="text-right">Actions</Th>
               </tr>
@@ -97,6 +98,7 @@ export default function AdminCategoriesPage() {
                     </div>
                   </Td>
                   <Td className="font-mono text-xs text-espresso/60">{category.slug}</Td>
+                  <Td className="text-espresso/70">{category.order}</Td>
                   <Td>
                     <StatusBadge status={category.status} />
                   </Td>

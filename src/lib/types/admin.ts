@@ -39,6 +39,7 @@ export type AdminCategory = {
   slug: string;
   description: string | null;
   image: string | null;
+  order: number;
   status: CategoryStatus;
   createdAt: string;
   updatedAt: string;
