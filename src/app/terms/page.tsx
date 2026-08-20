@@ -119,7 +119,11 @@ const sections: Section[] = [
     blocks: [
       {
         type: "p",
-        text: "Due to the perishable nature of chocolates, we do not accept returns, replacements, or refunds under any circumstances.",
+        text: "Due to the perishable nature of chocolates, we do not accept returns, replacements, or refunds, except where the wrong product has been delivered.",
+      },
+      {
+        type: "p",
+        text: "If the wrong product is delivered, customers must report the issue within 48 hours of delivery with their order number and a photo of the product received; we will arrange for the correct item to be sent at no extra cost.",
       },
       { type: "p", text: "Customers are advised to review their orders carefully before confirming purchase." },
     ],

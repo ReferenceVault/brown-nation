@@ -35,9 +35,9 @@ const faqs = [
       "Yes, we ship pan-India. Orders above ₹999 ship free; see our Shipping & Delivery page for delivery timelines.",
   },
   {
-    question: "What if my order arrives damaged?",
+    question: "What if I receive the wrong product?",
     answer:
-      "Reach out within 48 hours of delivery with a photo of the damaged item and we'll sort out a replacement or refund. See our Returns & Refunds page for details.",
+      "Reach out within 48 hours of delivery with your order number and a photo of the product received, and we'll send the correct item at no extra cost. We don't offer returns or refunds otherwise. See our Returns & Refunds page for details.",
   },
   {
     question: "How do I track my order?",
