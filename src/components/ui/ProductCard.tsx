@@ -31,6 +31,15 @@ export default function ProductCard({ product }: { product: Product }) {
           sizes="96px"
           className="object-cover transition-transform duration-300 group-hover:scale-[1.06]"
         />
+        {product.images[1] && (
+          <Image
+            src={product.images[1]}
+            alt=""
+            fill
+            sizes="96px"
+            className="object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          />
+        )}
       </Link>
 
       <div className="flex min-w-0 flex-col gap-1">

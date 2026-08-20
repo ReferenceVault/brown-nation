@@ -31,6 +31,15 @@ export default function ProductGridCard({ product }: { product: Product }) {
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           className="object-cover transition-transform duration-300 group-hover:scale-[1.06]"
         />
+        {product.images[1] && (
+          <Image
+            src={product.images[1]}
+            alt=""
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            className="object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          />
+        )}
         {outOfStock && (
           <span className="absolute right-2.5 top-2.5 rounded-md bg-espresso px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-white shadow-md">
             Out of Stock
