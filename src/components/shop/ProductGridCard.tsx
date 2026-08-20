@@ -65,7 +65,7 @@ export default function ProductGridCard({ product }: { product: Product }) {
             <QuantityStepper
               size="sm"
               quantity={quantity}
-              min={0}
+              min={product.minOrderQuantity > 1 ? product.minOrderQuantity : 0}
               max={product.stockQuantity}
               onChange={(q) => updateQuantity(product.id, q)}
             />
@@ -75,7 +75,7 @@ export default function ProductGridCard({ product }: { product: Product }) {
             </span>
           ) : (
             <button
-              onClick={() => addItem(product.id)}
+              onClick={() => addItem(product.id, product.minOrderQuantity)}
               aria-label={`Add ${product.name} to cart`}
               className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-brand-300 bg-brand-50 text-brand-700 transition-colors duration-300 hover:bg-brand-500 hover:text-white cursor-pointer"
             >

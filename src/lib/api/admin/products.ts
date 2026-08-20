@@ -25,6 +25,7 @@ export type ProductInput = {
   status?: ProductStatus;
   stockQuantity?: number;
   isBestSeller?: boolean;
+  minOrderQuantity?: number;
 };
 
 export function listProducts(params: ProductListParams = {}) {

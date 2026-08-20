@@ -19,6 +19,7 @@ export type Product = {
   status: ProductStatus;
   stockQuantity: number;
   isBestSeller: boolean;
+  minOrderQuantity: number;
   createdAt: string;
   updatedAt: string;
 };

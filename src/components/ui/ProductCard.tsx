@@ -59,7 +59,7 @@ export default function ProductCard({ product }: { product: Product }) {
             <QuantityStepper
               size="sm"
               quantity={quantity}
-              min={0}
+              min={product.minOrderQuantity > 1 ? product.minOrderQuantity : 0}
               max={product.stockQuantity}
               onChange={(q) => updateQuantity(product.id, q)}
             />
@@ -70,7 +70,7 @@ export default function ProductCard({ product }: { product: Product }) {
           </span>
         ) : (
           <button
-            onClick={() => addItem(product.id)}
+            onClick={() => addItem(product.id, product.minOrderQuantity)}
             className="mt-1 inline-flex w-fit items-center justify-center gap-1.5 rounded-md border border-brand-300 bg-brand-50 px-3 py-1.5 text-xs font-semibold text-brand-700 transition-colors duration-300 hover:bg-brand-500 hover:text-white cursor-pointer"
           >
             Add to Cart

@@ -42,7 +42,7 @@ export default function CartLineItem({ line }: { line: CartDetailLine }) {
         <QuantityStepper
           size="sm"
           quantity={line.quantity}
-          min={0}
+          min={line.product.minOrderQuantity > 1 ? line.product.minOrderQuantity : 0}
           max={line.product.stockQuantity}
           onChange={(q) => updateQuantity(line.productId, q)}
         />

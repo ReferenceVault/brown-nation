@@ -11,7 +11,7 @@ import Button from "@/components/ui/Button";
 
 export default function ProductPurchasePanel({ product }: { product: Product }) {
   const router = useRouter();
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(product.minOrderQuantity);
   const [justAdded, setJustAdded] = useState(false);
   const addItem = useCartStore((state) => state.addItem);
 
@@ -51,7 +51,17 @@ export default function ProductPurchasePanel({ product }: { product: Product }) 
 
       <div>
         <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-espresso/60">Quantity</p>
-        <QuantityStepper quantity={quantity} onChange={setQuantity} max={product.stockQuantity} />
+        <QuantityStepper
+          quantity={quantity}
+          onChange={setQuantity}
+          min={product.minOrderQuantity}
+          max={product.stockQuantity}
+        />
+        {product.minOrderQuantity > 1 && (
+          <p className="mt-1.5 text-xs text-espresso/50">
+            Minimum order quantity: {product.minOrderQuantity}
+          </p>
+        )}
       </div>
 
       {outOfStock ? (

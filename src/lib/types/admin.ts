@@ -87,6 +87,7 @@ export type AdminProduct = {
   status: ProductStatus;
   stockQuantity: number;
   isBestSeller: boolean;
+  minOrderQuantity: number;
   createdAt: string;
   updatedAt: string;
 };

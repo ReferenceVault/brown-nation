@@ -36,6 +36,7 @@ export default function ProductForm({
   const [categoryId, setCategoryId] = useState(initialValues?.categoryId ?? categories[0]?.id ?? "");
   const [status, setStatus] = useState<ProductStatus>(initialValues?.status ?? "DRAFT");
   const [stockQuantity, setStockQuantity] = useState(String(initialValues?.stockQuantity ?? 0));
+  const [minOrderQuantity, setMinOrderQuantity] = useState(String(initialValues?.minOrderQuantity ?? 1));
   const [images, setImages] = useState<string[]>(initialValues?.images ?? []);
   const [isBestSeller, setIsBestSeller] = useState(initialValues?.isBestSeller ?? false);
   const [error, setError] = useState<string | null>(null);
@@ -62,6 +63,7 @@ export default function ProductForm({
         stockQuantity: Number(stockQuantity),
         images: images.map((url) => url.trim()).filter(Boolean),
         isBestSeller,
+        minOrderQuantity: Number(minOrderQuantity) || 1,
       });
       showToast(isEdit ? "Product updated successfully." : "Product created successfully.");
       router.push("/admin/products");
@@ -82,7 +84,7 @@ export default function ProductForm({
         onChange={(e) => setDescription(e.target.value)}
       />
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <TextField
           label="Price (₹)"
           type="number"
@@ -100,6 +102,15 @@ export default function ProductForm({
           required
           value={stockQuantity}
           onChange={(e) => setStockQuantity(e.target.value)}
+        />
+        <TextField
+          label="Minimum order quantity"
+          type="number"
+          min="1"
+          step="1"
+          required
+          value={minOrderQuantity}
+          onChange={(e) => setMinOrderQuantity(e.target.value)}
         />
       </div>
 
