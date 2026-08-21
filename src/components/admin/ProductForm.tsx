@@ -11,6 +11,7 @@ import Textarea from "@/components/ui/Textarea";
 import Select from "@/components/ui/Select";
 import Button from "@/components/ui/Button";
 import ImageUploadListInput from "./ImageUploadListInput";
+import TextListInput from "./TextListInput";
 
 const STATUSES: ProductStatus[] = ["DRAFT", "ACTIVE", "ARCHIVED"];
 
@@ -38,6 +39,7 @@ export default function ProductForm({
   const [stockQuantity, setStockQuantity] = useState(String(initialValues?.stockQuantity ?? 0));
   const [minOrderQuantity, setMinOrderQuantity] = useState(String(initialValues?.minOrderQuantity ?? 1));
   const [images, setImages] = useState<string[]>(initialValues?.images ?? []);
+  const [contents, setContents] = useState<string[]>(initialValues?.contents ?? []);
   const [isBestSeller, setIsBestSeller] = useState(initialValues?.isBestSeller ?? false);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -62,6 +64,7 @@ export default function ProductForm({
         status,
         stockQuantity: Number(stockQuantity),
         images: images.map((url) => url.trim()).filter(Boolean),
+        contents: contents.map((item) => item.trim()).filter(Boolean),
         isBestSeller,
         minOrderQuantity: Number(minOrderQuantity) || 1,
       });
@@ -151,6 +154,13 @@ export default function ProductForm({
       </label>
 
       <ImageUploadListInput label="Images" value={images} onChange={setImages} folder="products" />
+
+      <TextListInput
+        label="Contents (what's included, e.g. for hamper/gift boxes)"
+        value={contents}
+        onChange={setContents}
+        placeholder="e.g. 2 Dried Nuts Bottle"
+      />
 
       {error && <p className="text-sm font-medium text-red-500">{error}</p>}
 

@@ -21,6 +21,7 @@ export type ProductInput = {
   compareAtPrice?: number;
   sku: string;
   images?: string[];
+  contents?: string[];
   categoryId: string;
   status?: ProductStatus;
   stockQuantity?: number;

@@ -6,6 +6,7 @@ import { fetchAllCategories } from "@/lib/api/public/categories";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import ImageGallery from "@/components/product/ImageGallery";
 import ProductDescription from "@/components/product/ProductDescription";
+import ProductContents from "@/components/product/ProductContents";
 import ProductPurchasePanel from "@/components/product/ProductPurchasePanel";
 import ProductGrid from "@/components/shop/ProductGrid";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -72,6 +73,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </div>
 
           <ProductDescription description={product.description} />
+          <ProductContents contents={product.contents} />
         </div>
       </div>
 

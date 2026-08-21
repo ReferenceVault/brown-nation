@@ -83,6 +83,7 @@ export type AdminProduct = {
   compareAtPrice: string | null;
   sku: string;
   images: string[];
+  contents: string[];
   categoryId: string;
   status: ProductStatus;
   stockQuantity: number;
