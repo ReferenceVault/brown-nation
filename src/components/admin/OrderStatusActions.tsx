@@ -5,6 +5,7 @@ import { ALLOWED_ORDER_STATUS_TRANSITIONS, type AdminOrder, type AdminOrderStatu
 import { updateOrderStatus } from "@/lib/api/admin/orders";
 import { ApiError } from "@/lib/api/errors";
 import { useToastStore } from "@/lib/stores/toastStore";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
 
 const ACTION_LABELS: Record<AdminOrderStatus, string> = {
   PENDING: "Mark Pending",
@@ -24,6 +25,7 @@ export default function OrderStatusActions({
 }) {
   const [pendingStatus, setPendingStatus] = useState<AdminOrderStatus | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [confirmingCancel, setConfirmingCancel] = useState(false);
   const showToast = useToastStore((state) => state.show);
 
   const nextStatuses = ALLOWED_ORDER_STATUS_TRANSITIONS[order.status];
@@ -32,10 +34,7 @@ export default function OrderStatusActions({
     return <p className="text-sm text-espresso/50">This order is in a final state.</p>;
   }
 
-  const handleClick = async (status: AdminOrderStatus) => {
-    if (status === "CANCELLED" && !window.confirm("Cancel this order? Reserved stock will be released.")) {
-      return;
-    }
+  const applyStatus = async (status: AdminOrderStatus) => {
     setPendingStatus(status);
     setError(null);
     try {
@@ -47,6 +46,20 @@ export default function OrderStatusActions({
     } finally {
       setPendingStatus(null);
     }
+  };
+
+  const handleClick = (status: AdminOrderStatus) => {
+    if (status === "CANCELLED") {
+      setConfirmingCancel(true);
+      return;
+    }
+    applyStatus(status);
+  };
+
+  const confirmCancel = async () => {
+    await updateOrderStatus(order.id, "CANCELLED");
+    showToast("Order updated successfully.");
+    onChanged();
   };
 
   return (
@@ -69,6 +82,16 @@ export default function OrderStatusActions({
         ))}
       </div>
       {error && <p className="text-sm font-medium text-red-500">{error}</p>}
+
+      <ConfirmDialog
+        open={confirmingCancel}
+        onClose={() => setConfirmingCancel(false)}
+        onConfirm={confirmCancel}
+        title="Cancel order"
+        description="Cancel this order? Reserved stock will be released."
+        confirmLabel="Cancel Order"
+        cancelLabel="Keep Order"
+      />
     </div>
   );
 }
