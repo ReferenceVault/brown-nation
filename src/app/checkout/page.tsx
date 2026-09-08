@@ -56,7 +56,13 @@ export default function CheckoutPage() {
     try {
       // The local cart (useCartStore) is instant-UI-only; reconcile it with
       // the server cart, which is what order creation actually reads from.
-      await syncServerCart(lines.map((line) => ({ productId: line.productId, quantity: line.quantity })));
+      await syncServerCart(
+        lines.map((line) => ({
+          productId: line.productId,
+          quantity: line.quantity,
+          variantId: line.variantId,
+        }))
+      );
 
       const order = await createOrder({ shippingAddress: address });
       const { payment } = await initiatePayment(order.id);

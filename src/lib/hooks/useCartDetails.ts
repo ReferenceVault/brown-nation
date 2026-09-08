@@ -4,12 +4,15 @@ import { useMemo } from "react";
 import { useCartStore } from "@/lib/stores/cartStore";
 import { useCatalogStore } from "@/lib/stores/catalogStore";
 import { getProductById } from "@/lib/repositories/products";
-import type { Product } from "@/lib/types/catalog";
+import type { Product, ProductVariant } from "@/lib/types/catalog";
 
 export type CartDetailLine = {
   productId: string;
+  variantId: string | undefined;
+  variant: ProductVariant | undefined;
   quantity: number;
   product: Product;
+  unitPrice: number;
   lineTotal: number;
 };
 
@@ -25,11 +28,18 @@ export function useCartDetails() {
       .map((item) => {
         const product = getProductById(item.productId);
         if (!product) return null;
+        const variant = item.variantId
+          ? product.variants?.find((v) => v.id === item.variantId)
+          : undefined;
+        const unitPrice = Number(variant?.price ?? product.price);
         return {
           productId: item.productId,
+          variantId: item.variantId,
+          variant,
           quantity: item.quantity,
           product,
-          lineTotal: Number(product.price) * item.quantity,
+          unitPrice,
+          lineTotal: unitPrice * item.quantity,
         };
       })
       .filter((line): line is CartDetailLine => line !== null);

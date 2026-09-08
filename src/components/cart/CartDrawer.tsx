@@ -86,7 +86,9 @@ export default function CartDrawer({ open, onClose }: { open: boolean; onClose: 
               />
             </div>
           ) : (
-            lines.map((line) => <CartLineItem key={line.productId} line={line} />)
+            lines.map((line) => (
+              <CartLineItem key={`${line.productId}-${line.variantId ?? "base"}`} line={line} />
+            ))
           )}
         </div>
 

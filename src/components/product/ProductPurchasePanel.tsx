@@ -15,19 +15,28 @@ export default function ProductPurchasePanel({ product }: { product: Product }) 
   const [justAdded, setJustAdded] = useState(false);
   const addItem = useCartStore((state) => state.addItem);
 
-  const price = Number(product.price);
-  const compareAtPrice = product.compareAtPrice ? Number(product.compareAtPrice) : undefined;
+  const variants = product.variants ?? [];
+  const hasVariants = variants.length > 0;
+  const [selectedVariantId, setSelectedVariantId] = useState(variants[0]?.id);
+  const selectedVariant = variants.find((v) => v.id === selectedVariantId);
+
+  const price = hasVariants ? Number(selectedVariant?.price ?? product.price) : Number(product.price);
+  const compareAtPrice = hasVariants
+    ? undefined
+    : product.compareAtPrice
+      ? Number(product.compareAtPrice)
+      : undefined;
   const outOfStock = product.stockQuantity <= 0;
   const priceOnRequest = price <= 0;
 
   const handleAddToCart = () => {
-    addItem(product.id, quantity);
+    addItem(product.id, quantity, selectedVariantId);
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 1800);
   };
 
   const handleBuyNow = () => {
-    addItem(product.id, quantity);
+    addItem(product.id, quantity, selectedVariantId);
     router.push("/cart");
   };
 
@@ -48,6 +57,30 @@ export default function ProductPurchasePanel({ product }: { product: Product }) 
   return (
     <div className="flex flex-col gap-5">
       <PriceTag price={price} compareAtPrice={compareAtPrice} size="lg" />
+
+      {hasVariants && (
+        <div>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-espresso/60">
+            Cavity
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {variants.map((variant) => (
+              <button
+                key={variant.id}
+                type="button"
+                onClick={() => setSelectedVariantId(variant.id)}
+                className={`rounded-lg border px-4 py-2 text-sm font-semibold transition-colors duration-200 cursor-pointer ${
+                  variant.id === selectedVariantId
+                    ? "border-brand-500 bg-brand-500 text-white"
+                    : "border-brand-200 text-espresso hover:border-brand-400"
+                }`}
+              >
+                {variant.cavityCount} Cavity
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div>
         <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-espresso/60">Quantity</p>

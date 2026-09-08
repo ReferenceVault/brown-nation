@@ -9,7 +9,9 @@ export default function OrderDetailCard({ order }: { order: Order }) {
           <div key={item.id} className="flex items-center gap-3">
             <div className="min-w-0 flex-1">
               <p className="text-sm font-medium text-espresso line-clamp-1">{item.productName}</p>
-              <p className="text-xs text-espresso/50">Qty {item.quantity}</p>
+              <p className="text-xs text-espresso/50">
+                {item.variantLabel ? `${item.variantLabel} · ` : ""}Qty {item.quantity}
+              </p>
             </div>
             <p className="text-sm font-semibold text-espresso">{formatINR(Number(item.totalPrice))}</p>
           </div>

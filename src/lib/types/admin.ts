@@ -74,6 +74,12 @@ export type AdminHeroSlide = {
   updatedAt: string;
 };
 
+export type AdminProductVariant = {
+  id: string;
+  cavityCount: number;
+  price: string;
+};
+
 export type AdminProduct = {
   id: string;
   name: string;
@@ -89,6 +95,7 @@ export type AdminProduct = {
   stockQuantity: number;
   isBestSeller: boolean;
   minOrderQuantity: number;
+  variants: AdminProductVariant[];
   createdAt: string;
   updatedAt: string;
 };
@@ -109,6 +116,7 @@ export type AdminOrderItem = {
   productId: string | null;
   productName: string;
   sku: string;
+  variantLabel: string | null;
   unitPrice: string;
   quantity: number;
   totalPrice: string;

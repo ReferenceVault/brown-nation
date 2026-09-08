@@ -7,6 +7,7 @@ import { useCatalogStore } from "@/lib/stores/catalogStore";
 
 export type CartLine = {
   productId: string;
+  variantId?: string;
   quantity: number;
 };
 
@@ -14,11 +15,15 @@ function isValidLine(item: CartLine): boolean {
   return Boolean(getProductById(item.productId));
 }
 
+function sameLine(item: CartLine, productId: string, variantId?: string): boolean {
+  return item.productId === productId && (item.variantId ?? null) === (variantId ?? null);
+}
+
 type CartState = {
   items: CartLine[];
-  addItem: (productId: string, quantity?: number) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
-  removeItem: (productId: string) => void;
+  addItem: (productId: string, quantity?: number, variantId?: string) => void;
+  updateQuantity: (productId: string, quantity: number, variantId?: string) => void;
+  removeItem: (productId: string, variantId?: string) => void;
   clear: () => void;
 };
 
@@ -26,28 +31,32 @@ export const useCartStore = create<CartState>()(
   persist(
     (set) => ({
       items: [],
-      addItem: (productId, quantity = 1) =>
+      addItem: (productId, quantity = 1, variantId) =>
         set((state) => {
-          const existing = state.items.find((item) => item.productId === productId);
+          const existing = state.items.find((item) => sameLine(item, productId, variantId));
           if (existing) {
             return {
               items: state.items.map((item) =>
-                item.productId === productId ? { ...item, quantity: item.quantity + quantity } : item
+                sameLine(item, productId, variantId)
+                  ? { ...item, quantity: item.quantity + quantity }
+                  : item
               ),
             };
           }
-          return { items: [...state.items, { productId, quantity }] };
+          return { items: [...state.items, { productId, variantId, quantity }] };
         }),
-      updateQuantity: (productId, quantity) =>
+      updateQuantity: (productId, quantity, variantId) =>
         set((state) => ({
           items:
             quantity <= 0
-              ? state.items.filter((item) => item.productId !== productId)
-              : state.items.map((item) => (item.productId === productId ? { ...item, quantity } : item)),
+              ? state.items.filter((item) => !sameLine(item, productId, variantId))
+              : state.items.map((item) =>
+                  sameLine(item, productId, variantId) ? { ...item, quantity } : item
+                ),
         })),
-      removeItem: (productId) =>
+      removeItem: (productId, variantId) =>
         set((state) => ({
-          items: state.items.filter((item) => item.productId !== productId),
+          items: state.items.filter((item) => !sameLine(item, productId, variantId)),
         })),
       clear: () => set({ items: [] }),
     }),

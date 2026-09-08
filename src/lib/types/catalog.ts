@@ -6,6 +6,12 @@
 export type ProductStatus = "DRAFT" | "ACTIVE" | "ARCHIVED";
 export type CategoryStatus = "ACTIVE" | "INACTIVE";
 
+export type ProductVariant = {
+  id: string;
+  cavityCount: number;
+  price: string;
+};
+
 export type Product = {
   id: string;
   name: string;
@@ -21,6 +27,7 @@ export type Product = {
   stockQuantity: number;
   isBestSeller: boolean;
   minOrderQuantity: number;
+  variants: ProductVariant[];
   createdAt: string;
   updatedAt: string;
 };

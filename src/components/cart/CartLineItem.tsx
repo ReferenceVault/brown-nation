@@ -11,7 +11,6 @@ import PriceTag from "@/components/ui/PriceTag";
 export default function CartLineItem({ line }: { line: CartDetailLine }) {
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
-  const price = Number(line.product.price);
 
   return (
     <div className="flex items-center gap-4 border-b border-brand-100 py-4 last:border-b-0">
@@ -25,8 +24,11 @@ export default function CartLineItem({ line }: { line: CartDetailLine }) {
             {line.product.name}
           </h3>
         </Link>
+        {line.variant && (
+          <p className="mt-0.5 text-xs text-espresso/50">{line.variant.cavityCount} Cavity</p>
+        )}
         <div className="mt-2">
-          <PriceTag price={price} size="sm" />
+          <PriceTag price={line.unitPrice} size="sm" />
         </div>
       </div>
 
@@ -34,7 +36,7 @@ export default function CartLineItem({ line }: { line: CartDetailLine }) {
         <button
           type="button"
           aria-label={`Remove ${line.product.name} from cart`}
-          onClick={() => removeItem(line.productId)}
+          onClick={() => removeItem(line.productId, line.variantId)}
           className="text-espresso/35 transition-colors duration-200 hover:text-red-500 cursor-pointer"
         >
           <X className="h-4 w-4" strokeWidth={2} />
@@ -44,7 +46,7 @@ export default function CartLineItem({ line }: { line: CartDetailLine }) {
           quantity={line.quantity}
           min={line.product.minOrderQuantity > 1 ? line.product.minOrderQuantity : 0}
           max={line.product.stockQuantity}
-          onChange={(q) => updateQuantity(line.productId, q)}
+          onChange={(q) => updateQuantity(line.productId, q, line.variantId)}
         />
       </div>
     </div>

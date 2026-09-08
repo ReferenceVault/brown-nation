@@ -13,6 +13,11 @@ export type ProductListParams = {
   sortOrder?: "asc" | "desc";
 };
 
+export type ProductVariantInput = {
+  cavityCount: number;
+  price: number;
+};
+
 export type ProductInput = {
   name: string;
   slug?: string;
@@ -27,6 +32,7 @@ export type ProductInput = {
   stockQuantity?: number;
   isBestSeller?: boolean;
   minOrderQuantity?: number;
+  variants?: ProductVariantInput[];
 };
 
 export function listProducts(params: ProductListParams = {}) {

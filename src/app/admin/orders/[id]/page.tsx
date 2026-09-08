@@ -95,7 +95,10 @@ export default function AdminOrderDetailPage() {
               {order.items?.map((item) => (
                 <div key={item.id} className="flex items-center justify-between gap-4 py-3 text-sm">
                   <div>
-                    <p className="font-medium text-espresso">{item.productName}</p>
+                    <p className="font-medium text-espresso">
+                      {item.productName}
+                      {item.variantLabel ? ` (${item.variantLabel})` : ""}
+                    </p>
                     <p className="text-xs text-espresso/50">
                       SKU {item.sku} · Qty {item.quantity} × {formatINR(Number(item.unitPrice))}
                     </p>

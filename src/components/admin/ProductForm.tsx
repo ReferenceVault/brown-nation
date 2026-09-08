@@ -12,6 +12,7 @@ import Select from "@/components/ui/Select";
 import Button from "@/components/ui/Button";
 import ImageUploadListInput from "./ImageUploadListInput";
 import TextListInput from "./TextListInput";
+import CavityVariantListInput, { type CavityVariantDraft } from "./CavityVariantListInput";
 
 const STATUSES: ProductStatus[] = ["DRAFT", "ACTIVE", "ARCHIVED"];
 
@@ -40,6 +41,12 @@ export default function ProductForm({
   const [minOrderQuantity, setMinOrderQuantity] = useState(String(initialValues?.minOrderQuantity ?? 1));
   const [images, setImages] = useState<string[]>(initialValues?.images ?? []);
   const [contents, setContents] = useState<string[]>(initialValues?.contents ?? []);
+  const [variants, setVariants] = useState<CavityVariantDraft[]>(
+    (initialValues?.variants ?? []).map((v) => ({
+      cavityCount: String(v.cavityCount),
+      price: v.price,
+    }))
+  );
   const [isBestSeller, setIsBestSeller] = useState(initialValues?.isBestSeller ?? false);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -67,6 +74,9 @@ export default function ProductForm({
         contents: contents.map((item) => item.trim()).filter(Boolean),
         isBestSeller,
         minOrderQuantity: Number(minOrderQuantity) || 1,
+        variants: variants
+          .filter((v) => v.cavityCount.trim() && v.price.trim())
+          .map((v) => ({ cavityCount: Number(v.cavityCount), price: Number(v.price) })),
       });
       showToast(isEdit ? "Product updated successfully." : "Product created successfully.");
       router.push("/admin/products");
@@ -160,6 +170,12 @@ export default function ProductForm({
         value={contents}
         onChange={setContents}
         placeholder="e.g. 2 Dried Nuts Bottle"
+      />
+
+      <CavityVariantListInput
+        label="Cavity pricing options (optional — e.g. 6/9/12/16 cavity boxes, each at its own price)"
+        value={variants}
+        onChange={setVariants}
       />
 
       {error && <p className="text-sm font-medium text-red-500">{error}</p>}
