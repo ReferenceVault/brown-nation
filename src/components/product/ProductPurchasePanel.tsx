@@ -63,7 +63,7 @@ export default function ProductPurchasePanel({ product }: { product: Product }) 
           <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-espresso/60">
             Cavity
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             {variants.map((variant) => (
               <button
                 key={variant.id}
@@ -100,16 +100,16 @@ export default function ProductPurchasePanel({ product }: { product: Product }) 
       {outOfStock ? (
         <p className="text-sm font-semibold text-red-500">Currently out of stock.</p>
       ) : (
-        <div className="flex flex-wrap gap-3">
+        <div className="flex gap-3">
           <Button
             variant="outline"
             onClick={handleAddToCart}
             icon={justAdded ? <Check className="h-4 w-4" /> : <ShoppingCart className="h-4 w-4" />}
-            className="flex-1"
+            className="flex-1 whitespace-nowrap px-3 sm:px-7"
           >
             {justAdded ? "Added" : "Add to Cart"}
           </Button>
-          <Button variant="filled" onClick={handleBuyNow} className="flex-1">
+          <Button variant="filled" onClick={handleBuyNow} className="flex-1 whitespace-nowrap px-3 sm:px-7">
             Buy Now
           </Button>
         </div>
