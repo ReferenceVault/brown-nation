@@ -2,6 +2,7 @@ import type { Order } from "@/lib/types/order";
 import { formatINR } from "@/lib/utils/currency";
 
 export default function OrderDetailCard({ order }: { order: Order }) {
+  const isPaid = order.paymentStatus === "SUCCESS";
   return (
     <div className="rounded-2xl bg-white p-5 shadow-card">
       <div className="flex flex-col gap-3">
@@ -30,7 +31,7 @@ export default function OrderDetailCard({ order }: { order: Order }) {
           </span>
         </div>
         <div className="flex justify-between border-t border-brand-100 pt-2.5 text-base font-bold text-espresso">
-          <span>Total Paid</span>
+          <span>{isPaid ? "Total Paid" : "Total"}</span>
           <span>{formatINR(Number(order.totalAmount))}</span>
         </div>
       </div>

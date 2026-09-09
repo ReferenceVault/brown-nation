@@ -5,16 +5,35 @@ import { PackageX } from "lucide-react";
 import { useRequireAuth } from "@/lib/hooks/useRequireAuth";
 import { getOrder } from "@/lib/api/orders";
 import { useAsync } from "@/lib/hooks/useAsync";
+import { usePayNow } from "@/lib/hooks/usePayNow";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import EmptyState from "@/components/ui/EmptyState";
 import Spinner from "@/components/ui/Spinner";
+import Button from "@/components/ui/Button";
 import OrderDetailCard from "@/components/account/OrderDetailCard";
 import StatusBadge from "@/components/ui/StatusBadge";
+
+// Payment can still be retried in these statuses; SUCCESS is already paid,
+// and CANCELLED orders shouldn't be paid at all.
+const PAYABLE_ORDER_STATUSES = ["PENDING", "CONFIRMED", "PROCESSING"];
 
 export default function OrderDetailPage() {
   const { id } = useParams<{ id: string }>();
   const { currentUser, ready } = useRequireAuth();
-  const { data: order, loading } = useAsync(() => getOrder(id), [id]);
+  const { data: order, loading, reload } = useAsync(() => getOrder(id), [id]);
+
+  const canPay = Boolean(
+    order && order.paymentStatus !== "SUCCESS" && PAYABLE_ORDER_STATUSES.includes(order.status)
+  );
+  const { pay, paying, error: payError } = usePayNow(
+    order ? { id: order.id, orderNumber: order.orderNumber } : { id: "", orderNumber: "" },
+    {
+      name: order?.shippingAddress.fullName,
+      email: currentUser?.email,
+      contact: order?.shippingAddress.phone,
+    },
+    reload
+  );
 
   if (!ready || !currentUser) return null;
 
@@ -57,6 +76,19 @@ export default function OrderDetailPage() {
         <StatusBadge status={order.status} />
       </div>
       <OrderDetailCard order={order} />
+
+      {canPay && (
+        <div className="mt-5 rounded-2xl bg-white p-5 shadow-card">
+          <p className="text-sm font-semibold text-espresso">Payment pending</p>
+          <p className="mt-1 text-sm text-espresso/60">
+            This order hasn&apos;t been paid yet. Complete payment to keep it moving.
+          </p>
+          {payError && <p className="mt-3 text-sm font-medium text-rose-600">{payError}</p>}
+          <Button onClick={pay} disabled={paying} className="mt-4">
+            {paying ? "Processing…" : "Pay Now"}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

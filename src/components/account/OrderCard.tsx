@@ -21,6 +21,9 @@ export default function OrderCard({ order }: { order: Order }) {
         <div className="flex items-center gap-2">
           <p className="text-sm font-semibold text-espresso">#{order.orderNumber}</p>
           <StatusBadge status={order.status} />
+          {order.paymentStatus !== "SUCCESS" && order.status !== "CANCELLED" && (
+            <StatusBadge status={order.paymentStatus} />
+          )}
         </div>
         <p className="mt-1 text-xs text-espresso/50">
           {placedDate} · {itemCount} item{itemCount > 1 ? "s" : ""}
