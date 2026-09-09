@@ -1,10 +1,18 @@
+"use client";
+
 import Image from "next/image";
 import { formatINR } from "@/lib/utils/currency";
 import type { CartDetailLine } from "@/lib/hooks/useCartDetails";
-import { SHIPPING_FLAT_RATE, FREE_SHIPPING_THRESHOLD } from "@/lib/constants";
+import { DEFAULT_FREE_SHIPPING_THRESHOLD, DEFAULT_SHIPPING_FLAT_RATE } from "@/lib/constants";
+import { fetchShippingSettings } from "@/lib/api/public/shippingSettings";
+import { useAsync } from "@/lib/hooks/useAsync";
 
 export default function OrderSummary({ lines, subtotal }: { lines: CartDetailLine[]; subtotal: number }) {
-  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FLAT_RATE;
+  const { data: settings } = useAsync(fetchShippingSettings, []);
+  const freeThreshold = settings ? Number(settings.freeThreshold) : DEFAULT_FREE_SHIPPING_THRESHOLD;
+  const flatRate = settings ? Number(settings.flatFee) : DEFAULT_SHIPPING_FLAT_RATE;
+
+  const shipping = subtotal >= freeThreshold ? 0 : flatRate;
   const total = subtotal + shipping;
 
   return (

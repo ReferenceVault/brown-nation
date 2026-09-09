@@ -64,3 +64,10 @@ export type HeroSlide = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type ShippingSettings = {
+  id: string;
+  flatFee: string;
+  freeThreshold: string;
+  updatedAt: string;
+};

@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import { formatINR } from "@/lib/utils/currency";
-import { SHIPPING_FLAT_RATE, FREE_SHIPPING_THRESHOLD } from "@/lib/constants";
+import { DEFAULT_FREE_SHIPPING_THRESHOLD, DEFAULT_SHIPPING_FLAT_RATE } from "@/lib/constants";
+import { fetchShippingSettings } from "@/lib/api/public/shippingSettings";
+import { useAsync } from "@/lib/hooks/useAsync";
 
 export default function CartSummary({
   subtotal,
@@ -9,9 +13,13 @@ export default function CartSummary({
   subtotal: number;
   checkoutHref?: string;
 }) {
-  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FLAT_RATE;
+  const { data: settings } = useAsync(fetchShippingSettings, []);
+  const freeThreshold = settings ? Number(settings.freeThreshold) : DEFAULT_FREE_SHIPPING_THRESHOLD;
+  const flatRate = settings ? Number(settings.flatFee) : DEFAULT_SHIPPING_FLAT_RATE;
+
+  const shipping = subtotal >= freeThreshold ? 0 : flatRate;
   const total = subtotal + shipping;
-  const remainingForFreeShipping = FREE_SHIPPING_THRESHOLD - subtotal;
+  const remainingForFreeShipping = freeThreshold - subtotal;
 
   return (
     <div className="rounded-2xl bg-white p-5 shadow-card">
