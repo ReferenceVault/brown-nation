@@ -1,2 +1,2 @@
-export const SHIPPING_FLAT_RATE = 49;
-export const FREE_SHIPPING_THRESHOLD = 999;
+export const SHIPPING_FLAT_RATE = Number(process.env.NEXT_PUBLIC_SHIPPING_FLAT_RATE ?? 49);
+export const FREE_SHIPPING_THRESHOLD = Number(process.env.NEXT_PUBLIC_SHIPPING_FREE_THRESHOLD ?? 999);
