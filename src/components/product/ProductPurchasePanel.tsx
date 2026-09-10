@@ -17,11 +17,13 @@ export default function ProductPurchasePanel({ product }: { product: Product }) 
 
   const variants = product.variants ?? [];
   const hasVariants = variants.length > 0;
-  const [selectedVariantId, setSelectedVariantId] = useState(variants[0]?.id);
+  // undefined = the plain bar, at the product's base price — always a valid
+  // choice alongside any cavity options.
+  const [selectedVariantId, setSelectedVariantId] = useState<string | undefined>(undefined);
   const selectedVariant = variants.find((v) => v.id === selectedVariantId);
 
-  const price = hasVariants ? Number(selectedVariant?.price ?? product.price) : Number(product.price);
-  const compareAtPrice = hasVariants
+  const price = selectedVariant ? Number(selectedVariant.price) : Number(product.price);
+  const compareAtPrice = selectedVariant
     ? undefined
     : product.compareAtPrice
       ? Number(product.compareAtPrice)
@@ -61,9 +63,20 @@ export default function ProductPurchasePanel({ product }: { product: Product }) 
       {hasVariants && (
         <div>
           <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-espresso/60">
-            Cavity
+            Options
           </p>
           <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+            <button
+              type="button"
+              onClick={() => setSelectedVariantId(undefined)}
+              className={`rounded-lg border px-4 py-2 text-sm font-semibold transition-colors duration-200 cursor-pointer ${
+                selectedVariantId === undefined
+                  ? "border-brand-500 bg-brand-500 text-white"
+                  : "border-brand-200 text-espresso hover:border-brand-400"
+              }`}
+            >
+              Bar
+            </button>
             {variants.map((variant) => (
               <button
                 key={variant.id}
