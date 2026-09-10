@@ -3,10 +3,13 @@ import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { navLinks } from "@/data/navigation";
 import { customerCareLinks, contactDetails, socialLinks } from "@/data/footer";
-import { InstagramIcon } from "@/components/ui/SocialIcon";
+import { FacebookIcon, InstagramIcon } from "@/components/ui/SocialIcon";
 import NewsletterForm from "@/components/ui/NewsletterForm";
 
-const socials = [{ label: "Instagram", href: socialLinks.instagram, icon: InstagramIcon }];
+const socials = [
+  { label: "Facebook", href: socialLinks.facebook, icon: FacebookIcon },
+  { label: "Instagram", href: socialLinks.instagram, icon: InstagramIcon },
+];
 
 export default function Footer() {
   const year = new Date().getFullYear();

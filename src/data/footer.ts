@@ -19,5 +19,6 @@ export const contactDetails = {
 };
 
 export const socialLinks = {
+  facebook: "https://www.facebook.com/share/19GoKfaJgs/",
   instagram: "https://www.instagram.com/brownnation_mohini/",
 };

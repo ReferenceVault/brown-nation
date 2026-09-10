@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import TopBar from "@/components/layout/TopBar";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import SocialConnectTab from "@/components/layout/SocialConnectTab";
 import ToastViewport from "@/components/ui/ToastViewport";
 import { useCatalogStore } from "@/lib/stores/catalogStore";
 import type { Category } from "@/lib/types/catalog";
@@ -42,6 +43,7 @@ export default function SiteChrome({
       <Header categories={categories} />
       <main className="flex-1">{children}</main>
       <Footer />
+      <SocialConnectTab />
       <ToastViewport />
     </>
   );
