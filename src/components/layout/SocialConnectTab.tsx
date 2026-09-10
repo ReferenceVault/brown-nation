@@ -46,7 +46,7 @@ export default function SocialConnectTab() {
               tabIndex={visible ? 0 : -1}
               className="flex items-center justify-center rounded-full text-espresso/60 transition-all duration-300 hover:bg-brand-50 hover:text-brand-600 hover:-translate-y-0.5"
             >
-              <Icon className="h-8 w-8" strokeWidth={1.75} />
+              <Icon className="h-6 w-6" strokeWidth={1.75} />
             </a>
           ))}
         </div>
