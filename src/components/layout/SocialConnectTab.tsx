@@ -31,11 +31,11 @@ export default function SocialConnectTab() {
       }`}
       aria-hidden={!visible}
     >
-      <div className="flex flex-col overflow-hidden rounded-r-2xl shadow-soft">
-        <span className="flex items-center justify-center bg-brand-500 px-1 py-6 text-[11px] font-semibold uppercase tracking-[0.1em] text-white [writing-mode:vertical-lr] rotate-180">
+      <div className="flex w-[43px] flex-col overflow-hidden rounded-r-2xl shadow-soft">
+        <span className="flex items-center justify-center bg-brand-500 py-6 text-[11px] font-semibold uppercase tracking-[0.1em] text-white [writing-mode:vertical-lr] rotate-180">
           Connect
         </span>
-        <div className="flex flex-col items-center gap-1 bg-white px-1.5 py-3">
+        <div className="flex flex-col items-center gap-1 bg-white py-3">
           {socials.map(({ label, href, icon: Icon }) => (
             <a
               key={label}
@@ -44,9 +44,9 @@ export default function SocialConnectTab() {
               rel="noopener noreferrer"
               aria-label={label}
               tabIndex={visible ? 0 : -1}
-              className="flex h-8 w-8 items-center justify-center rounded-full text-espresso/60 transition-all duration-300 hover:bg-brand-50 hover:text-brand-600 hover:-translate-y-0.5"
+              className="flex items-center justify-center rounded-full text-espresso/60 transition-all duration-300 hover:bg-brand-50 hover:text-brand-600 hover:-translate-y-0.5"
             >
-              <Icon className="h-4 w-4" strokeWidth={1.75} />
+              <Icon className="h-8 w-8" strokeWidth={1.75} />
             </a>
           ))}
         </div>
