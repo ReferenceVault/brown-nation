@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { Leaf, HeartHandshake, ShieldCheck } from "lucide-react";
 import { fetchAllProducts, fetchProductBySlug } from "@/lib/api/public/products";
@@ -8,6 +9,7 @@ import ImageGallery from "@/components/product/ImageGallery";
 import ProductDescription from "@/components/product/ProductDescription";
 import ProductContents from "@/components/product/ProductContents";
 import ProductPurchasePanel from "@/components/product/ProductPurchasePanel";
+import ProductShare from "@/components/product/ProductShare";
 import ProductGrid from "@/components/shop/ProductGrid";
 import SectionHeading from "@/components/ui/SectionHeading";
 
@@ -42,6 +44,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     .filter((p) => p.id !== product.id && p.categoryId === product.categoryId)
     .slice(0, 4);
 
+  const requestHeaders = await headers();
+  const host = requestHeaders.get("host");
+  const proto = requestHeaders.get("x-forwarded-proto") ?? "https";
+  const productUrl = host ? `${proto}://${host}/product/${product.slug}` : `/product/${product.slug}`;
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:py-12 lg:px-8">
       <Breadcrumbs
@@ -74,6 +81,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
           <ProductDescription description={product.description} />
           <ProductContents contents={product.contents} />
+          <ProductShare url={productUrl} title={product.name} />
         </div>
       </div>
 
