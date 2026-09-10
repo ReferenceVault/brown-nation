@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { Copy, Check } from "lucide-react";
-import { FacebookIcon, WhatsappIcon } from "@/components/ui/SocialIcon";
+import { FacebookIcon, InstagramIcon, WhatsappIcon } from "@/components/ui/SocialIcon";
+import { socialLinks } from "@/data/footer";
 
 export default function ProductShare({ url, title }: { url: string; title: string }) {
   const [copied, setCopied] = useState(false);
@@ -23,6 +24,15 @@ export default function ProductShare({ url, title }: { url: string; title: strin
       icon: FacebookIcon,
       className: "bg-[#1877F2] text-white hover:bg-[#166fe0]",
     },
+    {
+      // Instagram has no web share-by-URL intent, so this links to the
+      // store's own profile instead of sharing this specific product.
+      label: "Instagram",
+      href: socialLinks.instagram,
+      icon: InstagramIcon,
+      className:
+        "bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] text-white hover:opacity-90",
+    },
   ];
 
   const handleCopy = async () => {
@@ -37,7 +47,7 @@ export default function ProductShare({ url, title }: { url: string; title: strin
 
   return (
     <div className="flex items-center gap-3 border-t border-brand-100 pt-5">
-      <span className="text-xs font-semibold uppercase tracking-wide text-espresso/60">Share</span>
+      <span className="text-sm font-bold uppercase tracking-wide text-espresso">Share</span>
       <div className="flex items-center gap-2">
         {links.map(({ label, href, icon: Icon, className }) => (
           <a
