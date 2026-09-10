@@ -35,7 +35,7 @@ export default function SocialConnectTab() {
         <span className="flex items-center justify-center bg-brand-500 py-[9px] text-[11px] font-semibold uppercase tracking-[0.1em] text-white [writing-mode:vertical-lr] rotate-180">
           Connect
         </span>
-        <div className="flex flex-col items-center gap-1 bg-white py-3">
+        <div className="flex flex-col items-center gap-4 bg-white py-3">
           {socials.map(({ label, href, icon: Icon }) => (
             <a
               key={label}
