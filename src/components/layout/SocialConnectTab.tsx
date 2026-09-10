@@ -32,7 +32,7 @@ export default function SocialConnectTab() {
       aria-hidden={!visible}
     >
       <div className="flex flex-col overflow-hidden rounded-r-2xl shadow-soft">
-        <span className="flex items-center justify-center bg-brand-500 py-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-white [writing-mode:vertical-lr] rotate-180">
+        <span className="flex items-center justify-center bg-brand-500 px-2.5 py-6 text-[11px] font-semibold uppercase tracking-[0.1em] text-white [writing-mode:vertical-lr] rotate-180">
           Connect
         </span>
         <div className="flex flex-col items-center gap-1 bg-white px-2 py-3">
