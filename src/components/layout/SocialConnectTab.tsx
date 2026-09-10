@@ -32,10 +32,10 @@ export default function SocialConnectTab() {
       aria-hidden={!visible}
     >
       <div className="flex w-[43px] flex-col overflow-hidden rounded-r-2xl shadow-soft">
-        <span className="flex items-center justify-center bg-brand-500 py-5 text-[11px] font-semibold uppercase tracking-[0.1em] text-white [writing-mode:vertical-lr] rotate-180">
+        <span className="flex items-center justify-center bg-brand-500 py-5 text-[11px] font-semibold uppercase tracking-[0.1em] text-white [writing-mode:vertical-lr] rotate-180 pt-3 pb-3">
           Connect
         </span>
-        <div className="flex flex-col items-center gap-4 bg-white py-3">
+        <div className="flex flex-col items-center gap-4 bg-white py-4">
           {socials.map(({ label, href, icon: Icon }) => (
             <a
               key={label}
