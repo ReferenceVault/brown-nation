@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/stores/authStore";
 import { useCartStore } from "@/lib/stores/cartStore";
+import { useCouponStore } from "@/lib/stores/couponStore";
 import { useCatalogStore } from "@/lib/stores/catalogStore";
 import { useCartDetails } from "@/lib/hooks/useCartDetails";
 import { useMounted } from "@/lib/hooks/useMounted";
@@ -22,14 +23,19 @@ function errorMessage(err: unknown): string {
   return err instanceof Error ? err.message : "Something went wrong. Please try again.";
 }
 
+type FeedbackTone = "error" | "info";
+type Feedback = { message: string; tone: FeedbackTone };
+
 export default function CheckoutPage() {
   const router = useRouter();
   const mounted = useMounted();
   const currentUser = useAuthStore((state) => state.currentUser);
   const clearCart = useCartStore((state) => state.clear);
+  const couponCode = useCouponStore((state) => state.code);
+  const clearCoupon = useCouponStore((state) => state.clear);
   const { lines, subtotal } = useCartDetails();
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [feedback, setFeedback] = useState<Feedback | null>(null);
   // Catalog loads async (see SiteChrome); until it settles, `lines` may look
   // empty even when the cart genuinely has items, so don't treat that as
   // "empty cart" and bounce the user to /cart before we actually know.
@@ -51,7 +57,7 @@ export default function CheckoutPage() {
   const handlePlaceOrder = async (address: ShippingAddress) => {
     if (!currentUser) return;
     setSubmitting(true);
-    setError(null);
+    setFeedback(null);
 
     try {
       // The local cart (useCartStore) is instant-UI-only; reconcile it with
@@ -64,13 +70,17 @@ export default function CheckoutPage() {
         }))
       );
 
-      const order = await createOrder({ shippingAddress: address });
+      const order = await createOrder({
+        shippingAddress: address,
+        couponCode: couponCode ?? undefined,
+      });
       const { payment } = await initiatePayment(order.id);
 
       if (payment.provider === "MOCK") {
         // Mock provider marks the payment SUCCESS synchronously server-side
         // — nothing left to confirm client-side.
         clearCart();
+        clearCoupon();
         router.push(`/checkout/confirmation/${order.id}`);
         return;
       }
@@ -101,23 +111,28 @@ export default function CheckoutPage() {
           try {
             await verifyPayment(order.id, response);
             clearCart();
+            clearCoupon();
             router.push(`/checkout/confirmation/${order.id}`);
           } catch (err) {
-            setError(
-              `Payment succeeded but we couldn't confirm it automatically (${errorMessage(err)}). Check My Orders in a minute, or contact support.`
-            );
+            setFeedback({
+              message: `Payment succeeded but we couldn't confirm it automatically (${errorMessage(err)}). Check My Orders in a minute, or contact support.`,
+              tone: "info",
+            });
             setSubmitting(false);
           }
         },
         modal: {
           ondismiss: () => {
             setSubmitting(false);
-            setError("Payment was cancelled. Your order is saved — you can try paying again.");
+            setFeedback({
+              message: "Payment was cancelled. Your order is saved — you can try paying again.",
+              tone: "info",
+            });
           },
         },
       });
     } catch (err) {
-      setError(errorMessage(err));
+      setFeedback({ message: errorMessage(err), tone: "error" });
       setSubmitting(false);
     }
   };
@@ -129,8 +144,16 @@ export default function CheckoutPage() {
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Cart", href: "/cart" }, { label: "Checkout" }]} />
       <h1 className="mt-4 mb-8 font-serif text-3xl sm:text-4xl font-bold text-espresso">Checkout</h1>
 
-      {error && (
-        <p className="mb-6 rounded-lg bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">{error}</p>
+      {feedback && (
+        <p
+          className={`mb-6 rounded-lg px-4 py-3 text-sm font-medium ${
+            feedback.tone === "error"
+              ? "bg-rose-50 text-rose-700"
+              : "bg-pastel-yellow-soft text-amber-800"
+          }`}
+        >
+          {feedback.message}
+        </p>
       )}
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">

@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 
-export type ToastVariant = "success" | "error";
+export type ToastVariant = "success" | "error" | "info";
 export type Toast = { id: number; message: string; variant: ToastVariant };
 
 type ToastState = {

@@ -65,6 +65,36 @@ export type HeroSlide = {
   updatedAt: string;
 };
 
+export type PromoBannerStatus = "ACTIVE" | "INACTIVE";
+
+export type PromoBanner = {
+  id: string;
+  eyebrow: string;
+  heading: string;
+  description: string;
+  couponCode: string | null;
+  ctaLabel: string;
+  ctaHref: string;
+  image: string | null;
+  order: number;
+  status: PromoBannerStatus;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type AnnouncementStatus = "ACTIVE" | "INACTIVE";
+
+export type Announcement = {
+  id: string;
+  text: string;
+  linkLabel: string | null;
+  linkHref: string | null;
+  order: number;
+  status: AnnouncementStatus;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type ShippingSettings = {
   id: string;
   flatFee: string;

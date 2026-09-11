@@ -6,6 +6,7 @@ import { toQueryString } from "./queryString";
 export type CreateOrderInput = {
   shippingAddress: AdminShippingAddress;
   billingAddress?: AdminShippingAddress;
+  couponCode?: string;
 };
 
 export function createOrder(data: CreateOrderInput) {

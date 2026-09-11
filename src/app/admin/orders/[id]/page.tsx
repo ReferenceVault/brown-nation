@@ -115,7 +115,7 @@ export default function AdminOrderDetailPage() {
               </div>
               {Number(order.discount) > 0 && (
                 <div className="flex justify-between text-espresso/70">
-                  <span>Discount</span>
+                  <span>Discount{order.couponCode ? ` (${order.couponCode})` : ""}</span>
                   <span>-{formatINR(Number(order.discount))}</span>
                 </div>
               )}
