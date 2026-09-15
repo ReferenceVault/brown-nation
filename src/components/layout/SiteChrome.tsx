@@ -2,13 +2,14 @@
 
 import { useEffect, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
+import AnnouncementBar from "@/components/layout/AnnouncementBar";
 import TopBar from "@/components/layout/TopBar";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import SocialConnectTab from "@/components/layout/SocialConnectTab";
 import ToastViewport from "@/components/ui/ToastViewport";
 import { useCatalogStore } from "@/lib/stores/catalogStore";
-import type { Category } from "@/lib/types/catalog";
+import type { Announcement, Category } from "@/lib/types/catalog";
 
 /**
  * The admin section renders its own shell (sidebar, top bar) via
@@ -18,9 +19,11 @@ import type { Category } from "@/lib/types/catalog";
 export default function SiteChrome({
   children,
   categories,
+  announcement,
 }: {
   children: ReactNode;
   categories: Category[];
+  announcement: Announcement | null;
 }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin");
@@ -39,6 +42,7 @@ export default function SiteChrome({
 
   return (
     <>
+      <AnnouncementBar announcement={announcement} />
       <TopBar />
       <Header categories={categories} />
       <main className="flex-1">{children}</main>

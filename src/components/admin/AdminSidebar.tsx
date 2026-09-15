@@ -13,6 +13,9 @@ import {
   Sparkles,
   Mail,
   Truck,
+  Tag,
+  Megaphone,
+  Volume2,
 } from "lucide-react";
 
 const navItems = [
@@ -20,6 +23,9 @@ const navItems = [
   { label: "Products", href: "/admin/products", icon: Package },
   { label: "Categories", href: "/admin/categories", icon: FolderTree },
   { label: "Homepage Hero", href: "/admin/hero-slides", icon: Sparkles },
+  { label: "Coupons", href: "/admin/coupons", icon: Tag },
+  { label: "Promo Banners", href: "/admin/promo-banners", icon: Megaphone },
+  { label: "Announcement Bar", href: "/admin/announcements", icon: Volume2 },
   { label: "Orders", href: "/admin/orders", icon: ShoppingCart },
   { label: "Shipping Settings", href: "/admin/shipping-settings", icon: Truck },
   { label: "Enquiries", href: "/admin/enquiries", icon: Mail },

@@ -34,7 +34,7 @@ export default function CartPage() {
             ))}
           </div>
           <div>
-            <CartSummary subtotal={subtotal} />
+            <CartSummary subtotal={subtotal} lines={lines} />
           </div>
         </div>
       )}

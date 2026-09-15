@@ -10,6 +10,10 @@ export type UserStatus = "ACTIVE" | "INACTIVE" | "SUSPENDED";
 export type CategoryStatus = "ACTIVE" | "INACTIVE";
 export type HeroSlideStatus = "ACTIVE" | "INACTIVE";
 export type EnquiryStatus = "NEW" | "READ" | "RESOLVED";
+export type CouponDiscountType = "PERCENTAGE" | "FIXED_AMOUNT";
+export type CouponStatus = "ACTIVE" | "INACTIVE";
+export type PromoBannerStatus = "ACTIVE" | "INACTIVE";
+export type AnnouncementStatus = "ACTIVE" | "INACTIVE";
 export type ProductStatus = "DRAFT" | "ACTIVE" | "ARCHIVED";
 export type AdminOrderStatus =
   | "PENDING"
@@ -70,6 +74,50 @@ export type AdminHeroSlide = {
   paletteTo: string;
   order: number;
   status: HeroSlideStatus;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type AdminCoupon = {
+  id: string;
+  code: string;
+  discountType: CouponDiscountType;
+  discountValue: string;
+  minOrderAmount: string | null;
+  maxDiscountAmount: string | null;
+  startsAt: string | null;
+  expiresAt: string | null;
+  usageLimit: number | null;
+  perCustomerLimit: number | null;
+  status: CouponStatus;
+  applicableCategoryIds: string[];
+  applicableProductIds: string[];
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type AdminPromoBanner = {
+  id: string;
+  eyebrow: string;
+  heading: string;
+  description: string;
+  couponCode: string | null;
+  ctaLabel: string;
+  ctaHref: string;
+  image: string | null;
+  order: number;
+  status: PromoBannerStatus;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type AdminAnnouncement = {
+  id: string;
+  text: string;
+  linkLabel: string | null;
+  linkHref: string | null;
+  order: number;
+  status: AnnouncementStatus;
   createdAt: string;
   updatedAt: string;
 };
@@ -145,6 +193,7 @@ export type AdminOrder = {
   status: AdminOrderStatus;
   subtotal: string;
   discount: string;
+  couponCode: string | null;
   shippingAmount: string;
   taxAmount: string;
   totalAmount: string;
