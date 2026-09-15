@@ -3,11 +3,14 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Copy, Check } from "lucide-react";
-import type { PromoBanner } from "@/lib/types/catalog";
+import { useAsync } from "@/lib/hooks/useAsync";
+import { fetchActivePromoBanners } from "@/lib/api/public/promoBanners";
 import { useToastStore } from "@/lib/stores/toastStore";
 import Button from "@/components/ui/Button";
 
-export default function PromoBannerSection({ banner }: { banner: PromoBanner | null }) {
+export default function PromoBannerSection() {
+  const { data: banners } = useAsync(fetchActivePromoBanners, []);
+  const banner = banners?.[0] ?? null;
   const showToast = useToastStore((state) => state.show);
   const [copied, setCopied] = useState(false);
 

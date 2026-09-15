@@ -3,7 +3,6 @@ import { Playfair_Display, Poppins } from "next/font/google";
 import "./globals.css";
 import SiteChrome from "@/components/layout/SiteChrome";
 import { fetchAllCategories } from "@/lib/api/public/categories";
-import { fetchActiveAnnouncement } from "@/lib/api/public/announcements";
 
 const playfair = Playfair_Display({
   variable: "--font-serif",
@@ -24,10 +23,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const [categories, announcement] = await Promise.all([
-    fetchAllCategories().catch(() => []),
-    fetchActiveAnnouncement().catch(() => null),
-  ]);
+  const categories = await fetchAllCategories().catch(() => []);
 
   return (
     <html
@@ -44,9 +40,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body className="min-h-full flex flex-col font-sans bg-cream text-espresso">
-        <SiteChrome categories={categories} announcement={announcement}>
-          {children}
-        </SiteChrome>
+        <SiteChrome categories={categories}>{children}</SiteChrome>
       </body>
     </html>
   );

@@ -10,12 +10,21 @@ const CATALOG_REVALIDATE_SECONDS = 60;
  * Fetch wrapper for @Public() backend endpoints (no auth, no refresh-token
  * dance) — safe to call from both server components and client components.
  */
-export async function publicFetch<T>(path: string): Promise<T> {
+export async function publicFetch<T>(
+  path: string,
+  options: { cache?: boolean } = {}
+): Promise<T> {
+  const { cache = true } = options;
   let res: Response;
   try {
-    res = await fetch(`${API_BASE_URL}${path}`, {
-      next: { revalidate: CATALOG_REVALIDATE_SECONDS },
-    });
+    res = await fetch(
+      `${API_BASE_URL}${path}`,
+      cache
+        ? { next: { revalidate: CATALOG_REVALIDATE_SECONDS } }
+        // Admin toggles for these are expected to take effect immediately
+        // rather than trading correctness for the shared catalog cache.
+        : { cache: "no-store" }
+    );
   } catch {
     throw new Error("Could not reach the server. Is the backend running?");
   }

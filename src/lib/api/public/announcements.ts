@@ -4,7 +4,8 @@ import { publicFetch } from "./client";
 
 export async function fetchActiveAnnouncement(): Promise<Announcement | null> {
   const { items } = await publicFetch<Paginated<Announcement>>(
-    "/announcements?limit=1&status=ACTIVE"
+    "/announcements?limit=1&status=ACTIVE",
+    { cache: false }
   );
   return items[0] ?? null;
 }

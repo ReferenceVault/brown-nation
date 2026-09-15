@@ -1,7 +1,12 @@
-import Link from "next/link";
-import type { Announcement } from "@/lib/types/catalog";
+"use client";
 
-export default function AnnouncementBar({ announcement }: { announcement: Announcement | null }) {
+import Link from "next/link";
+import { useAsync } from "@/lib/hooks/useAsync";
+import { fetchActiveAnnouncement } from "@/lib/api/public/announcements";
+
+export default function AnnouncementBar() {
+  const { data: announcement } = useAsync(fetchActiveAnnouncement, []);
+
   if (!announcement) return null;
 
   return (
