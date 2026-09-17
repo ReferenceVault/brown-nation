@@ -126,6 +126,7 @@ export type AdminProductVariant = {
   id: string;
   cavityCount: number;
   price: string;
+  image: string | null;
 };
 
 export type AdminProduct = {

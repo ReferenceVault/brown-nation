@@ -9,7 +9,17 @@ import PriceTag from "@/components/ui/PriceTag";
 import QuantityStepper from "@/components/ui/QuantityStepper";
 import Button from "@/components/ui/Button";
 
-export default function ProductPurchasePanel({ product }: { product: Product }) {
+export default function ProductPurchasePanel({
+  product,
+  selectedVariantId,
+  onSelectVariant,
+}: {
+  product: Product;
+  // undefined = the plain bar, at the product's base price — always a valid
+  // choice alongside any cavity options.
+  selectedVariantId: string | undefined;
+  onSelectVariant: (variantId: string | undefined) => void;
+}) {
   const router = useRouter();
   const [quantity, setQuantity] = useState(product.minOrderQuantity);
   const [justAdded, setJustAdded] = useState(false);
@@ -17,9 +27,6 @@ export default function ProductPurchasePanel({ product }: { product: Product }) 
 
   const variants = product.variants ?? [];
   const hasVariants = variants.length > 0;
-  // undefined = the plain bar, at the product's base price — always a valid
-  // choice alongside any cavity options.
-  const [selectedVariantId, setSelectedVariantId] = useState<string | undefined>(undefined);
   const selectedVariant = variants.find((v) => v.id === selectedVariantId);
 
   const price = selectedVariant ? Number(selectedVariant.price) : Number(product.price);
@@ -68,7 +75,7 @@ export default function ProductPurchasePanel({ product }: { product: Product }) 
           <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             <button
               type="button"
-              onClick={() => setSelectedVariantId(undefined)}
+              onClick={() => onSelectVariant(undefined)}
               className={`rounded-lg border px-4 py-2 text-sm font-semibold transition-colors duration-200 cursor-pointer ${
                 selectedVariantId === undefined
                   ? "border-brand-500 bg-brand-500 text-white"
@@ -81,7 +88,7 @@ export default function ProductPurchasePanel({ product }: { product: Product }) 
               <button
                 key={variant.id}
                 type="button"
-                onClick={() => setSelectedVariantId(variant.id)}
+                onClick={() => onSelectVariant(variant.id)}
                 className={`rounded-lg border px-4 py-2 text-sm font-semibold transition-colors duration-200 cursor-pointer ${
                   variant.id === selectedVariantId
                     ? "border-brand-500 bg-brand-500 text-white"

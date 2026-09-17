@@ -5,10 +5,9 @@ import { Leaf, HeartHandshake, ShieldCheck } from "lucide-react";
 import { fetchAllProducts, fetchProductBySlug } from "@/lib/api/public/products";
 import { fetchAllCategories } from "@/lib/api/public/categories";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import ImageGallery from "@/components/product/ImageGallery";
+import ProductVariantExperience from "@/components/product/ProductVariantExperience";
 import ProductDescription from "@/components/product/ProductDescription";
 import ProductContents from "@/components/product/ProductContents";
-import ProductPurchasePanel from "@/components/product/ProductPurchasePanel";
 import ProductShare from "@/components/product/ProductShare";
 import ProductGrid from "@/components/shop/ProductGrid";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -60,30 +59,30 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         ]}
       />
 
-      <div className="mt-6 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
-        <ImageGallery images={product.images} alt={product.name} />
-
-        <div className="flex flex-col gap-5">
+      <ProductVariantExperience
+        product={product}
+        header={
           <div>
             <h1 className="font-serif text-2xl sm:text-3xl font-bold text-espresso">{product.name}</h1>
           </div>
+        }
+        afterPurchase={
+          <>
+            <div className="grid grid-cols-3 gap-3 border-t border-brand-100 pt-5">
+              {usps.map(({ icon: Icon, label }) => (
+                <div key={label} className="flex flex-col items-center gap-1.5 text-center">
+                  <Icon className="h-5 w-5 text-brand-500" strokeWidth={1.75} />
+                  <span className="text-[11px] font-medium text-espresso/60">{label}</span>
+                </div>
+              ))}
+            </div>
 
-          <ProductPurchasePanel product={product} />
-
-          <div className="grid grid-cols-3 gap-3 border-t border-brand-100 pt-5">
-            {usps.map(({ icon: Icon, label }) => (
-              <div key={label} className="flex flex-col items-center gap-1.5 text-center">
-                <Icon className="h-5 w-5 text-brand-500" strokeWidth={1.75} />
-                <span className="text-[11px] font-medium text-espresso/60">{label}</span>
-              </div>
-            ))}
-          </div>
-
-          <ProductDescription description={product.description} />
-          <ProductContents contents={product.contents} />
-          <ProductShare url={productUrl} title={product.name} />
-        </div>
-      </div>
+            <ProductDescription description={product.description} />
+            <ProductContents contents={product.contents} />
+            <ProductShare url={productUrl} title={product.name} />
+          </>
+        }
+      />
 
       {related.length > 0 && (
         <div className="mt-16">

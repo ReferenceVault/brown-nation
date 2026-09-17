@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function ImageGallery({ images, alt }: { images: string[]; alt: string }) {
   const [active, setActive] = useState(0);
+  const hasImage = images.length > 0;
   const hasMultiple = images.length > 1;
 
   const goPrev = () => setActive((i) => (i - 1 + images.length) % images.length);
@@ -14,14 +15,20 @@ export default function ImageGallery({ images, alt }: { images: string[]; alt: s
   return (
     <div className="flex flex-col gap-3">
       <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-brand-50 shadow-card">
-        <Image
-          src={images[active]}
-          alt={alt}
-          fill
-          priority
-          sizes="(max-width: 1024px) 100vw, 50vw"
-          className="object-cover"
-        />
+        {hasImage ? (
+          <Image
+            src={images[active]}
+            alt={alt}
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center p-6 text-center text-sm font-medium text-espresso/40">
+            {alt}
+          </div>
+        )}
 
         {hasMultiple && (
           <>

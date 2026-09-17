@@ -45,6 +45,7 @@ export default function ProductForm({
     (initialValues?.variants ?? []).map((v) => ({
       cavityCount: String(v.cavityCount),
       price: v.price,
+      image: v.image ?? "",
     }))
   );
   const [isBestSeller, setIsBestSeller] = useState(initialValues?.isBestSeller ?? false);
@@ -76,7 +77,11 @@ export default function ProductForm({
         minOrderQuantity: Number(minOrderQuantity) || 1,
         variants: variants
           .filter((v) => v.cavityCount.trim() && v.price.trim())
-          .map((v) => ({ cavityCount: Number(v.cavityCount), price: Number(v.price) })),
+          .map((v) => ({
+            cavityCount: Number(v.cavityCount),
+            price: Number(v.price),
+            image: v.image.trim() || undefined,
+          })),
       });
       showToast(isEdit ? "Product updated successfully." : "Product created successfully.");
       router.push("/admin/products");
@@ -163,7 +168,12 @@ export default function ProductForm({
         <span className="text-sm font-medium text-espresso">Show in Best Sellers</span>
       </label>
 
-      <ImageUploadListInput label="Images" value={images} onChange={setImages} folder="products" />
+      <ImageUploadListInput
+        label="Images (shown when 'Bar' is selected, or always if there are no cavity options)"
+        value={images}
+        onChange={setImages}
+        folder="products"
+      />
 
       <TextListInput
         label="Contents (what's included, e.g. for hamper/gift boxes)"
@@ -173,7 +183,7 @@ export default function ProductForm({
       />
 
       <CavityVariantListInput
-        label="Cavity pricing options (optional — e.g. 6/9/12/16 cavity boxes, each at its own price)"
+        label="Cavity pricing options (optional — e.g. 6/9/12/16 cavity boxes, each at its own price and image)"
         value={variants}
         onChange={setVariants}
       />

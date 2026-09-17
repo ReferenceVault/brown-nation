@@ -10,6 +10,7 @@ export type ProductVariant = {
   id: string;
   cavityCount: number;
   price: string;
+  image: string | null;
 };
 
 export type Product = {

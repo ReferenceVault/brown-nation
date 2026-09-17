@@ -16,6 +16,7 @@ export type ProductListParams = {
 export type ProductVariantInput = {
   cavityCount: number;
   price: number;
+  image?: string;
 };
 
 export type ProductInput = {

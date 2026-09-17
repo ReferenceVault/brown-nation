@@ -1,10 +1,12 @@
 "use client";
 
 import { Plus, X } from "lucide-react";
+import ImageUploadTile from "./ImageUploadTile";
 
 export type CavityVariantDraft = {
   cavityCount: string;
   price: string;
+  image: string;
 };
 
 export default function CavityVariantListInput({
@@ -27,9 +29,15 @@ export default function CavityVariantListInput({
   return (
     <div className="flex flex-col gap-1.5">
       <label className="text-sm font-medium text-espresso">{label}</label>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3">
         {value.map((item, index) => (
           <div key={index} className="flex items-center gap-2">
+            <ImageUploadTile
+              value={item.image}
+              folder="products"
+              onChange={(url) => updateAt(index, "image", url)}
+              onRemove={() => updateAt(index, "image", "")}
+            />
             <div className="relative w-32 shrink-0">
               <input
                 type="number"
@@ -65,7 +73,7 @@ export default function CavityVariantListInput({
         ))}
         <button
           type="button"
-          onClick={() => onChange([...value, { cavityCount: "", price: "" }])}
+          onClick={() => onChange([...value, { cavityCount: "", price: "", image: "" }])}
           className="flex w-fit items-center gap-1.5 text-sm font-semibold text-brand-600 hover:underline cursor-pointer"
         >
           <Plus className="h-4 w-4" strokeWidth={2} />
