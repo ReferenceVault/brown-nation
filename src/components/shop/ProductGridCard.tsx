@@ -12,10 +12,13 @@ import QuantityStepper from "@/components/ui/QuantityStepper";
 export default function ProductGridCard({ product }: { product: Product }) {
   const addItem = useCartStore((state) => state.addItem);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
-  const price = Number(product.price);
+  const basePrice = Number(product.price);
+  const allPrices = [basePrice, ...product.variants.map((v) => Number(v.price))];
+  const price = Math.min(...allPrices);
+  const maxPrice = Math.max(...allPrices);
   const compareAtPrice = product.compareAtPrice ? Number(product.compareAtPrice) : undefined;
   const outOfStock = product.stockQuantity <= 0;
-  const priceOnRequest = price <= 0;
+  const priceOnRequest = basePrice <= 0;
   const mounted = useMounted();
   const quantity = useCartStore(
     (state) => state.items.find((item) => item.productId === product.id)?.quantity ?? 0
@@ -55,11 +58,11 @@ export default function ProductGridCard({ product }: { product: Product }) {
         </Link>
         <p className="text-xs text-espresso/55 line-clamp-1">{product.description}</p>
 
-        <div className="mt-1 flex items-center justify-between gap-2">
+        <div className="mt-1 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-2 sm:gap-y-1">
           {priceOnRequest ? (
             <span className="text-sm font-bold text-brand-600">Price on request</span>
           ) : (
-            <PriceTag price={price} compareAtPrice={compareAtPrice} size="sm" />
+            <PriceTag price={price} maxPrice={maxPrice} compareAtPrice={compareAtPrice} size="sm" />
           )}
           {priceOnRequest ? null : mounted && quantity > 0 ? (
             <QuantityStepper
@@ -68,6 +71,7 @@ export default function ProductGridCard({ product }: { product: Product }) {
               min={product.minOrderQuantity > 1 ? product.minOrderQuantity : 0}
               max={product.stockQuantity}
               onChange={(q) => updateQuantity(product.id, q)}
+              className="w-full sm:w-auto"
             />
           ) : outOfStock ? (
             <span className="shrink-0 text-[10px] font-semibold uppercase tracking-wide text-espresso/40">
@@ -77,9 +81,10 @@ export default function ProductGridCard({ product }: { product: Product }) {
             <button
               onClick={() => addItem(product.id, product.minOrderQuantity)}
               aria-label={`Add ${product.name} to cart`}
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-brand-300 bg-brand-50 text-brand-700 transition-colors duration-300 hover:bg-brand-500 hover:text-white cursor-pointer"
+              className="inline-flex w-fit items-center justify-center gap-1.5 rounded-md border border-brand-300 bg-brand-50 px-3 py-1.5 text-xs font-semibold text-brand-700 transition-colors duration-300 hover:bg-brand-500 hover:text-white cursor-pointer sm:h-8 sm:w-8 sm:px-0 sm:py-0"
             >
-              <ShoppingCart className="h-3.5 w-3.5" strokeWidth={2} />
+              <span className="sm:hidden">Add to Cart</span>
+              <ShoppingCart className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />
             </button>
           )}
         </div>

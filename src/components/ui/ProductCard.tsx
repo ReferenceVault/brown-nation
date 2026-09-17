@@ -12,10 +12,13 @@ import PriceTag from "./PriceTag";
 export default function ProductCard({ product }: { product: Product }) {
   const addItem = useCartStore((state) => state.addItem);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
-  const price = Number(product.price);
+  const basePrice = Number(product.price);
+  const allPrices = [basePrice, ...product.variants.map((v) => Number(v.price))];
+  const price = Math.min(...allPrices);
+  const maxPrice = Math.max(...allPrices);
   const compareAtPrice = product.compareAtPrice ? Number(product.compareAtPrice) : undefined;
   const outOfStock = product.stockQuantity <= 0;
-  const priceOnRequest = price <= 0;
+  const priceOnRequest = basePrice <= 0;
   const mounted = useMounted();
   const quantity = useCartStore(
     (state) => state.items.find((item) => item.productId === product.id)?.quantity ?? 0
@@ -51,7 +54,7 @@ export default function ProductCard({ product }: { product: Product }) {
         {priceOnRequest ? (
           <span className="text-sm font-bold text-brand-600">Price on request</span>
         ) : (
-          <PriceTag price={price} compareAtPrice={compareAtPrice} size="sm" />
+          <PriceTag price={price} maxPrice={maxPrice} compareAtPrice={compareAtPrice} size="sm" />
         )}
 
         {priceOnRequest ? null : mounted && quantity > 0 ? (
