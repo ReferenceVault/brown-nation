@@ -1,6 +1,6 @@
 "use client";
 
-import { PackageOpen } from "lucide-react";
+import { PackageOpen, WifiOff } from "lucide-react";
 import { useRequireAuth } from "@/lib/hooks/useRequireAuth";
 import { listMyOrders } from "@/lib/api/orders";
 import { useAsync } from "@/lib/hooks/useAsync";
@@ -11,7 +11,7 @@ import Spinner from "@/components/ui/Spinner";
 
 export default function OrdersPage() {
   const { currentUser, ready } = useRequireAuth();
-  const { data, loading } = useAsync(
+  const { data, error, loading, reload } = useAsync(
     () => listMyOrders({ limit: 50 }),
     [currentUser?.id]
   );
@@ -29,6 +29,15 @@ export default function OrdersPage() {
         <div className="flex justify-center py-10">
           <Spinner size={24} />
         </div>
+      ) : error ? (
+        <EmptyState
+          icon={WifiOff}
+          tone="error"
+          title="Couldn't load your orders"
+          description="We're having trouble reaching the server. Please try again in a moment."
+          actionLabel="Try Again"
+          onAction={reload}
+        />
       ) : !data || data.items.length === 0 ? (
         <EmptyState
           icon={PackageOpen}

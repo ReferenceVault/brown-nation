@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { PackageX } from "lucide-react";
+import { PackageX, WifiOff } from "lucide-react";
 import { useRequireAuth } from "@/lib/hooks/useRequireAuth";
 import { getOrder } from "@/lib/api/orders";
 import { useAsync } from "@/lib/hooks/useAsync";
@@ -21,7 +21,7 @@ const PAYABLE_ORDER_STATUSES = ["PENDING", "CONFIRMED", "PROCESSING"];
 export default function OrderDetailPage() {
   const { id } = useParams<{ id: string }>();
   const { currentUser, ready } = useRequireAuth();
-  const { data: order, loading, reload } = useAsync(() => getOrder(id), [id]);
+  const { data: order, error, loading, reload } = useAsync(() => getOrder(id), [id]);
 
   const canPay = Boolean(
     order && order.paymentStatus !== "SUCCESS" && PAYABLE_ORDER_STATUSES.includes(order.status)
@@ -42,6 +42,21 @@ export default function OrderDetailPage() {
     return (
       <div className="flex justify-center py-16">
         <Spinner size={24} />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="mx-auto max-w-2xl px-4 py-16 lg:px-8">
+        <EmptyState
+          icon={WifiOff}
+          tone="error"
+          title="Couldn't load this order"
+          description="We're having trouble reaching the server. Please try again in a moment."
+          actionLabel="Try Again"
+          onAction={reload}
+        />
       </div>
     );
   }
