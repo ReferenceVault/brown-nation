@@ -6,13 +6,28 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import type { Category } from "@/lib/types/catalog";
 
-export type SortOption = "featured" | "price-asc" | "price-desc";
+export type SortOption = "featured" | "price-asc" | "price-desc" | "best-sellers";
 
 const sortLabels: Record<SortOption, string> = {
   featured: "Newest",
   "price-asc": "Price: Low to High",
   "price-desc": "Price: High to Low",
+  "best-sellers": "Best Sellers",
 };
+
+// "Price: Low to High" renders as "Price:" on its own line, then "Low to
+// High" below — keeps these labels from forcing the button/menu wider than
+// the other, shorter options.
+function renderSortLabel(label: string) {
+  const [prefix, rest] = label.split(": ");
+  if (!rest) return label;
+  return (
+    <span className="flex flex-col leading-tight">
+      <span className="whitespace-nowrap">{prefix}:</span>
+      <span className="whitespace-nowrap">{rest}</span>
+    </span>
+  );
+}
 
 export default function ShopFilters({
   categories,
@@ -82,13 +97,13 @@ export default function ShopFilters({
         ))}
       </div>
 
-      <div ref={sortRef} className="relative w-fit">
+      <div ref={sortRef} className="relative w-fit self-end">
         <button
           type="button"
           onClick={() => setSortOpen((v) => !v)}
           className="flex items-center gap-2 rounded-lg border border-brand-200 bg-white px-3.5 py-2 text-xs font-medium text-espresso outline-none transition-colors duration-200 hover:border-brand-400 cursor-pointer"
         >
-          {sortLabels[currentSort]}
+          {renderSortLabel(sortLabels[currentSort])}
           <ChevronDown
             className={`h-3.5 w-3.5 text-espresso/60 transition-transform duration-200 ${sortOpen ? "rotate-180" : ""}`}
             strokeWidth={2}
@@ -96,13 +111,13 @@ export default function ShopFilters({
         </button>
 
         {sortOpen && (
-          <div className="absolute left-0 sm:left-auto sm:right-0 top-full z-10 mt-2 w-52 max-w-[calc(100vw-2rem)] rounded-xl border border-brand-100 bg-white py-2 shadow-soft">
+          <div className="absolute right-0 top-full z-10 mt-2 w-44 max-w-[calc(100vw-2rem)] rounded-xl border border-brand-100 bg-white py-2 shadow-soft">
             {Object.entries(sortLabels).map(([value, label]) => (
               <button
                 key={value}
                 type="button"
                 onClick={() => onSortChange(value)}
-                className={`block w-full px-4 py-2 text-left text-sm transition-colors duration-200 cursor-pointer ${
+                className={`block w-full whitespace-nowrap px-4 py-2 text-left text-sm transition-colors duration-200 cursor-pointer ${
                   currentSort === value
                     ? "bg-brand-50 font-medium text-brand-600"
                     : "text-espresso/80 hover:bg-brand-50 hover:text-brand-600"

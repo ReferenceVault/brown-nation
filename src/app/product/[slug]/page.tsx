@@ -63,6 +63,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         product={product}
         header={
           <div>
+            {product.isBestSeller && (
+              <span className="mb-2 inline-block rounded-md bg-amber-400 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-espresso shadow-sm">
+                Best Seller
+              </span>
+            )}
             <h1 className="font-serif text-2xl sm:text-3xl font-bold text-espresso">{product.name}</h1>
           </div>
         }

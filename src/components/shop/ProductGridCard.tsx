@@ -43,6 +43,11 @@ export default function ProductGridCard({ product }: { product: Product }) {
             className="object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
           />
         )}
+        {product.isBestSeller && (
+          <span className="absolute left-2.5 top-2.5 rounded-md bg-amber-400 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-espresso shadow-md">
+            Best Seller
+          </span>
+        )}
         {outOfStock && (
           <span className="absolute right-2.5 top-2.5 rounded-md bg-espresso px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-white shadow-md">
             Out of Stock
