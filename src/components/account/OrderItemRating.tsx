@@ -7,6 +7,7 @@ import { useAsync } from "@/lib/hooks/useAsync";
 import { useToastStore } from "@/lib/stores/toastStore";
 import { getMyRating, submitRating } from "@/lib/api/ratings";
 import { ApiError } from "@/lib/api/errors";
+import { revalidateProductRatingViews } from "@/lib/actions/revalidateProduct";
 import StarRatingInput from "@/components/product/StarRatingInput";
 
 export default function OrderItemRating({
@@ -37,14 +38,10 @@ export default function OrderItemRating({
     try {
       await submitRating(productId, rating);
       showToast("Thanks for rating this product!");
-      // The product page caches its data for a minute (see publicFetch) — force
-      // it fresh so the new average shows up there without a stale wait.
       if (productSlug) {
-        fetch("/revalidate-product", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ slug: productSlug }),
-        }).catch(() => {});
+        await revalidateProductRatingViews(productSlug).catch((err) => {
+          console.error("Failed to revalidate product rating views", err);
+        });
       }
     } catch (err) {
       setLocalRating(previous);
