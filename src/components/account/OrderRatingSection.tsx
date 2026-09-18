@@ -2,7 +2,11 @@ import type { Order } from "@/lib/types/order";
 import OrderItemRating from "./OrderItemRating";
 
 export default function OrderRatingSection({ order }: { order: Order }) {
-  if (order.status !== "DELIVERED") return null;
+  // Rating requires a verified purchase (a SUCCESS-paid order containing the
+  // product — see ratings.service.ts hasPurchased). A delivered-but-unpaid
+  // order fails that check for every item, so gate here too: otherwise this
+  // card renders its "Rate your products" heading with nothing underneath.
+  if (order.status !== "DELIVERED" || order.paymentStatus !== "SUCCESS") return null;
 
   const items = (order.items ?? []).filter((item) => item.productId);
   if (items.length === 0) return null;
