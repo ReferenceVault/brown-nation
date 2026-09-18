@@ -10,7 +10,7 @@ export default function StarRating({ rating, size = "sm" }: { rating: number; si
   const percentage = Math.max(0, Math.min(100, (rating / 5) * 100));
 
   return (
-    <div className="relative inline-flex">
+    <div className="relative inline-flex self-start">
       <div className="flex gap-0.5 text-espresso/15">
         {Array.from({ length: 5 }).map((_, i) => (
           <Star key={i} className={starSize} fill="currentColor" strokeWidth={0} />
