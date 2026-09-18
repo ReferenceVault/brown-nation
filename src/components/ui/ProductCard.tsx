@@ -8,6 +8,7 @@ import { useCartStore } from "@/lib/stores/cartStore";
 import { useMounted } from "@/lib/hooks/useMounted";
 import QuantityStepper from "./QuantityStepper";
 import PriceTag from "./PriceTag";
+import StarRating from "./StarRating";
 
 export default function ProductCard({ product }: { product: Product }) {
   const addItem = useCartStore((state) => state.addItem);
@@ -51,6 +52,9 @@ export default function ProductCard({ product }: { product: Product }) {
             {product.name}
           </h3>
         </Link>
+        {product.ratingCount > 0 && (
+          <StarRating rating={product.averageRating} />
+        )}
         {priceOnRequest ? (
           <span className="text-sm font-bold text-brand-600">Price on request</span>
         ) : (

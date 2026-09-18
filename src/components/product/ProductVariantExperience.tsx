@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import type { Product } from "@/lib/types/catalog";
+import { ProductRatingProvider } from "@/lib/context/productRatingContext";
 import ImageGallery from "./ImageGallery";
 import ProductPurchasePanel from "./ProductPurchasePanel";
 
@@ -23,20 +24,22 @@ export default function ProductVariantExperience({
   const images = selectedVariant ? (selectedVariant.image ? [selectedVariant.image] : []) : product.images;
 
   return (
-    <div className="mt-6 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
-      <ImageGallery key={selectedVariantId ?? "bar"} images={images} alt={product.name} />
+    <ProductRatingProvider initialAverage={product.averageRating} initialCount={product.ratingCount}>
+      <div className="mt-6 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
+        <ImageGallery key={selectedVariantId ?? "bar"} images={images} alt={product.name} />
 
-      <div className="flex flex-col gap-5">
-        {header}
+        <div className="flex flex-col gap-5">
+          {header}
 
-        <ProductPurchasePanel
-          product={product}
-          selectedVariantId={selectedVariantId}
-          onSelectVariant={setSelectedVariantId}
-        />
+          <ProductPurchasePanel
+            product={product}
+            selectedVariantId={selectedVariantId}
+            onSelectVariant={setSelectedVariantId}
+          />
 
-        {afterPurchase}
+          {afterPurchase}
+        </div>
       </div>
-    </div>
+    </ProductRatingProvider>
   );
 }
