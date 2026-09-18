@@ -7,23 +7,30 @@ const sizes = {
 
 export default function StarRating({ rating, size = "sm" }: { rating: number; size?: "sm" | "md" }) {
   const starSize = sizes[size];
-  const percentage = Math.max(0, Math.min(100, (rating / 5) * 100));
+  // Snap to the nearest half star. Clipping the whole row by a raw fractional
+  // percentage (e.g. 74%) lands mid-icon at an arbitrary point, which cuts
+  // through a star's points/notches and renders as a broken shape instead of
+  // a clean half star — so each star below is clipped individually at 0/50/100%.
+  const rounded = Math.round(Math.max(0, Math.min(5, rating)) * 2) / 2;
 
   return (
-    <div className="relative inline-flex self-start">
-      <div className="flex gap-0.5 text-espresso/15">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <Star key={i} className={starSize} fill="currentColor" strokeWidth={0} />
-        ))}
-      </div>
-      <div
-        className="absolute inset-0 flex gap-0.5 overflow-hidden text-amber-400"
-        style={{ width: `${percentage}%` }}
-      >
-        {Array.from({ length: 5 }).map((_, i) => (
-          <Star key={i} className={starSize} fill="currentColor" strokeWidth={0} />
-        ))}
-      </div>
+    <div className="inline-flex gap-0.5 self-start">
+      {Array.from({ length: 5 }).map((_, i) => {
+        const fill = Math.max(0, Math.min(1, rounded - i)) * 100;
+        return (
+          <div key={i} className="relative">
+            <Star className={`${starSize} text-espresso/15`} fill="currentColor" strokeWidth={0} />
+            {fill > 0 && (
+              <div
+                className="absolute inset-y-0 left-0 overflow-hidden text-amber-400"
+                style={{ width: `${fill}%` }}
+              >
+                <Star className={starSize} fill="currentColor" strokeWidth={0} />
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
