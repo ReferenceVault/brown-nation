@@ -11,6 +11,7 @@ import EmptyState from "@/components/ui/EmptyState";
 import Spinner from "@/components/ui/Spinner";
 import Button from "@/components/ui/Button";
 import OrderDetailCard from "@/components/account/OrderDetailCard";
+import OrderRatingSection from "@/components/account/OrderRatingSection";
 import StatusBadge from "@/components/ui/StatusBadge";
 
 // Payment can still be retried in these statuses; SUCCESS is already paid,
@@ -76,6 +77,7 @@ export default function OrderDetailPage() {
         <StatusBadge status={order.status} />
       </div>
       <OrderDetailCard order={order} />
+      <OrderRatingSection order={order} />
 
       {canPay && (
         <div className="mt-5 rounded-2xl bg-white p-5 shadow-card">

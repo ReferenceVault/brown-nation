@@ -171,6 +171,8 @@ export type AdminOrderItem = {
   unitPrice: string;
   quantity: number;
   totalPrice: string;
+  /** Null when the product was deleted after the order was placed. */
+  product: { images: string[]; slug: string } | null;
 };
 
 export type AdminOrderStatusHistoryEntry = {
