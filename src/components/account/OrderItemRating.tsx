@@ -37,6 +37,15 @@ export default function OrderItemRating({
     try {
       await submitRating(productId, rating);
       showToast("Thanks for rating this product!");
+      // The product page caches its data for a minute (see publicFetch) — force
+      // it fresh so the new average shows up there without a stale wait.
+      if (productSlug) {
+        fetch("/revalidate-product", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ slug: productSlug }),
+        }).catch(() => {});
+      }
     } catch (err) {
       setLocalRating(previous);
       showToast(err instanceof ApiError ? err.message : "Couldn't submit your rating.", "error");
