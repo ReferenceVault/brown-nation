@@ -6,13 +6,14 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import type { Category } from "@/lib/types/catalog";
 
-export type SortOption = "featured" | "price-asc" | "price-desc" | "best-sellers";
+export type SortOption = "featured" | "price-asc" | "price-desc" | "best-sellers" | "rating";
 
 const sortLabels: Record<SortOption, string> = {
   featured: "Newest",
   "price-asc": "Price: Low to High",
   "price-desc": "Price: High to Low",
   "best-sellers": "Best Sellers",
+  rating: "Highest Rated",
 };
 
 // "Price: Low to High" renders as "Price:" on its own line, then "Low to

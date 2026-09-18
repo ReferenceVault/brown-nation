@@ -8,5 +8,6 @@ export function toApiSort(
   if (sort === "price-asc") return { sortBy: "price", sortOrder: "asc" };
   if (sort === "price-desc") return { sortBy: "price", sortOrder: "desc" };
   if (sort === "best-sellers") return { isBestSeller: true };
+  if (sort === "rating") return { sortBy: "averageRating", sortOrder: "desc" };
   return {};
 }

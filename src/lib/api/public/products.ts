@@ -8,7 +8,7 @@ export type ProductListParams = {
   limit?: number;
   search?: string;
   categoryId?: string;
-  sortBy?: "name" | "price" | "createdAt" | "stockQuantity";
+  sortBy?: "name" | "price" | "createdAt" | "stockQuantity" | "averageRating";
   sortOrder?: "asc" | "desc";
   isBestSeller?: boolean;
 };

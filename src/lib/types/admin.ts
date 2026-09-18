@@ -145,6 +145,8 @@ export type AdminProduct = {
   isBestSeller: boolean;
   minOrderQuantity: number;
   variants: AdminProductVariant[];
+  averageRating: number;
+  ratingCount: number;
   createdAt: string;
   updatedAt: string;
 };

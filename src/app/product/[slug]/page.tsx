@@ -9,6 +9,8 @@ import ProductVariantExperience from "@/components/product/ProductVariantExperie
 import ProductDescription from "@/components/product/ProductDescription";
 import ProductContents from "@/components/product/ProductContents";
 import ProductShare from "@/components/product/ProductShare";
+import ProductRatingSection from "@/components/product/ProductRatingSection";
+import ProductAverageRating from "@/components/product/ProductAverageRating";
 import ProductGrid from "@/components/shop/ProductGrid";
 import SectionHeading from "@/components/ui/SectionHeading";
 
@@ -69,6 +71,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               </span>
             )}
             <h1 className="font-serif text-2xl sm:text-3xl font-bold text-espresso">{product.name}</h1>
+            <div className="mt-2">
+              <ProductAverageRating />
+            </div>
           </div>
         }
         afterPurchase={
@@ -84,6 +89,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
             <ProductDescription description={product.description} />
             <ProductContents contents={product.contents} />
+            <div id="rate-this-product" className="scroll-mt-24 border-t border-brand-100 pt-5">
+              <ProductRatingSection productId={product.id} />
+            </div>
             <ProductShare url={productUrl} title={product.name} />
           </>
         }

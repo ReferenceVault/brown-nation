@@ -8,6 +8,7 @@ import { useCartStore } from "@/lib/stores/cartStore";
 import { useMounted } from "@/lib/hooks/useMounted";
 import PriceTag from "@/components/ui/PriceTag";
 import QuantityStepper from "@/components/ui/QuantityStepper";
+import StarRating from "@/components/ui/StarRating";
 
 export default function ProductGridCard({ product }: { product: Product }) {
   const addItem = useCartStore((state) => state.addItem);
@@ -62,6 +63,9 @@ export default function ProductGridCard({ product }: { product: Product }) {
           </h3>
         </Link>
         <p className="text-xs text-espresso/55 line-clamp-1">{product.description}</p>
+        {product.ratingCount > 0 && (
+          <StarRating rating={product.averageRating} />
+        )}
 
         <div className="mt-1 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-2 sm:gap-y-1">
           {priceOnRequest ? (

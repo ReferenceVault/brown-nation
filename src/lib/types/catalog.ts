@@ -29,6 +29,8 @@ export type Product = {
   isBestSeller: boolean;
   minOrderQuantity: number;
   variants: ProductVariant[];
+  averageRating: number;
+  ratingCount: number;
   createdAt: string;
   updatedAt: string;
 };
