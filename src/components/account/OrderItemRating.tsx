@@ -9,6 +9,7 @@ import { getMyRating, submitRating } from "@/lib/api/ratings";
 import { ApiError } from "@/lib/api/errors";
 import { revalidateProductRatingViews } from "@/lib/actions/revalidateProduct";
 import StarRatingInput from "@/components/product/StarRatingInput";
+import Spinner from "@/components/ui/Spinner";
 
 export default function OrderItemRating({
   productId,
@@ -25,9 +26,68 @@ export default function OrderItemRating({
   const [submitting, setSubmitting] = useState(false);
   const [localRating, setLocalRating] = useState<number | null>(null);
 
-  const { data, loading } = useAsync(() => getMyRating(productId), [productId]);
+  const { data, error, loading, reload } = useAsync(() => getMyRating(productId), [productId]);
 
-  if (loading || !data || !data.canRate) return null;
+  const thumbnail = (
+    <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-brand-50">
+      {productImage && (
+        <Image src={productImage} alt={productName} fill sizes="56px" className="object-cover" />
+      )}
+    </div>
+  );
+  const thumbnailLink = productSlug ? (
+    <Link href={`/product/${productSlug}`} className="shrink-0">
+      {thumbnail}
+    </Link>
+  ) : (
+    thumbnail
+  );
+
+  // Never render nothing for a row that exists on the order — always show the
+  // product plus a status, so a load failure or an ineligible item is visible
+  // instead of silently leaving a blank space under "Rate your products".
+  if (loading) {
+    return (
+      <div className="flex items-center gap-3 py-3">
+        {thumbnailLink}
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-medium text-espresso">{productName}</p>
+        </div>
+        <Spinner size={16} />
+      </div>
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <div className="flex items-center gap-3 py-3">
+        {thumbnailLink}
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-medium text-espresso">{productName}</p>
+          <p className="mt-0.5 text-xs text-red-500">Couldn&apos;t load rating status.</p>
+        </div>
+        <button
+          type="button"
+          onClick={reload}
+          className="shrink-0 text-xs font-semibold uppercase tracking-wide text-brand-600 hover:text-brand-700 cursor-pointer"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+  if (!data.canRate) {
+    return (
+      <div className="flex items-center gap-3 py-3">
+        {thumbnailLink}
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-medium text-espresso">{productName}</p>
+          <p className="mt-0.5 text-xs text-espresso/50">Not eligible for rating on this order.</p>
+        </div>
+      </div>
+    );
+  }
 
   const displayRating = localRating ?? data.myRating ?? 0;
 
@@ -51,23 +111,9 @@ export default function OrderItemRating({
     }
   };
 
-  const thumbnail = (
-    <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-brand-50">
-      {productImage && (
-        <Image src={productImage} alt={productName} fill sizes="56px" className="object-cover" />
-      )}
-    </div>
-  );
-
   return (
     <div className="flex items-center gap-3 py-3">
-      {productSlug ? (
-        <Link href={`/product/${productSlug}`} className="shrink-0">
-          {thumbnail}
-        </Link>
-      ) : (
-        thumbnail
-      )}
+      {thumbnailLink}
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium text-espresso">{productName}</p>
         <p className="mt-0.5 text-xs font-semibold uppercase tracking-wide text-espresso/50">
