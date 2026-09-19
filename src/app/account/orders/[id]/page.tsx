@@ -149,7 +149,7 @@ export default function OrderDetailPage() {
         <StatusBadge status={order.status} />
       </div>
       <OrderDetailCard order={order} />
-      <OrderRatingSection order={order} />
+      <OrderRatingSection order={order} currentUserId={currentUser.id} />
 
       {canPay && (
         <div className="mt-5 rounded-2xl bg-white p-5 shadow-card">

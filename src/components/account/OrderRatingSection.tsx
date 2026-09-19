@@ -7,14 +7,22 @@ import OrderItemRating from "./OrderItemRating";
 /** Matches the "#rate-your-products" fragment the delivery email's rating button links to. */
 export const RATE_SECTION_ANCHOR = "rate-your-products";
 
-export default function OrderRatingSection({ order }: { order: Order }) {
+export default function OrderRatingSection({
+  order,
+  currentUserId,
+}: {
+  order: Order;
+  /** The signed-in viewer's id — an admin browsing someone else's order isn't the one who bought it, so they get nothing to rate here. */
+  currentUserId: string;
+}) {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   // Rating requires a verified purchase (a SUCCESS-paid order containing the
   // product — see ratings.service.ts hasPurchased). A delivered-but-unpaid
   // order fails that check for every item, so gate here too: otherwise this
   // card renders its "Rate your products" heading with nothing underneath.
-  const eligible = order.status === "DELIVERED" && order.paymentStatus === "SUCCESS";
+  const eligible =
+    order.userId === currentUserId && order.status === "DELIVERED" && order.paymentStatus === "SUCCESS";
   const items = eligible ? (order.items ?? []).filter((item) => item.productId) : [];
   const hasItems = items.length > 0;
 
