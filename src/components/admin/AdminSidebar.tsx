@@ -16,6 +16,7 @@ import {
   Tag,
   Megaphone,
   Volume2,
+  Send,
 } from "lucide-react";
 
 const navItems = [
@@ -29,6 +30,7 @@ const navItems = [
   { label: "Orders", href: "/admin/orders", icon: ShoppingCart },
   { label: "Shipping Settings", href: "/admin/shipping-settings", icon: Truck },
   { label: "Enquiries", href: "/admin/enquiries", icon: Mail },
+  { label: "Newsletter", href: "/admin/newsletter", icon: Send },
   { label: "Users", href: "/admin/users", icon: Users },
 ];
 

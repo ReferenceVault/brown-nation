@@ -49,6 +49,12 @@ export type AdminCategory = {
   updatedAt: string;
 };
 
+export type NewsletterSubscriber = {
+  id: string;
+  email: string;
+  createdAt: string;
+};
+
 export type AdminEnquiry = {
   id: string;
   name: string;
