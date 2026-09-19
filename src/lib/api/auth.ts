@@ -64,3 +64,15 @@ export function resendVerificationEmail(email: string) {
     skipAuth: true,
   });
 }
+
+export function changePassword(currentPassword: string, newPassword: string) {
+  return apiFetch<{ message: string }>("/auth/change-password", {
+    method: "PATCH",
+    body: { currentPassword, newPassword },
+  });
+}
+
+/** Resets email verification server-side and sends a new verification link. */
+export function changeEmail(email: string) {
+  return apiFetch<AdminUser>("/auth/change-email", { method: "PATCH", body: { email } });
+}

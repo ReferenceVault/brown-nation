@@ -27,6 +27,8 @@ type AuthState = {
   setTokens: (accessToken: string, refreshToken: string) => void;
   /** Used internally by the API client when the session can no longer be refreshed. */
   clearSession: () => void;
+  /** Reflects a profile/email update (settings page) into the cached user everywhere it's read from. */
+  setCurrentUser: (user: User) => void;
 };
 
 function errorMessage(err: unknown): string {
@@ -43,6 +45,8 @@ export const useAuthStore = create<AuthState>()(
       setTokens: (accessToken, refreshToken) => set({ accessToken, refreshToken }),
 
       clearSession: () => set({ currentUser: null, accessToken: null, refreshToken: null }),
+
+      setCurrentUser: (user) => set({ currentUser: user }),
 
       signup: async (data) => {
         try {

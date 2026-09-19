@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Package, LogOut, ShieldCheck, User as UserIcon } from "lucide-react";
+import { Package, LogOut, Settings, ShieldCheck, User as UserIcon } from "lucide-react";
 import { useRequireAuth } from "@/lib/hooks/useRequireAuth";
 import { useAuthStore } from "@/lib/stores/authStore";
 import { listMyOrders } from "@/lib/api/orders";
@@ -61,6 +61,19 @@ export default function AccountPage() {
             <p className="text-xs text-espresso/50">
               {orderCount} order{orderCount === 1 ? "" : "s"} placed
             </p>
+          </div>
+        </button>
+
+        <button
+          onClick={() => router.push("/account/settings")}
+          className="flex items-center gap-3 rounded-2xl bg-white p-5 text-left shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-soft cursor-pointer"
+        >
+          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-pastel-yellow-soft">
+            <Settings className="h-5 w-5 text-amber-700" strokeWidth={1.75} />
+          </span>
+          <div>
+            <p className="text-sm font-semibold text-espresso">Settings</p>
+            <p className="text-xs text-espresso/50">Update your profile, email &amp; password</p>
           </div>
         </button>
 
