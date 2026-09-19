@@ -124,7 +124,7 @@ export default function AdminUsersPage() {
                         <Eye className="h-4 w-4" strokeWidth={1.75} />
                       </Link>
                       <Link
-                        href={`/admin/users/${user.id}`}
+                        href={`/admin/users/${user.id}?edit=true`}
                         aria-label="Edit"
                         className="flex h-8 w-8 items-center justify-center rounded-lg text-espresso/50 transition-colors duration-200 hover:bg-brand-50 hover:text-brand-600"
                       >

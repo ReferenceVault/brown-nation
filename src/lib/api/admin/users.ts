@@ -17,8 +17,25 @@ export function getUser(id: string) {
   return apiFetch<AdminUser>(`/users/${id}`);
 }
 
-export function updateUserAdmin(id: string, data: { role?: UserRole; status?: UserStatus }) {
+export type AdminUpdateUserInput = {
+  role?: UserRole;
+  status?: UserStatus;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
+};
+
+export function updateUserAdmin(id: string, data: AdminUpdateUserInput) {
   return apiFetch<AdminUser>(`/users/${id}`, { method: "PATCH", body: data });
+}
+
+/** Sets the user's password directly (no current password needed) and ends their other sessions. */
+export function setUserPassword(id: string, password: string) {
+  return apiFetch<{ message: string }>(`/users/${id}/password`, {
+    method: "PATCH",
+    body: { password },
+  });
 }
 
 export function deleteUser(id: string, deleteOrders: boolean) {
