@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useAsync } from "@/lib/hooks/useAsync";
 import { useToastStore } from "@/lib/stores/toastStore";
 import { getMyRating, submitRating } from "@/lib/api/ratings";
@@ -23,10 +24,12 @@ export default function OrderItemRating({
   productImage: string | null;
 }) {
   const showToast = useToastStore((state) => state.show);
+  const pathname = usePathname();
   const [submitting, setSubmitting] = useState(false);
   const [localRating, setLocalRating] = useState<number | null>(null);
 
-  const { data, error, loading, reload } = useAsync(() => getMyRating(productId), [productId]);
+  const { data, error, errorStatus, loading, reload } = useAsync(() => getMyRating(productId), [productId]);
+  const isAuthError = errorStatus === 401;
 
   const thumbnail = (
     <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-brand-50">
@@ -54,6 +57,24 @@ export default function OrderItemRating({
           <p className="truncate text-sm font-medium text-espresso">{productName}</p>
         </div>
         <Spinner size={16} />
+      </div>
+    );
+  }
+
+  if (isAuthError) {
+    return (
+      <div className="flex items-center gap-3 py-3">
+        {thumbnailLink}
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-medium text-espresso">{productName}</p>
+          <p className="mt-0.5 text-xs text-espresso/50">Log in again to rate this product.</p>
+        </div>
+        <Link
+          href={`/login?redirect=${encodeURIComponent(pathname)}`}
+          className="shrink-0 text-xs font-semibold uppercase tracking-wide text-brand-600 hover:text-brand-700"
+        >
+          Log In
+        </Link>
       </div>
     );
   }

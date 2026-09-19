@@ -1,8 +1,9 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import { PackageX, WifiOff } from "lucide-react";
-import { useRequireAuth } from "@/lib/hooks/useRequireAuth";
+import { useParams, usePathname } from "next/navigation";
+import { LogIn, PackageX, ShieldAlert, WifiOff } from "lucide-react";
+import { useAuthStore } from "@/lib/stores/authStore";
+import { useMounted } from "@/lib/hooks/useMounted";
 import { getOrder } from "@/lib/api/orders";
 import { useAsync } from "@/lib/hooks/useAsync";
 import { usePayNow } from "@/lib/hooks/usePayNow";
@@ -20,8 +21,10 @@ const PAYABLE_ORDER_STATUSES = ["PENDING", "CONFIRMED", "PROCESSING"];
 
 export default function OrderDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const { currentUser, ready } = useRequireAuth();
-  const { data: order, error, loading, reload } = useAsync(() => getOrder(id), [id]);
+  const pathname = usePathname();
+  const mounted = useMounted();
+  const currentUser = useAuthStore((state) => state.currentUser);
+  const { data: order, error, errorStatus, loading, reload } = useAsync(() => getOrder(id), [id]);
 
   const canPay = Boolean(
     order && order.paymentStatus !== "SUCCESS" && PAYABLE_ORDER_STATUSES.includes(order.status)
@@ -36,7 +39,29 @@ export default function OrderDetailPage() {
     reload
   );
 
-  if (!ready || !currentUser) return null;
+  if (!mounted) return null;
+
+  // Order links go out in "your order was delivered" emails, so a visitor
+  // can land here logged out, or logged into an account other than the one
+  // that placed the order — neither should look like the order is missing.
+  const currentUrl = `${pathname}${
+    typeof window !== "undefined" ? `${window.location.search}${window.location.hash}` : ""
+  }`;
+  const loginHref = `/login?redirect=${encodeURIComponent(currentUrl)}`;
+
+  if (!currentUser) {
+    return (
+      <div className="mx-auto max-w-2xl px-4 py-16 lg:px-8">
+        <EmptyState
+          icon={LogIn}
+          title="Log in to rate this product"
+          description="Please log in to the account used to place this order to view it and rate your purchase."
+          actionLabel="Log in to rate"
+          actionHref={loginHref}
+        />
+      </div>
+    );
+  }
 
   if (loading && !order) {
     return (
@@ -47,6 +72,38 @@ export default function OrderDetailPage() {
   }
 
   if (error) {
+    if (errorStatus === 403) {
+      return (
+        <div className="mx-auto max-w-2xl px-4 py-16 lg:px-8">
+          <EmptyState
+            icon={ShieldAlert}
+            tone="error"
+            title="This isn't your order"
+            description="This order belongs to a different account. Log in with the account used to place it to view and rate it."
+            actionLabel="Log in with another account"
+            actionHref={loginHref}
+            onAction={() => {
+              useAuthStore.getState().logout();
+            }}
+          />
+        </div>
+      );
+    }
+
+    if (errorStatus === 404) {
+      return (
+        <div className="mx-auto max-w-2xl px-4 py-16 lg:px-8">
+          <EmptyState
+            icon={PackageX}
+            title="Order not found"
+            description="We couldn't find this order on your account."
+            actionLabel="View My Orders"
+            actionHref="/account/orders"
+          />
+        </div>
+      );
+    }
+
     return (
       <div className="mx-auto max-w-2xl px-4 py-16 lg:px-8">
         <EmptyState

@@ -6,6 +6,8 @@ import { ApiError } from "@/lib/api/errors";
 type AsyncState<T> = {
   data: T | null;
   error: string | null;
+  /** The failed request's HTTP status (e.g. 401/403/404), for callers that need to branch on it — null for a non-API error or no error. */
+  errorStatus: number | null;
   loading: boolean;
   reload: () => void;
 };
@@ -19,6 +21,7 @@ const MIN_LOADING_MS = 350;
 export function useAsync<T>(fn: () => Promise<T>, deps: unknown[]): AsyncState<T> {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [errorStatus, setErrorStatus] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [version, setVersion] = useState(0);
 
@@ -33,6 +36,7 @@ export function useAsync<T>(fn: () => Promise<T>, deps: unknown[]): AsyncState<T
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     setError(null);
+    setErrorStatus(null);
 
     const settle = (apply: () => void) => {
       if (cancelled) return;
@@ -52,9 +56,10 @@ export function useAsync<T>(fn: () => Promise<T>, deps: unknown[]): AsyncState<T
     fn()
       .then((result) => settle(() => setData(result)))
       .catch((err: unknown) =>
-        settle(() =>
-          setError(err instanceof ApiError ? err.message : "Something went wrong. Please try again."),
-        ),
+        settle(() => {
+          setError(err instanceof ApiError ? err.message : "Something went wrong. Please try again.");
+          setErrorStatus(err instanceof ApiError ? err.status : null);
+        }),
       );
 
     return () => {
@@ -66,5 +71,5 @@ export function useAsync<T>(fn: () => Promise<T>, deps: unknown[]): AsyncState<T
 
   const reload = useCallback(() => setVersion((v) => v + 1), []);
 
-  return { data, error, loading, reload };
+  return { data, error, errorStatus, loading, reload };
 }
