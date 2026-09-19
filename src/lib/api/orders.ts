@@ -19,9 +19,13 @@ export type OrderListParams = {
   status?: AdminOrderStatus;
 };
 
-/** Backend scopes this to the current user's own orders (admins get everyone's). */
+/**
+ * Always the signed-in user's own orders — `mine: true` forces this even for
+ * an admin account, which otherwise gets every order in the system back from
+ * this same endpoint (that's what the separate admin order list wants).
+ */
 export function listMyOrders(params: OrderListParams = {}) {
-  return apiFetch<Paginated<AdminOrder>>(`/orders${toQueryString(params)}`);
+  return apiFetch<Paginated<AdminOrder>>(`/orders${toQueryString({ ...params, mine: true })}`);
 }
 
 export function getOrder(id: string) {
