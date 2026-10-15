@@ -26,7 +26,7 @@ const perks = [
 
 export default async function CorporateGiftingPage() {
   const featured = await fetchProductBySlug("signature-designer-bar");
-  const heroImage = "/products/golden-crunch.jpg";
+  const heroImage = "/products/midnight-noir.jpg";
 
   return (
     <div>
