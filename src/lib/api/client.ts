@@ -3,6 +3,22 @@ import { useToastStore } from "@/lib/stores/toastStore";
 import { ApiError } from "./errors";
 import type { ApiEnvelope } from "./types";
 
+// The backend's ValidationPipe reports field-level errors as this shape
+// (see backend/src/common/pipes/validation-exception-factory.ts) under a
+// generic top-level message ("Validation failed") — pull out the specific
+// constraint text instead, e.g. "price must be a positive number", so
+// every form's error display shows what's actually wrong, not just that
+// something is.
+function describeValidationDetails(details: unknown): string | null {
+  if (!Array.isArray(details)) return null;
+  const messages = details.flatMap((entry) =>
+    entry && typeof entry === "object" && Array.isArray((entry as { errors?: unknown }).errors)
+      ? ((entry as { errors: unknown[] }).errors.filter((e) => typeof e === "string") as string[])
+      : []
+  );
+  return messages.length > 0 ? messages.join("; ") : null;
+}
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
 
 // Once a real session (not just an anonymous visitor) turns out to be
@@ -125,7 +141,7 @@ export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): 
     const error = json && !json.success ? json.error : undefined;
     throw new ApiError(
       error?.code ?? "UNKNOWN_ERROR",
-      error?.message ?? `Request failed with status ${res.status}`,
+      describeValidationDetails(error?.details) ?? error?.message ?? `Request failed with status ${res.status}`,
       res.status,
       error?.details,
     );
