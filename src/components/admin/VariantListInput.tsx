@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus, X } from "lucide-react";
+import { ChevronDown, Plus, X } from "lucide-react";
 import ImageUploadTile from "./ImageUploadTile";
 
 export type VariantDraft = {
@@ -40,14 +40,20 @@ export default function VariantListInput({
               onChange={(url) => updateAt(index, "image", url)}
               onRemove={() => updateAt(index, "image", "")}
             />
-            <select
-              value={item.kind}
-              onChange={(e) => updateAt(index, "kind", e.target.value)}
-              className="shrink-0 rounded-lg border border-brand-200 px-3 py-2.5 text-sm text-espresso outline-none transition-colors duration-200 focus:border-brand-400"
-            >
-              <option value="CAVITY">Cavity</option>
-              <option value="HAMPER">Hamper</option>
-            </select>
+            <div className="relative shrink-0">
+              <select
+                value={item.kind}
+                onChange={(e) => updateAt(index, "kind", e.target.value)}
+                className="appearance-none rounded-lg border border-brand-200 bg-white py-2.5 pl-3 pr-8 text-sm text-espresso outline-none transition-colors duration-200 focus:border-brand-400 cursor-pointer"
+              >
+                <option value="CAVITY">Cavity</option>
+                <option value="HAMPER">Hamper</option>
+              </select>
+              <ChevronDown
+                className="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-espresso/40"
+                strokeWidth={1.75}
+              />
+            </div>
             {item.kind === "CAVITY" ? (
               <div className="relative w-32 shrink-0">
                 <input
