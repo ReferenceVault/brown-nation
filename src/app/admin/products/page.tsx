@@ -16,7 +16,8 @@ import EmptyState from "@/components/ui/EmptyState";
 import Spinner from "@/components/ui/Spinner";
 import TableSkeleton from "@/components/ui/TableSkeleton";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
-import { formatINR } from "@/lib/utils/currency";
+import { formatINRRange } from "@/lib/utils/currency";
+import { productPriceRange } from "@/lib/utils/productPricing";
 
 const COLUMN_COUNT = 7;
 
@@ -188,7 +189,12 @@ export default function AdminProductsPage() {
                     </Td>
                     <Td className="font-mono text-xs">{product.sku}</Td>
                     <Td>{category?.name ?? "—"}</Td>
-                    <Td>{formatINR(Number(product.price))}</Td>
+                    <Td>
+                      {(() => {
+                        const { price, maxPrice } = productPriceRange(product);
+                        return price <= 0 ? "—" : formatINRRange(price, maxPrice);
+                      })()}
+                    </Td>
                     <Td>
                       <span className={product.stockQuantity === 0 ? "font-semibold text-red-500" : ""}>
                         {product.stockQuantity}

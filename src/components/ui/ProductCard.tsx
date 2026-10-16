@@ -6,6 +6,7 @@ import { ShoppingCart } from "lucide-react";
 import type { Product } from "@/lib/types/catalog";
 import { useCartStore } from "@/lib/stores/cartStore";
 import { useMounted } from "@/lib/hooks/useMounted";
+import { productPriceRange } from "@/lib/utils/productPricing";
 import QuantityStepper from "./QuantityStepper";
 import PriceTag from "./PriceTag";
 import StarRating from "./StarRating";
@@ -13,13 +14,10 @@ import StarRating from "./StarRating";
 export default function ProductCard({ product }: { product: Product }) {
   const addItem = useCartStore((state) => state.addItem);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
-  const basePrice = Number(product.price);
-  const allPrices = [basePrice, ...product.variants.map((v) => Number(v.price))];
-  const price = Math.min(...allPrices);
-  const maxPrice = Math.max(...allPrices);
+  const { price, maxPrice } = productPriceRange(product);
   const compareAtPrice = product.compareAtPrice ? Number(product.compareAtPrice) : undefined;
   const outOfStock = product.stockQuantity <= 0;
-  const priceOnRequest = basePrice <= 0;
+  const priceOnRequest = price <= 0;
   const mounted = useMounted();
   const quantity = useCartStore(
     (state) => state.items.find((item) => item.productId === product.id)?.quantity ?? 0
@@ -27,14 +25,20 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
     <div className="group flex flex-shrink-0 w-full snap-center sm:w-[270px] items-center gap-5 sm:gap-3 rounded-xl bg-white p-2.5 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-soft">
-      <Link href={`/product/${product.slug}`} className="relative h-20 w-20 sm:h-24 sm:w-24 shrink-0 overflow-hidden rounded-lg">
-        <Image
-          src={product.images[0]}
-          alt={product.name}
-          fill
-          sizes="96px"
-          className="object-cover transition-transform duration-300 group-hover:scale-[1.06]"
-        />
+      <Link href={`/product/${product.slug}`} className="relative h-20 w-20 sm:h-24 sm:w-24 shrink-0 overflow-hidden rounded-lg bg-brand-50">
+        {product.images[0] ? (
+          <Image
+            src={product.images[0]}
+            alt={product.name}
+            fill
+            sizes="96px"
+            className="object-cover transition-transform duration-300 group-hover:scale-[1.06]"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center p-1.5 text-center text-[10px] font-medium text-espresso/40">
+            {product.name}
+          </div>
+        )}
         {product.images[1] && (
           <Image
             src={product.images[1]}

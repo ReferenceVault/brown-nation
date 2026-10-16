@@ -16,8 +16,14 @@ export default function CartLineItem({ line }: { line: CartDetailLine }) {
 
   return (
     <div className="flex items-center gap-4 border-b border-brand-100 py-4 last:border-b-0">
-      <Link href={`/product/${line.product.slug}`} className="relative h-16 w-16 sm:h-20 sm:w-20 shrink-0 overflow-hidden rounded-lg">
-        <Image src={image} alt={line.product.name} fill sizes="80px" className="object-cover" />
+      <Link href={`/product/${line.product.slug}`} className="relative h-16 w-16 sm:h-20 sm:w-20 shrink-0 overflow-hidden rounded-lg bg-brand-50">
+        {image ? (
+          <Image src={image} alt={line.product.name} fill sizes="80px" className="object-cover" />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center p-1 text-center text-[9px] font-medium text-espresso/40">
+            {line.product.name}
+          </div>
+        )}
       </Link>
 
       <div className="min-w-0 flex-1">

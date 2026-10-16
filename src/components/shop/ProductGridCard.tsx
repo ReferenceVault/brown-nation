@@ -6,6 +6,7 @@ import { ShoppingCart } from "lucide-react";
 import type { Product } from "@/lib/types/catalog";
 import { useCartStore } from "@/lib/stores/cartStore";
 import { useMounted } from "@/lib/hooks/useMounted";
+import { productPriceRange } from "@/lib/utils/productPricing";
 import PriceTag from "@/components/ui/PriceTag";
 import QuantityStepper from "@/components/ui/QuantityStepper";
 import StarRating from "@/components/ui/StarRating";
@@ -13,13 +14,10 @@ import StarRating from "@/components/ui/StarRating";
 export default function ProductGridCard({ product }: { product: Product }) {
   const addItem = useCartStore((state) => state.addItem);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
-  const basePrice = Number(product.price);
-  const allPrices = [basePrice, ...product.variants.map((v) => Number(v.price))];
-  const price = Math.min(...allPrices);
-  const maxPrice = Math.max(...allPrices);
+  const { price, maxPrice } = productPriceRange(product);
   const compareAtPrice = product.compareAtPrice ? Number(product.compareAtPrice) : undefined;
   const outOfStock = product.stockQuantity <= 0;
-  const priceOnRequest = basePrice <= 0;
+  const priceOnRequest = price <= 0;
   const mounted = useMounted();
   const quantity = useCartStore(
     (state) => state.items.find((item) => item.productId === product.id)?.quantity ?? 0
@@ -27,14 +25,20 @@ export default function ProductGridCard({ product }: { product: Product }) {
 
   return (
     <div className="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-soft">
-      <Link href={`/product/${product.slug}`} className="relative block aspect-square overflow-hidden">
-        <Image
-          src={product.images[0]}
-          alt={product.name}
-          fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          className="object-cover transition-transform duration-300 group-hover:scale-[1.06]"
-        />
+      <Link href={`/product/${product.slug}`} className="relative block aspect-square overflow-hidden bg-brand-50">
+        {product.images[0] ? (
+          <Image
+            src={product.images[0]}
+            alt={product.name}
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            className="object-cover transition-transform duration-300 group-hover:scale-[1.06]"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center p-4 text-center text-xs font-medium text-espresso/40">
+            {product.name}
+          </div>
+        )}
         {product.images[1] && (
           <Image
             src={product.images[1]}

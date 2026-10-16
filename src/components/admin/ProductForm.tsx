@@ -118,11 +118,11 @@ export default function ProductForm({
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <TextField
-          label="Price (₹)"
+          label={sellsBar ? "Price (₹)" : "Price (₹) — not sold as plain Bar"}
           type="number"
           min="0"
           step="0.01"
-          required
+          required={sellsBar}
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />

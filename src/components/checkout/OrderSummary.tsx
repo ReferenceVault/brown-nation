@@ -25,16 +25,16 @@ export default function OrderSummary({ lines, subtotal }: { lines: CartDetailLin
       <h2 className="font-serif text-lg font-semibold text-espresso">Order Summary</h2>
 
       <div className="mt-4 flex flex-col gap-3 max-h-64 overflow-y-auto pr-1">
-        {lines.map((line) => (
+        {lines.map((line) => {
+          const image = line.variant?.image ?? line.product.images[0];
+          return (
           <div key={`${line.productId}-${line.variantId ?? "base"}`} className="flex items-center gap-3">
-            <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
-              <Image
-                src={line.variant?.image ?? line.product.images[0]}
-                alt={line.product.name}
-                fill
-                sizes="48px"
-                className="object-cover"
-              />
+            <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-brand-50">
+              {image ? (
+                <Image src={image} alt={line.product.name} fill sizes="48px" className="object-cover" />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-[8px] font-medium text-espresso/40" />
+              )}
               <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-espresso text-[10px] font-semibold text-white">
                 {line.quantity}
               </span>
@@ -47,7 +47,8 @@ export default function OrderSummary({ lines, subtotal }: { lines: CartDetailLin
             </div>
             <p className="text-sm font-semibold text-espresso">{formatINR(line.lineTotal)}</p>
           </div>
-        ))}
+          );
+        })}
       </div>
 
       <div className="mt-4 border-t border-brand-100 pt-4">
