@@ -31,7 +31,6 @@ export type Product = {
   status: ProductStatus;
   stockQuantity: number;
   isBestSeller: boolean;
-  sellsBar: boolean;
   minOrderQuantity: number;
   variants: ProductVariant[];
   averageRating: number;

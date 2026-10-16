@@ -74,19 +74,17 @@ export default function ProductPurchasePanel({
             Options
           </p>
           <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
-            {product.sellsBar && (
-              <button
-                type="button"
-                onClick={() => onSelectVariant(undefined)}
-                className={`rounded-lg border px-4 py-2 text-sm font-semibold transition-colors duration-200 cursor-pointer ${
-                  selectedVariantId === undefined
-                    ? "border-brand-500 bg-brand-500 text-white"
-                    : "border-brand-200 text-espresso hover:border-brand-400"
-                }`}
-              >
-                Bar
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => onSelectVariant(undefined)}
+              className={`rounded-lg border px-4 py-2 text-sm font-semibold transition-colors duration-200 cursor-pointer ${
+                selectedVariantId === undefined
+                  ? "border-brand-500 bg-brand-500 text-white"
+                  : "border-brand-200 text-espresso hover:border-brand-400"
+              }`}
+            >
+              Bar
+            </button>
             {variants.map((variant) => (
               <button
                 key={variant.id}
