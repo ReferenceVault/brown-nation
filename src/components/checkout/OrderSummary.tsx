@@ -28,7 +28,13 @@ export default function OrderSummary({ lines, subtotal }: { lines: CartDetailLin
         {lines.map((line) => (
           <div key={`${line.productId}-${line.variantId ?? "base"}`} className="flex items-center gap-3">
             <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
-              <Image src={line.product.images[0]} alt={line.product.name} fill sizes="48px" className="object-cover" />
+              <Image
+                src={line.variant?.image ?? line.product.images[0]}
+                alt={line.product.name}
+                fill
+                sizes="48px"
+                className="object-cover"
+              />
               <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-espresso text-[10px] font-semibold text-white">
                 {line.quantity}
               </span>
