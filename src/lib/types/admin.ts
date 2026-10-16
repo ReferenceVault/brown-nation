@@ -151,6 +151,7 @@ export type AdminProduct = {
   status: ProductStatus;
   stockQuantity: number;
   isBestSeller: boolean;
+  sellsBar: boolean;
   minOrderQuantity: number;
   variants: AdminProductVariant[];
   averageRating: number;

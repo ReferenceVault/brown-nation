@@ -34,6 +34,7 @@ export type ProductInput = {
   status?: ProductStatus;
   stockQuantity?: number;
   isBestSeller?: boolean;
+  sellsBar?: boolean;
   minOrderQuantity?: number;
   variants?: ProductVariantInput[];
 };

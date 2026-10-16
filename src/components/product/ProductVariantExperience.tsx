@@ -15,8 +15,11 @@ export default function ProductVariantExperience({
   header: ReactNode;
   afterPurchase: ReactNode;
 }) {
-  // undefined = the plain bar, at the product's base price.
-  const [selectedVariantId, setSelectedVariantId] = useState<string | undefined>(undefined);
+  // undefined = the plain bar, at the product's base price. When the product
+  // doesn't sell the plain bar, default to its first variant instead, since
+  // "Bar" isn't offered as a choice.
+  const defaultVariantId = !product.sellsBar ? product.variants?.[0]?.id : undefined;
+  const [selectedVariantId, setSelectedVariantId] = useState<string | undefined>(defaultVariantId);
   const selectedVariant = product.variants?.find((v) => v.id === selectedVariantId);
 
   // A cavity option with no image set of its own shows blank (with alt text)

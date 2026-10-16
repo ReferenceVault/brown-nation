@@ -51,6 +51,7 @@ export default function ProductForm({
     }))
   );
   const [isBestSeller, setIsBestSeller] = useState(initialValues?.isBestSeller ?? false);
+  const [sellsBar, setSellsBar] = useState(initialValues?.sellsBar ?? true);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -76,6 +77,7 @@ export default function ProductForm({
         images: images.map((url) => url.trim()).filter(Boolean),
         contents: contents.map((item) => item.trim()).filter(Boolean),
         isBestSeller,
+        sellsBar,
         minOrderQuantity: Number(minOrderQuantity) || 1,
         variants: variants
           .filter((v) => v.price.trim() && (v.kind === "HAMPER" ? v.label.trim() : v.cavityCount.trim()))
@@ -199,6 +201,20 @@ export default function ProductForm({
         value={variants}
         onChange={setVariants}
       />
+
+      {variants.length > 0 && (
+        <label className="flex w-fit items-center gap-2.5 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={sellsBar}
+            onChange={(e) => setSellsBar(e.target.checked)}
+            className="h-4 w-4 cursor-pointer rounded border-brand-300 text-brand-500 focus:ring-brand-400"
+          />
+          <span className="text-sm font-medium text-espresso">
+            Also sell as plain &apos;Bar&apos; (uncheck if this product should only be sold via the options above)
+          </span>
+        </label>
+      )}
 
       {error && <p className="text-sm font-medium text-red-500">{error}</p>}
 
