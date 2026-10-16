@@ -15,7 +15,10 @@ import { ChevronDown } from "lucide-react";
 type OptionProps = { value: string; disabled?: boolean; children?: ReactNode };
 
 type SelectProps = {
-  label: string;
+  /** Visible label above the control. Omit for a compact inline usage — pass `ariaLabel` instead. */
+  label?: string;
+  /** Accessible name when no visible `label` is rendered. */
+  ariaLabel?: string;
   value: string | undefined;
   onChange: (e: { target: { value: string } }) => void;
   children: ReactNode;
@@ -34,6 +37,7 @@ function optionText(node: ReactNode): string {
 
 export default function Select({
   label,
+  ariaLabel,
   value,
   onChange,
   children,
@@ -43,7 +47,7 @@ export default function Select({
   disabled,
   required,
 }: SelectProps) {
-  const selectId = id ?? label.toLowerCase().replace(/\s+/g, "-");
+  const selectId = id ?? label?.toLowerCase().replace(/\s+/g, "-");
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -103,10 +107,12 @@ export default function Select({
 
   return (
     <div className={`flex flex-col gap-1.5 ${className}`} ref={containerRef}>
-      <label htmlFor={selectId} className="text-sm font-medium text-espresso">
-        {label}
-        {required && <span className="text-red-500"> *</span>}
-      </label>
+      {label && (
+        <label htmlFor={selectId} className="text-sm font-medium text-espresso">
+          {label}
+          {required && <span className="text-red-500"> *</span>}
+        </label>
+      )}
 
       <div className="relative">
         <button
@@ -116,6 +122,7 @@ export default function Select({
           disabled={disabled}
           aria-haspopup="listbox"
           aria-expanded={open}
+          aria-label={label ? undefined : ariaLabel}
           onClick={() => setOpen((v) => !v)}
           onKeyDown={(e) => {
             if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
