@@ -6,9 +6,13 @@
 export type ProductStatus = "DRAFT" | "ACTIVE" | "ARCHIVED";
 export type CategoryStatus = "ACTIVE" | "INACTIVE";
 
+export type VariantKind = "CAVITY" | "HAMPER";
+
 export type ProductVariant = {
   id: string;
-  cavityCount: number;
+  kind: VariantKind;
+  cavityCount: number | null;
+  label: string | null;
   price: string;
   image: string | null;
 };

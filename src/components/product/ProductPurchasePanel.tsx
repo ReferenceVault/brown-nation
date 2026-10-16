@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ShoppingCart, Check } from "lucide-react";
 import type { Product } from "@/lib/types/catalog";
 import { useCartStore } from "@/lib/stores/cartStore";
+import { variantLabel } from "@/lib/utils/variant";
 import PriceTag from "@/components/ui/PriceTag";
 import QuantityStepper from "@/components/ui/QuantityStepper";
 import Button from "@/components/ui/Button";
@@ -95,7 +96,7 @@ export default function ProductPurchasePanel({
                     : "border-brand-200 text-espresso hover:border-brand-400"
                 }`}
               >
-                {variant.cavityCount} Cavity
+                {variantLabel(variant)}
               </button>
             ))}
           </div>

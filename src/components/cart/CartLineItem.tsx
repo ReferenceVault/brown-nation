@@ -5,6 +5,7 @@ import Link from "next/link";
 import { X } from "lucide-react";
 import type { CartDetailLine } from "@/lib/hooks/useCartDetails";
 import { useCartStore } from "@/lib/stores/cartStore";
+import { variantLabel } from "@/lib/utils/variant";
 import QuantityStepper from "@/components/ui/QuantityStepper";
 import PriceTag from "@/components/ui/PriceTag";
 
@@ -25,7 +26,7 @@ export default function CartLineItem({ line }: { line: CartDetailLine }) {
           </h3>
         </Link>
         {line.variant && (
-          <p className="mt-0.5 text-xs text-espresso/50">{line.variant.cavityCount} Cavity</p>
+          <p className="mt-0.5 text-xs text-espresso/50">{variantLabel(line.variant)}</p>
         )}
         <div className="mt-2">
           <PriceTag price={line.unitPrice} size="sm" />

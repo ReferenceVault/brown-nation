@@ -14,7 +14,9 @@ export type ProductListParams = {
 };
 
 export type ProductVariantInput = {
-  cavityCount: number;
+  kind: "CAVITY" | "HAMPER";
+  cavityCount?: number;
+  label?: string;
   price: number;
   image?: string;
 };

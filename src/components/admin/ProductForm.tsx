@@ -12,7 +12,7 @@ import Select from "@/components/ui/Select";
 import Button from "@/components/ui/Button";
 import ImageUploadListInput from "./ImageUploadListInput";
 import TextListInput from "./TextListInput";
-import CavityVariantListInput, { type CavityVariantDraft } from "./CavityVariantListInput";
+import VariantListInput, { type VariantDraft } from "./VariantListInput";
 
 const STATUSES: ProductStatus[] = ["DRAFT", "ACTIVE", "ARCHIVED"];
 
@@ -41,9 +41,11 @@ export default function ProductForm({
   const [minOrderQuantity, setMinOrderQuantity] = useState(String(initialValues?.minOrderQuantity ?? 1));
   const [images, setImages] = useState<string[]>(initialValues?.images ?? []);
   const [contents, setContents] = useState<string[]>(initialValues?.contents ?? []);
-  const [variants, setVariants] = useState<CavityVariantDraft[]>(
+  const [variants, setVariants] = useState<VariantDraft[]>(
     (initialValues?.variants ?? []).map((v) => ({
-      cavityCount: String(v.cavityCount),
+      kind: v.kind,
+      cavityCount: v.cavityCount !== null ? String(v.cavityCount) : "",
+      label: v.label ?? "",
       price: v.price,
       image: v.image ?? "",
     }))
@@ -76,12 +78,22 @@ export default function ProductForm({
         isBestSeller,
         minOrderQuantity: Number(minOrderQuantity) || 1,
         variants: variants
-          .filter((v) => v.cavityCount.trim() && v.price.trim())
-          .map((v) => ({
-            cavityCount: Number(v.cavityCount),
-            price: Number(v.price),
-            image: v.image.trim() || undefined,
-          })),
+          .filter((v) => v.price.trim() && (v.kind === "HAMPER" ? v.label.trim() : v.cavityCount.trim()))
+          .map((v) =>
+            v.kind === "HAMPER"
+              ? {
+                  kind: "HAMPER" as const,
+                  label: v.label.trim(),
+                  price: Number(v.price),
+                  image: v.image.trim() || undefined,
+                }
+              : {
+                  kind: "CAVITY" as const,
+                  cavityCount: Number(v.cavityCount),
+                  price: Number(v.price),
+                  image: v.image.trim() || undefined,
+                }
+          ),
       });
       showToast(isEdit ? "Product updated successfully." : "Product created successfully.");
       router.push("/admin/products");
@@ -182,8 +194,8 @@ export default function ProductForm({
         placeholder="e.g. 2 Dried Nuts Bottle"
       />
 
-      <CavityVariantListInput
-        label="Cavity pricing options (optional — e.g. 6/9/12/16 cavity boxes, each at its own price and image)"
+      <VariantListInput
+        label="Pricing options (optional — cavity boxes and/or named hampers, each at its own price and image)"
         value={variants}
         onChange={setVariants}
       />

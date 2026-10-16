@@ -130,7 +130,9 @@ export type AdminAnnouncement = {
 
 export type AdminProductVariant = {
   id: string;
-  cavityCount: number;
+  kind: "CAVITY" | "HAMPER";
+  cavityCount: number | null;
+  label: string | null;
   price: string;
   image: string | null;
 };

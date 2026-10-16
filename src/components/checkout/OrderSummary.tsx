@@ -4,6 +4,7 @@ import Image from "next/image";
 import { formatINR } from "@/lib/utils/currency";
 import type { CartDetailLine } from "@/lib/hooks/useCartDetails";
 import { useCouponDetails } from "@/lib/hooks/useCouponDetails";
+import { variantLabel } from "@/lib/utils/variant";
 import { DEFAULT_FREE_SHIPPING_THRESHOLD, DEFAULT_SHIPPING_FLAT_RATE } from "@/lib/constants";
 import { fetchShippingSettings } from "@/lib/api/public/shippingSettings";
 import { useAsync } from "@/lib/hooks/useAsync";
@@ -35,7 +36,7 @@ export default function OrderSummary({ lines, subtotal }: { lines: CartDetailLin
             <div className="min-w-0 flex-1">
               <p className="text-sm font-medium text-espresso line-clamp-1">{line.product.name}</p>
               {line.variant && (
-                <p className="text-xs text-espresso/50">{line.variant.cavityCount} Cavity</p>
+                <p className="text-xs text-espresso/50">{variantLabel(line.variant)}</p>
               )}
             </div>
             <p className="text-sm font-semibold text-espresso">{formatINR(line.lineTotal)}</p>
