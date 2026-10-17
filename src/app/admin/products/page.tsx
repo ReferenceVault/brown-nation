@@ -17,7 +17,7 @@ import Spinner from "@/components/ui/Spinner";
 import TableSkeleton from "@/components/ui/TableSkeleton";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import { formatINRRange } from "@/lib/utils/currency";
-import { productPriceRange } from "@/lib/utils/productPricing";
+import { productPriceRange, productDisplayImage } from "@/lib/utils/productPricing";
 
 const COLUMN_COUNT = 7;
 
@@ -162,14 +162,15 @@ export default function AdminProductsPage() {
               {!data && loading && <TableSkeleton columns={COLUMN_COUNT} />}
               {(data?.items ?? []).map((product) => {
                 const category = categories.find((c) => c.id === product.categoryId);
+                const thumbnail = productDisplayImage(product);
                 return (
                   <TableRow key={product.id}>
                     <Td>
                       <div className="flex items-center gap-3">
                         <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-cream-100">
-                          {product.images[0] && (
+                          {thumbnail && (
                             <Image
-                              src={product.images[0]}
+                              src={thumbnail}
                               alt=""
                               fill
                               sizes="40px"

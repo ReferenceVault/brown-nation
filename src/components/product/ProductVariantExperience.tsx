@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from "react";
 import type { Product } from "@/lib/types/catalog";
 import { ProductRatingProvider } from "@/lib/context/productRatingContext";
+import { productDefaultVariantId } from "@/lib/utils/productPricing";
 import ImageGallery from "./ImageGallery";
 import ProductPurchasePanel from "./ProductPurchasePanel";
 
@@ -15,8 +16,11 @@ export default function ProductVariantExperience({
   header: ReactNode;
   afterPurchase: ReactNode;
 }) {
-  // undefined = the plain bar, at the product's base price.
-  const [selectedVariantId, setSelectedVariantId] = useState<string | undefined>(undefined);
+  // undefined = the plain bar, at the product's base price. When Bar isn't
+  // sold, default to the first variant instead, since "Bar" isn't a choice.
+  const [selectedVariantId, setSelectedVariantId] = useState<string | undefined>(
+    productDefaultVariantId(product)
+  );
   const selectedVariant = product.variants?.find((v) => v.id === selectedVariantId);
 
   // A cavity option with no image set of its own shows blank (with alt text)

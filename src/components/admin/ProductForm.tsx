@@ -54,6 +54,10 @@ export default function ProductForm({
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
+  // The base price only identifies the plain "Bar" option specifically —
+  // not needed once the product is sold only via the options below.
+  const priceRequired = variants.length === 0;
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -116,11 +120,11 @@ export default function ProductForm({
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <TextField
-          label="Price (₹)"
+          label={priceRequired ? "Price (₹)" : "Price (₹) — optional (only for a plain Bar option)"}
           type="number"
           min="0"
           step="0.01"
-          required
+          required={priceRequired}
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
